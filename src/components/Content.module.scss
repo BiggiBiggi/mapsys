@@ -1,0 +1,20 @@
+.planContainer {
+  position: relative; /* Conteneur parent positionné en relatif */
+}
+
+.imageWrapper {
+  position: relative; /* Wrapper pour l'image */
+  display: inline-block; /* S'assurer que le wrapper n'étire pas sa taille */
+  max-width: 100%;
+}
+
+.pcIcon {
+  position: absolute;
+  transform: translate(-50%, -50%); /* Pour centrer l'icône */
+}
+
+.planImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
