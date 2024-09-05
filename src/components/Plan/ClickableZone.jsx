@@ -60,9 +60,9 @@ function ClickableZone() {
     },
     {
       id: 9,
-      place: `${styles.airePalette}`,
+      place: `${styles.airePalettes}`,
       link: "https://google.com",
-      name: "Aire Palette",
+      name: "Aire Palettes",
       display: true,
     },
     {

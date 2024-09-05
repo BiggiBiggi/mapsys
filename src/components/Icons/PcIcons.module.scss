@@ -1,0 +1,19 @@
+.icons {
+  position: absolute;
+  top: 5%;
+  left: 50.9%;
+}
+
+.mouseHover {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 5%;
+  left: 52%;
+  background-color: rgba(0, 0, 0, 0.75); /* Fond sombre pour le tooltip */
+  color: white; /* Texte en blanc */
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+}
