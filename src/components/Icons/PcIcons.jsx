@@ -1,4 +1,4 @@
-import PcGLPI from "./PcGLPI";
+import PcGLPI from "../API/PcGLPI";
 import { useState } from "react";
 import styles from "./PcIcons.module.scss";
 
@@ -28,17 +28,19 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(123)}
+        onMouseOver={() => handleMouseOver(12)}
         onMouseOut={handleMouseOut}
-        className={`fa-solid fa-computer ${styles.icons} b1`}
+        className={`fa-solid fa-computer ${styles.icons} b2`}
       ></i>
       {showTooltip && (
         <div className={styles.mouseHover}>
           <PcGLPI
             id={hoveredPcId}
             showNom={true}
-            showUtilisateur={true}
-            showModel={true}
+            showSN={true}
+            showIpWifi={true}
+            showIpFilaire={true}
+            showID={true}
           />{" "}
         </div>
       )}

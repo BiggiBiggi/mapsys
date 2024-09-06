@@ -13,3 +13,42 @@
   width: 100%;
   height: auto;
 }
+
+.title {
+  position: absolute;
+  display: block;
+  background-color: var(--gray-1);
+  border-radius: 10px;
+  padding: 0.4%;
+  color: var(--primary);
+  top: 1.5%;
+  left: 1.1%;
+  pointer-events: none;
+  font-size: 1.5vw;
+}
+.title2 {
+  position: absolute;
+  display: block;
+  background-color: var(--gray-1);
+  border-radius: 10px;
+  padding: 0.4%;
+  color: var(--primary);
+  top: 7%;
+  left: 1.9%;
+  pointer-events: none;
+  font-size: 0.7vw;
+}
+
+.logo {
+  height: auto;
+  max-width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.divLogo {
+  position: relative;
+  height: 200px;
+}

@@ -5,12 +5,10 @@ import styles from "./PcGLPI.module.scss";
 function PcGLPI({
   id,
   showNom = false,
-  showUtilisateur = false,
   showSN = false,
-  showLieu = false,
-  showModel = false,
-  showOS = false,
   showID = false,
+  showIpFilaire = false,
+  showIpWifi = false,
 }) {
   const [pcGLPI, setPcGLPI] = useState([]);
 
@@ -41,23 +39,16 @@ function PcGLPI({
                 {showNom && <td>{pc.Nom_PC}</td>}
               </tr>
               <tr>
-                {showUtilisateur && <th>Utilisateur :</th>}{" "}
-                {showUtilisateur && <td>{pc.User}</td>}
-              </tr>
-              <tr>
                 {showSN && <th>Numéro de Série :</th>}{" "}
                 {showSN && <td>{pc.SN}</td>}
               </tr>
               <tr>
-                {showLieu && <th>Emplacement :</th>}{" "}
-                {showLieu && <td>{pc.Lieu}</td>}
+                {showIpWifi && <th>IP Wifi :</th>}{" "}
+                {showIpWifi && <td>{pc.IP_Wifi}</td>}
               </tr>
               <tr>
-                {showModel && <th>Modèle du PC :</th>}{" "}
-                {showModel && <td>{pc.Model}</td>}
-              </tr>
-              <tr>
-                {showOS && <th>OS :</th>} {showOS && <td>{pc.OS}</td>}
+                {showIpFilaire && <th>Ip Filaire :</th>}{" "}
+                {showIpFilaire && <td>{pc.Ip_Filaire}</td>}
               </tr>
               <tr>
                 {showID && <th>ID GLPI :</th>} {showID && <td>{pc.ID_GLPI}</td>}

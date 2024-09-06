@@ -1,25 +1,27 @@
 import planBase from "/src/assets/images/plan_base.png";
 import ClickableZone from "./ClickableZone";
 import styles from "./PlanMasse.module.scss";
+import logo from "/src/assets/images/logo_inter.png";
 
 function PlanMasse() {
   return (
-    <div className={`container`}>
+    <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center`}
+        className={`d-flex flex-column align-items-center ${styles.divLogo} justify-content-center`}
       >
-        <h1 className="my-30">Plan de masse</h1>
-        <p>Cliquez pour agrandir une zone !</p>
+        <img className={`${styles.logo}`} src={logo} alt="Logo Intermarché" />
       </div>
-      <div className={styles.imageWrapper}>
+      <div className={`${styles.imageWrapper} container`}>
         <img
           className={`d-flex flex-fill align-items-center justify-content-center ${styles.planImage}`}
           src={planBase}
           alt="Plan Base"
         />
+        <h1 className={`${styles.title}`}>Plan de masse :</h1>
+        <p className={`${styles.title2}`}>Cliquez pour agrandir une zone !</p>
         <ClickableZone />
       </div>
-    </div>
+    </>
   );
 }
 
