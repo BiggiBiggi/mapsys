@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import mapsys from "../assets/images/mapsys.png";
 
@@ -19,10 +20,14 @@ function Header() {
 
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
-      <img src={mapsys} alt="Logo MapSys" />
-      <div className="flex-fill">
-        <h1>MapSys</h1>
-      </div>
+      <Link className={``} to="/">
+        <img src={mapsys} alt="Logo MapSys" />
+      </Link>
+      <Link className={`${styles.links} flex-fill`} to="/">
+        <div className="flex-fill">
+          <h1>MapSys</h1>
+        </div>
+      </Link>
       <ul className={`${styles.headerList}  `}>
         <button
           onClick={handleImpCopieur}

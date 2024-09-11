@@ -1,15 +1,3 @@
-.imageWrapper {
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-}
-
-.planImage {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .title {
   position: absolute;
   display: block;
@@ -17,11 +5,12 @@
   border-radius: 10px;
   padding: 0.4%;
   color: var(--primary);
-  top: 1.5%;
+  top: 50%;
   left: 1.1%;
   pointer-events: none;
   font-size: 1.5vw;
 }
+
 .title2 {
   position: absolute;
   display: block;
@@ -35,16 +24,13 @@
   font-size: 0.7vw;
 }
 
-.logo {
-  height: auto;
-  max-width: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.posDiv {
+  position: relative;
+  max-width: 100%;
+  height: 50%;
 }
 
-.divLogo {
-  position: relative;
-  height: 200px;
+.planImage {
+  display: block;
+  width: 40%;
 }
