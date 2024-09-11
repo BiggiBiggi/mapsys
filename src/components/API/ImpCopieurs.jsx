@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./ImpCopieurs.module.scss";
 
-function ImpCopieurs() {
+function ImpCopieurs({
+  id,
+  showNomImp = false,
+  showSN = false,
+  showID = false,
+  showIP = false,
+  showNomInf = false,
+  showModel = false,
+}) {
   const [impCopieurs, setImpCopieurs] = useState([]);
 
   useEffect(() => {
@@ -16,31 +25,38 @@ function ImpCopieurs() {
       });
   }, []);
 
+  const filteredImp = impCopieurs.filter((imp) => imp.Id === id);
+
   return (
-    <div>
-      <h1>Liste des Imprimantes Copieurs</h1>
+    <div className={`${styles.container}`}>
+      <h3>Détail de l&apos;imprimante :</h3>
       <table>
-        <thead>
-          <tr>
-            <th>Nom_IMP_Serveur</th>
-            <th>Lieux</th>
-            <th>Model</th>
-            <th>Adresse_IP</th>
-            <th>SN</th>
-            <th>Type_Edition</th>
-            <th>Nom_Infolog</th>
-          </tr>
-        </thead>
         <tbody>
-          {impCopieurs.map((imp, index) => (
+          {filteredImp.map((imp, index) => (
             <tr key={index}>
-              <td>{imp.Nom_IMP_Serveur}</td>
-              <td>{imp.Lieux}</td>
-              <td>{imp.Model}</td>
-              <td>{imp.Adresse_IP}</td>
-              <td>{imp.SN}</td>
-              <td>{imp.Type_Edition}</td>
-              <td>{imp.Nom_Infolog}</td>
+              <tr>
+                {showNomImp && <th>Nom IMP Serveur :</th>}{" "}
+                {showNomImp && <td>{imp.Nom_IMP_Serveur}</td>}
+              </tr>
+              <tr>
+                {showModel && <th>Modèle :</th>}{" "}
+                {showModel && <td>{imp.Model}</td>}
+              </tr>
+              <tr>
+                {showIP && <th>Adresse IP :</th>}{" "}
+                {showIP && <td>{imp.Adresse_IP}</td>}
+              </tr>
+              <tr>
+                {showSN && <th>Numéro de Serie :</th>}{" "}
+                {showSN && <td>{imp.SN}</td>}
+              </tr>
+              <tr>
+                {showNomInf && <th>Nom Infolog :</th>}{" "}
+                {showNomInf && <td>{imp.Nom_Infolog}</td>}
+              </tr>
+              <tr>
+                {showID && <th>ID :</th>} {showID && <td>{imp.Id}</td>}
+              </tr>
             </tr>
           ))}
         </tbody>

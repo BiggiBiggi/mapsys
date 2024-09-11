@@ -1,5 +1,7 @@
-import PcIcons from "../Icons/PcIcons";
+import PcIcons from "/src/components/Icons/Cellule6/PcIcons";
 import styles from "./Cellule6.module.scss";
+import ImpCopIcons from "../Icons/Cellule6/ImpCopIcons";
+import ImpSupIcons from "../Icons/Cellule6/ImpSupIcons";
 
 function Cellule6() {
   return (
@@ -20,6 +22,8 @@ function Cellule6() {
             alt="Cellule 6"
           />
           <PcIcons />
+          <ImpCopIcons />
+          <ImpSupIcons />
         </div>
       </div>
     </>

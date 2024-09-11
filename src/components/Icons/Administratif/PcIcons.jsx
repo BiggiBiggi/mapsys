@@ -1,4 +1,4 @@
-import PcGLPI from "../API/PcGLPI";
+import PcGLPI from "/src/components/API/PcGLPI";
 import { useState } from "react";
 import styles from "./PcIcons.module.scss";
 import pcPortable from "/src/assets/images/pcPortable.png";
@@ -134,6 +134,54 @@ function PcIcons() {
         onMouseOut={handleMouseOut}
         src={pcFixe}
         className={`${styles.iconFixe} ${styles.pc9}`}
+      />
+      <img
+        onClick={() =>
+          openLink(
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
+          )
+        }
+        onMouseOver={() => handleMouseOver(139, "pc10")}
+        onMouseOut={handleMouseOut}
+        src={pcFixe}
+        className={`${styles.iconFixe} ${styles.pc10}`}
+      />
+      <img
+        onClick={() =>
+          openLink(
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
+          )
+        }
+        onMouseOver={() => handleMouseOver(76, "pc11")}
+        onMouseOut={handleMouseOut}
+        src={pcFixe}
+        className={`${styles.iconFixe} ${styles.pc11}`}
+      />
+      <img
+        onClick={() =>
+          openLink(
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
+          )
+        }
+        onMouseOver={() => handleMouseOver(77, "pc12")}
+        onMouseOut={handleMouseOut}
+        src={pcFixe}
+        className={`${styles.iconFixe} ${styles.pc12}`}
+      />
+      <img
+        onClick={() =>
+          openLink(
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
+          )
+        }
+        onMouseOver={() => handleMouseOver(125, "pc13")}
+        onMouseOut={handleMouseOut}
+        src={pcFixe}
+        className={`${styles.iconFixe} ${styles.pc13}`}
       />
 
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}

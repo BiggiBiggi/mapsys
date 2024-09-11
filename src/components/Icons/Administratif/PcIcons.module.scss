@@ -6,7 +6,11 @@
 .pc6,
 .pc7,
 .pc8,
-.pc9 {
+.pc9,
+.pc10,
+.pc11,
+.pc12,
+.pc13 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
 }
@@ -50,6 +54,34 @@
 .pc9 {
   top: 0.5%;
   left: 66%;
+}
+.pc10 {
+  top: 40.5%;
+  left: 6%;
+  padding: 0.2%;
+  background-color: white;
+  border: 1px solid black;
+}
+.pc11 {
+  top: 40.5%;
+  left: 3%;
+  padding: 0.2%;
+  background-color: white;
+  border: 1px solid black;
+}
+.pc12 {
+  top: 43.5%;
+  left: 2.2%;
+  padding: 0.2%;
+  background-color: white;
+  border: 1px solid black;
+}
+.pc13 {
+  top: 66%;
+  left: 3%;
+  padding: 0.2%;
+  background-color: white;
+  border: 1px solid black;
 }
 
 /* Tooltip styling */
@@ -103,6 +135,22 @@
 .mouseHover.pc9 {
   top: 0.5%;
   left: 69%;
+}
+.mouseHover.pc10 {
+  top: 40.5%;
+  left: 9.5%;
+}
+.mouseHover.pc11 {
+  top: 40.5%;
+  left: 6.5%;
+}
+.mouseHover.pc12 {
+  top: 43.5%;
+  left: 5.7%;
+}
+.mouseHover.pc13 {
+  top: 66%;
+  left: 7.5%;
 }
 
 .iconPort {

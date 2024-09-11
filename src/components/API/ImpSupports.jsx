@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./ImpSupports.module.scss";
 
-function ImpSupports() {
-  const [impSupports, setImpSupports] = useState([]);
+function ImpSupports({
+  id,
+  showNomImp = false,
+  showSN = false,
+  showID = false,
+  showIP = false,
+  showModel = false,
+}) {
+  const [ImpSupports, setImpSupports] = useState([]);
 
   useEffect(() => {
     // Faire une requête GET à l'API pour récupérer les imprimantes
@@ -16,27 +24,35 @@ function ImpSupports() {
       });
   }, []);
 
+  const filteredImpSup = ImpSupports.filter((imp) => imp.ID === id);
+
   return (
-    <div>
-      <h1>Liste des Imprimantes Support</h1>
+    <div className={`${styles.container}`}>
+      <h3>Détail de l&apos;imprimante support :</h3>
       <table>
-        <thead>
-          <tr>
-            <th>Nom_IMP</th>
-            <th>Adresse_IP</th>
-            <th>SN</th>
-            <th>Lieux_Affectation</th>
-            <th>Type</th>
-          </tr>
-        </thead>
         <tbody>
-          {impSupports.map((imp, index) => (
+          {filteredImpSup.map((imp, index) => (
             <tr key={index}>
-              <td>{imp.Nom_IMP}</td>
-              <td>{imp.Adresse_IP}</td>
-              <td>{imp.SN}</td>
-              <td>{imp.Lieux_Affectation}</td>
-              <td>{imp.Type}</td>
+              <tr>
+                {showNomImp && <th>Nom de l&apos;imprimante :</th>}{" "}
+                {showNomImp && <td>{imp.Nom_IMP}</td>}
+              </tr>
+              <tr>
+                {showIP && <th>Adresse IP :</th>}{" "}
+                {showIP && <td>{imp.Adresse_IP}</td>}
+              </tr>
+              <tr>
+                {showSN && <th>Numéro de Serie :</th>}{" "}
+                {showSN && <td>{imp.SN}</td>}
+              </tr>
+              <tr>
+                {showModel && <th>Modèle :</th>}{" "}
+                {showModel && <td>{imp.Type}</td>}
+              </tr>
+
+              <tr>
+                {showID && <th>ID :</th>} {showID && <td>{imp.ID}</td>}
+              </tr>
             </tr>
           ))}
         </tbody>
