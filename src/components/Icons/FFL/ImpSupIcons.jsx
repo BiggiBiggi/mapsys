@@ -1,15 +1,15 @@
-import PcGLPI from "/src/components/API/PcGLPI";
+import ImpSupports from "/src/components/API/ImpSupports";
 import { useState } from "react";
-import styles from "./PcIcons.module.scss";
-import pcFixe from "/src/assets/images/pcFixe.png";
+import styles from "./ImpSupIcons.module.scss";
+import ImpSup from "/src/assets/images/ImpSupport.png";
 
-function PcIcons() {
+function ImpSupIcons() {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [hoveredPcId, setHoveredPcId] = useState(null);
+  const [hoveredImpId, setHoveredImpId] = useState(null);
   const [hoveredIcon, setHoveredIcon] = useState(null); // État pour savoir quel icône est survolé
 
   function handleMouseOver(id, icon) {
-    setHoveredPcId(id);
+    setHoveredImpId(id);
     setHoveredIcon(icon); // Définir l'icône survolé
     setShowTooltip(true);
   }
@@ -19,35 +19,29 @@ function PcIcons() {
     setHoveredIcon(null); // Réinitialiser l'icône survolé
   }
 
-  function openLink(url, id) {
-    const dynamicUrl = `${url}${id}`;
+  function openLink(url) {
+    const dynamicUrl = `${url}`;
     window.open(dynamicUrl, "_blank");
   }
 
   return (
     <div>
       <img
-        onClick={() =>
-          openLink(
-            "http://172.27.38.34/glpi/front/computer.form.php?id=",
-            hoveredPcId
-          )
-        }
-        onMouseOver={() => handleMouseOver(100, "pc1")}
+        onClick={() => openLink("http://172.27.238.139/")}
+        onMouseOver={() => handleMouseOver(37, "imp1")}
         onMouseOut={handleMouseOut}
-        className={`${styles.pc1} ${styles.iconFixe}`}
-        src={pcFixe}
+        className={`${styles.imp1} ${styles.iconImp}`}
+        src={ImpSup}
       />
-
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
       {showTooltip && hoveredIcon && (
         <div className={`${styles.mouseHover} ${styles[hoveredIcon]}`}>
-          <PcGLPI
-            id={hoveredPcId}
-            showNom={true}
+          <ImpSupports
+            id={hoveredImpId}
+            showNomImp={true}
+            showModel={true}
+            showIP={true}
             showSN={true}
-            showIpWifi={true}
-            showIpFilaire={true}
           />
         </div>
       )}
@@ -55,4 +49,4 @@ function PcIcons() {
   );
 }
 
-export default PcIcons;
+export default ImpSupIcons;
