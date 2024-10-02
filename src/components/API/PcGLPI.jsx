@@ -9,6 +9,7 @@ function PcGLPI({
   showID = false,
   showIpFilaire = false,
   showIpWifi = false,
+  showPrise = false,
 }) {
   const [pcGLPI, setPcGLPI] = useState([]);
 
@@ -52,6 +53,10 @@ function PcGLPI({
               </tr>
               <tr>
                 {showID && <th>ID GLPI :</th>} {showID && <td>{pc.ID_GLPI}</td>}
+              </tr>
+              <tr>
+                {showPrise && <th>Prise :</th>}{" "}
+                {showPrise && <td>{pc.Prise}</td>}
               </tr>
             </tr>
           ))}

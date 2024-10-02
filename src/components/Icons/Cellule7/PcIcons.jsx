@@ -33,7 +33,7 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(100, "pc1")}
+        onMouseOver={() => handleMouseOver(27, "pc1")}
         onMouseOut={handleMouseOut}
         className={`${styles.pc1} ${styles.iconFixe}`}
         src={pcFixe}
@@ -48,6 +48,7 @@ function PcIcons() {
             showSN={true}
             showIpWifi={true}
             showIpFilaire={true}
+            showPrise={true}
           />
         </div>
       )}

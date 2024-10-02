@@ -193,6 +193,7 @@ function PcIcons() {
             showSN={true}
             showIpWifi={true}
             showIpFilaire={true}
+            showPrise={true}
           />
         </div>
       )}
