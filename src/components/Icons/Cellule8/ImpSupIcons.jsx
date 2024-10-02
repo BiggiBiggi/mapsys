@@ -28,9 +28,23 @@ function ImpSupIcons() {
     <div>
       <img
         onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp1")}
+        onMouseOver={() => handleMouseOver(32, "imp1")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp1} ${styles.iconImp}`}
+        src={ImpSup}
+      />
+      <img
+        onClick={() => openLink("http://172.27.238.139/")}
+        onMouseOver={() => handleMouseOver(43, "imp2")}
+        onMouseOut={handleMouseOut}
+        className={`${styles.imp2} ${styles.iconImp}`}
+        src={ImpSup}
+      />
+      <img
+        onClick={() => openLink("http://172.27.238.139/")}
+        onMouseOver={() => handleMouseOver(26, "imp3")}
+        onMouseOut={handleMouseOut}
+        className={`${styles.imp3} ${styles.iconImp}`}
         src={ImpSup}
       />
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
