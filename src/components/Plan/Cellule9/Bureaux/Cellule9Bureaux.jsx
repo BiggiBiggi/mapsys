@@ -17,12 +17,12 @@ function Cellule9Bureaux() {
       >
         <Link to="/cellule9/bureaux/rdc">
           <button className={`btn btn-reverse-primary ${styles.btnRDC}`}>
-            Bureaux RDC
+            Bureaux N
           </button>
         </Link>
         <Link to="/cellule9/bureaux/etage">
           <button className={`btn btn-reverse-primary ${styles.btnEtage}`}>
-            Bureaux Étages
+            Bureaux N+1
           </button>
         </Link>
       </div>

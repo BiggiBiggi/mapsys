@@ -1,7 +1,7 @@
 import PcGLPI from "/src/components/API/PcGLPI";
 import { useState } from "react";
 import styles from "./PcIcons.module.scss";
-import pcFixe from "/src/assets/images/pcFixe.png";
+import pcPort from "/src/assets/images/pcPortable.png";
 
 function PcIcons() {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -33,10 +33,10 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(84, "pc1")}
+        onMouseOver={() => handleMouseOver(178, "pc1")}
         onMouseOut={handleMouseOut}
-        className={`${styles.pc1} ${styles.iconFixe}`}
-        src={pcFixe}
+        className={`${styles.pc1} ${styles.iconPort}`}
+        src={pcPort}
       />
       <img
         onClick={() =>
@@ -45,10 +45,10 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(86, "pc2")}
+        onMouseOver={() => handleMouseOver(105, "pc2")}
         onMouseOut={handleMouseOut}
-        src={pcFixe}
-        className={`${styles.iconFixe} ${styles.pc2}`}
+        src={pcPort}
+        className={`${styles.iconPort} ${styles.pc2}`}
       />
       <img
         onClick={() =>
@@ -57,10 +57,22 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(85, "pc3")}
+        onMouseOver={() => handleMouseOver(169, "pc3")}
         onMouseOut={handleMouseOut}
-        src={pcFixe}
-        className={`${styles.iconFixe} ${styles.pc3}`}
+        src={pcPort}
+        className={`${styles.iconPort} ${styles.pc3}`}
+      />
+      <img
+        onClick={() =>
+          openLink(
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
+          )
+        }
+        onMouseOver={() => handleMouseOver(55, "pc4")}
+        onMouseOut={handleMouseOut}
+        src={pcPort}
+        className={`${styles.iconPort} ${styles.pc4}`}
       />
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
       {showTooltip && hoveredIcon && (

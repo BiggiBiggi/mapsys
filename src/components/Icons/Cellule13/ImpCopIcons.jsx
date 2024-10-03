@@ -37,28 +37,6 @@ function ImpCopIcons() {
         className={`${styles.imp1} ${styles.iconImp}`}
         src={ImpCop}
       />
-      <img
-        onClick={() =>
-          openLink(
-            "http://172.27.238.48/web/guest/fr/websys/webArch/mainFrame.cgi"
-          )
-        }
-        onMouseOver={() => handleMouseOver(15, "imp2")}
-        onMouseOut={handleMouseOut}
-        src={ImpCop}
-        className={`${styles.iconImp} ${styles.imp2}`}
-      />
-      <img
-        onClick={() =>
-          openLink(
-            "http://172.27.238.49/web/guest/fr/websys/webArch/mainFrame.cgi"
-          )
-        }
-        onMouseOver={() => handleMouseOver(14, "imp3")}
-        onMouseOut={handleMouseOut}
-        src={ImpCop}
-        className={`${styles.iconImp} ${styles.imp3}`}
-      />
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
       {showTooltip && hoveredIcon && (
         <div className={`${styles.mouseHover} ${styles[hoveredIcon]}`}>

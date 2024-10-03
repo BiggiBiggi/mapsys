@@ -49,7 +49,7 @@ function PcGLPI({
               </tr>
               <tr>
                 {showIpFilaire && <th>Ip Filaire :</th>}{" "}
-                {showIpFilaire && <td>{pc.Ip_Filaire}</td>}
+                {showIpFilaire && <td>{pc.IP_Filaire}</td>}
               </tr>
               <tr>
                 {showID && <th>ID GLPI :</th>} {showID && <td>{pc.ID_GLPI}</td>}

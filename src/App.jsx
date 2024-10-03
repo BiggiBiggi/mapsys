@@ -13,7 +13,8 @@ import Cellule13 from "./components/Plan/Cellule13";
 import AirePalettes from "./components/Plan/AirePalettes";
 import Administratif from "./components/Plan/Administratif";
 import Pdg from "./components/Plan/PDG";
-import ZoneContenants from "./components/Plan/ZoneContenants";
+import ZoneContenants from "/src/components/Plan/ZoneContenants/ZoneContenants.jsx";
+import ZoneContenantsBureau from "/src/components/Plan/ZoneContenants/Bureau/ZoneContenantsBureau.jsx";
 import Ffl from "./components/Plan/FFL";
 import Meca from "./components/Plan/MECA";
 import GelCellule1 from "./components/Plan/GelCellule1";
@@ -63,6 +64,10 @@ function App() {
           <Route path="/pdg" element={<Pdg />} />
           <Route path="/ffl" element={<Ffl />} />
           <Route path="/zoneContenants" element={<ZoneContenants />} />
+          <Route
+            path="/zoneContenants/bureau"
+            element={<ZoneContenantsBureau />}
+          />
           <Route path="/administratif" element={<Administratif />} />
           <Route path="/meca" element={<Meca />} />
           <Route path="/gelCellule1" element={<GelCellule1 />} />

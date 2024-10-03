@@ -1,26 +1,8 @@
-.imp1,
-.imp2,
-.imp3 {
+.imp1 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
-}
-
-.imp1 {
-  top: 6%;
-  left: 67%;
-}
-
-.imp2 {
-  top: 0.5%;
-  left: 43.5%;
-}
-
-.imp3 {
-  top: 66%;
-  left: 6%;
-  padding: 0.1%;
-  background-color: white;
-  border: 1px solid black;
+  top: 35%;
+  left: 95%;
 }
 
 /* Tooltip styling */
@@ -37,18 +19,8 @@
 }
 
 .mouseHover.imp1 {
-  top: 6%;
-  left: 70%;
-}
-
-.mouseHover.imp2 {
-  top: 0.5%;
-  left: 46.5%;
-}
-
-.mouseHover.imp3 {
-  top: 66%;
-  left: 9.5%;
+  top: 35%;
+  left: 100%;
 }
 
 .iconImp {
