@@ -33,7 +33,7 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(100, "pc1")}
+        onMouseOver={() => handleMouseOver(52, "pc1")}
         onMouseOut={handleMouseOut}
         className={`${styles.pc1} ${styles.iconFixe}`}
         src={pcFixe}
@@ -45,7 +45,7 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(108, "pc2")}
+        onMouseOver={() => handleMouseOver(28, "pc2")}
         onMouseOut={handleMouseOut}
         src={pcFixe}
         className={`${styles.iconFixe} ${styles.pc2}`}

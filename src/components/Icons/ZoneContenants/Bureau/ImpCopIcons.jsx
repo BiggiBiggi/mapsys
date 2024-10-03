@@ -1,9 +1,9 @@
-import ImpSupports from "/src/components/API/ImpSupports";
+import ImpCopieurs from "/src/components/API/ImpCopieurs";
 import { useState } from "react";
-import styles from "./ImpSupIcons.module.scss";
-import ImpSup from "/src/assets/images/ImpSupport.png";
+import styles from "./ImpCopIcons.module.scss";
+import ImpCop from "/src/assets/images/ImpCopieur.png";
 
-function ImpSupIcons() {
+function ImpCopIcons() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [hoveredImpId, setHoveredImpId] = useState(null);
   const [hoveredIcon, setHoveredIcon] = useState(null); // État pour savoir quel icône est survolé
@@ -19,29 +19,34 @@ function ImpSupIcons() {
     setHoveredIcon(null); // Réinitialiser l'icône survolé
   }
 
-  function openLink(url) {
-    const dynamicUrl = `${url}`;
+  function openLink(url, id) {
+    const dynamicUrl = `${url}${id}`;
     window.open(dynamicUrl, "_blank");
   }
 
   return (
     <div>
       <img
-        onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp1")}
+        onClick={() =>
+          openLink(
+            "http://172.27.238.38/web/guest/fr/websys/webArch/mainFrame.cgi"
+          )
+        }
+        onMouseOver={() => handleMouseOver(27, "imp1")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp1} ${styles.iconImp}`}
-        src={ImpSup}
+        src={ImpCop}
       />
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
       {showTooltip && hoveredIcon && (
         <div className={`${styles.mouseHover} ${styles[hoveredIcon]}`}>
-          <ImpSupports
+          <ImpCopieurs
             id={hoveredImpId}
             showNomImp={true}
             showModel={true}
             showIP={true}
             showSN={true}
+            showNomInf={true}
           />
         </div>
       )}
@@ -49,4 +54,4 @@ function ImpSupIcons() {
   );
 }
 
-export default ImpSupIcons;
+export default ImpCopIcons;

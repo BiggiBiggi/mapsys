@@ -1,15 +1,15 @@
-import ImpCopieurs from "/src/components/API/ImpCopieurs";
+import PcGLPI from "/src/components/API/PcGLPI";
 import { useState } from "react";
-import styles from "./ImpCopIcons.module.scss";
-import ImpCop from "/src/assets/images/ImpCopieur.png";
+import styles from "./PcIcons.module.scss";
+import pcFixe from "/src/assets/images/pcFixe.png";
 
-function ImpCopIcons() {
+function PcIcons() {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [hoveredImpId, setHoveredImpId] = useState(null);
+  const [hoveredPcId, setHoveredPcId] = useState(null);
   const [hoveredIcon, setHoveredIcon] = useState(null); // État pour savoir quel icône est survolé
 
   function handleMouseOver(id, icon) {
-    setHoveredImpId(id);
+    setHoveredPcId(id);
     setHoveredIcon(icon); // Définir l'icône survolé
     setShowTooltip(true);
   }
@@ -29,46 +29,49 @@ function ImpCopIcons() {
       <img
         onClick={() =>
           openLink(
-            "http://172.27.238.42/web/guest/fr/websys/webArch/mainFrame.cgi"
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(13, "imp1")}
+        onMouseOver={() => handleMouseOver(51, "pc1")}
         onMouseOut={handleMouseOut}
-        className={`${styles.imp1} ${styles.iconImp}`}
-        src={ImpCop}
+        className={`${styles.pc1} ${styles.iconFixe}`}
+        src={pcFixe}
       />
       <img
         onClick={() =>
           openLink(
-            "http://172.27.238.48/web/guest/fr/websys/webArch/mainFrame.cgi"
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(15, "imp2")}
+        onMouseOver={() => handleMouseOver(75, "pc2")}
         onMouseOut={handleMouseOut}
-        src={ImpCop}
-        className={`${styles.iconImp} ${styles.imp2}`}
+        className={`${styles.pc2} ${styles.iconFixe}`}
+        src={pcFixe}
       />
       <img
         onClick={() =>
           openLink(
-            "http://172.27.238.49/web/guest/fr/websys/webArch/mainFrame.cgi"
+            "http://172.27.38.34/glpi/front/computer.form.php?id=",
+            hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(14, "imp3")}
+        onMouseOver={() => handleMouseOver(74, "pc3")}
         onMouseOut={handleMouseOut}
-        src={ImpCop}
-        className={`${styles.iconImp} ${styles.imp3}`}
+        className={`${styles.pc3} ${styles.iconFixe}`}
+        src={pcFixe}
       />
       {/* Tooltip dynamique, affiché uniquement pour l'icône survolé */}
       {showTooltip && hoveredIcon && (
         <div className={`${styles.mouseHover} ${styles[hoveredIcon]}`}>
-          <ImpCopieurs
-            id={hoveredImpId}
-            showNomImp={true}
-            showModel={true}
-            showIP={true}
+          <PcGLPI
+            id={hoveredPcId}
+            showNom={true}
             showSN={true}
-            showNomInf={true}
+            showIpWifi={true}
+            showIpFilaire={true}
+            showPrise={true}
           />
         </div>
       )}
@@ -76,4 +79,4 @@ function ImpCopIcons() {
   );
 }
 
-export default ImpCopIcons;
+export default PcIcons;

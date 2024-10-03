@@ -1,9 +1,3 @@
-.img {
-  width: clamp(0px, 30vw, 1000px);
-  display: block;
-  margin: 0 auto; /* Centre l'image horizontalement */
-}
-
 .divTitle {
   height: 7vw;
   position: relative;
@@ -35,6 +29,12 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   font-size: 0.7vw;
+}
+
+.img {
+  width: clamp(0px, 20vw, 1000px);
+  display: block;
+  margin: 0 auto; /* Centre l'image horizontalement */
 }
 
 .imageContainer {

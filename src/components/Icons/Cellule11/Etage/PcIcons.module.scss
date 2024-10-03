@@ -1,22 +1,27 @@
 .pc1,
 .pc2,
-.pc3 {
+.pc3,
+.pc4 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
 }
 
 .pc1 {
-  top: 60%;
-  left: 89.8%;
+  top: 6.3%;
+  left: 79%;
 }
 
 .pc2 {
-  top: 72.5%;
-  left: 0.9%;
+  top: 36%;
+  left: 69%;
 }
 
 .pc3 {
-  top: 87%;
+  top: 60%;
+  left: 69%;
+}
+.pc4 {
+  top: 89.6%;
   left: 70%;
 }
 
@@ -34,20 +39,24 @@
 }
 
 .mouseHover.pc1 {
-  top: 60%;
-  left: 100.8%;
+  top: 6.3%;
+  left: 89%;
 }
 
 .mouseHover.pc2 {
-  top: 72.5%;
-  left: 11.9%;
+  top: 36%;
+  left: 79%;
 }
 
 .mouseHover.pc3 {
-  top: 87%;
-  left: 81%;
+  top: 60%;
+  left: 79%;
+}
+.mouseHover.pc4 {
+  top: 86%;
+  left: 80%;
 }
 
-.iconFixe {
-  width: 1.9vw;
+.iconPort {
+  width: 1.6vw;
 }

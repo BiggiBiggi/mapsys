@@ -1,26 +1,21 @@
-.imp1,
-.imp2,
-.imp3 {
+.pc1,
+.pc2,
+.pc3 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
 }
 
-.imp1 {
-  top: 6%;
-  left: 67%;
+.pc1 {
+  top: 41%;
+  left: 80%;
 }
-
-.imp2 {
-  top: 0.5%;
-  left: 43.5%;
+.pc2 {
+  top: 50.6%;
+  left: 80%;
 }
-
-.imp3 {
-  top: 66%;
-  left: 6%;
-  padding: 0.1%;
-  background-color: white;
-  border: 1px solid black;
+.pc3 {
+  top: 91%;
+  left: 25%;
 }
 
 /* Tooltip styling */
@@ -36,21 +31,19 @@
   white-space: nowrap;
 }
 
-.mouseHover.imp1 {
-  top: 6%;
-  left: 70%;
+.mouseHover.pc1 {
+  top: 41%;
+  left: 88%;
+}
+.mouseHover.pc2 {
+  top: 50.6%;
+  left: 88%;
+}
+.mouseHover.pc3 {
+  top: 91%;
+  left: 33%;
 }
 
-.mouseHover.imp2 {
-  top: 0.5%;
-  left: 46.5%;
-}
-
-.mouseHover.imp3 {
-  top: 66%;
-  left: 9.5%;
-}
-
-.iconImp {
+.iconFixe {
   width: 1.4vw;
 }

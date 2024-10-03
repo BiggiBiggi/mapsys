@@ -2,7 +2,6 @@ import PcIcons from "/src/components/Icons/Cellule11/PcIcons";
 import styles from "./Cellule11.module.scss";
 import ImpSupIcons from "/src/components/Icons/Cellule11/ImpSupIcons.jsx";
 import ClickableZone from "./ClickableZone";
-import ImpCopIcons from "../../Icons/Cellule11/ImpCopIcons";
 
 function Cellule11() {
   return (
@@ -25,7 +24,6 @@ function Cellule11() {
           <ClickableZone />
           <PcIcons />
           <ImpSupIcons />
-          <ImpCopIcons />
         </div>
       </div>
     </>

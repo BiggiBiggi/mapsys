@@ -1,6 +1,6 @@
 import PcIcons from "/src/components/Icons/Cellule11/Etage/PcIcons";
 import styles from "./Cellule11BureauxEtage.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule11/RDC/ImpCopIcons";
+import ImpCopIcons from "/src/components/Icons/Cellule11/Etage/ImpCopIcons";
 
 function Cellule9BureauxEtage() {
   return (

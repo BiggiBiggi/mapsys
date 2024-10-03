@@ -28,21 +28,21 @@ function ImpSupIcons() {
     <div>
       <img
         onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp1")}
+        onMouseOver={() => handleMouseOver(25, "imp1")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp1} ${styles.iconImp}`}
         src={ImpSup}
       />
       <img
         onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp2")}
+        onMouseOver={() => handleMouseOver(33, "imp2")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp2} ${styles.iconImp}`}
         src={ImpSup}
       />
       <img
         onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp3")}
+        onMouseOver={() => handleMouseOver(35, "imp3")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp3} ${styles.iconImp}`}
         src={ImpSup}
