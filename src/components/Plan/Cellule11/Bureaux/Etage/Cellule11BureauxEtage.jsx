@@ -1,6 +1,7 @@
 import PcIcons from "/src/components/Icons/Cellule11/Etage/PcIcons";
 import styles from "./Cellule11BureauxEtage.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule11/Etage/ImpCopIcons";
+import BackButton from "../../../../BackButton";
 
 function Cellule9BureauxEtage() {
   return (
@@ -8,6 +9,7 @@ function Cellule9BureauxEtage() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Cellule 11</h1>
         <p className={`${styles.title2}`}>
           Voici le plan des Bureaux N+1 de la Cellule 11 :

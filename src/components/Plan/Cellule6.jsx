@@ -17,9 +17,9 @@ function Cellule6() {
       <div
         className={`d-flex flex-fill align-items-center justify-content-center`}
       >
-        <div className={styles.imageContainer}>
+        <div className={` ${styles.imageContainer}`}>
           <img
-            className={`${styles.img}`}
+            className={`card ${styles.img}`}
             src="/src/assets/images/cellule6.png"
             alt="Cellule 6"
           />

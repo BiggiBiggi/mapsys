@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Cellule11Bureaux.module.scss";
+import BackButton from "../../../BackButton";
 
 function Cellule11Bureaux() {
   return (
@@ -7,6 +8,7 @@ function Cellule11Bureaux() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Choix bureaux Cellule 11 </h1>
         <p className={`${styles.title2}`}>
           Cliquez sur le niveau que vous souhaitez voir :

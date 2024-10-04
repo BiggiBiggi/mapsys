@@ -1,6 +1,7 @@
 import PcIcons from "/src/components/Icons/ZoneContenants/Bureau/PcIcons.jsx";
 import styles from "./ZoneContenantsBureau.module.scss";
 import ImpCopIcons from "/src/components/Icons/ZoneContenants/Bureau/ImpCopIcons.jsx";
+import BackButton from "../../../BackButton";
 
 function ZoneContenantsBureau() {
   return (
@@ -8,6 +9,7 @@ function ZoneContenantsBureau() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Bureau Contenants</h1>
         <p className={`${styles.title2}`}>
           Voici le plan du Bureau Contenants :

@@ -35,15 +35,17 @@
   position: absolute;
   font-size: xx-large;
   top: 30%;
-  left: 15%;
-  width: 30vw;
-  height: 20vw;
+  left: 19%;
+  width: clamp(0px, 30vw, 576px);
+  height: clamp(0px, 20vw, 384px);
+  font-size: 3vw;
 }
 .btnEtage {
   position: absolute;
   font-size: xx-large;
   top: 30%;
-  left: 55%;
-  width: 30vw;
-  height: 20vw;
+  right: 19%;
+  width: clamp(0px, 30vw, 576px);
+  height: clamp(0px, 20vw, 384px);
+  font-size: 3vw;
 }

@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/Cellule12/PcIcons";
 import styles from "./Cellule12.module.scss";
 import ImpSupIcons from "../Icons/Cellule12/ImpSupIcons";
 import ImpCopIcons from "../Icons/Cellule12/ImpCopIcons";
+import BackButton from "../BackButton";
 
 function Cellule12() {
   return (
@@ -9,6 +10,7 @@ function Cellule12() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Cellule 12</h1>
         <p className={`${styles.title2}`}>Voici le plan de la cellule 12 :</p>
       </div>

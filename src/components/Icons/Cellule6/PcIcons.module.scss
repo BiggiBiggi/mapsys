@@ -16,68 +16,68 @@
 }
 
 .pc1 {
-  top: 5%;
+  top: 7%;
   left: 44.3%;
 }
 
 .pc2 {
-  top: 8%;
+  top: 10%;
   left: 44.3%;
 }
 
 .pc3 {
-  top: 1%;
+  top: 3%;
   left: 40.5%;
 }
 
 .pc4 {
-  top: 1%;
+  top: 3%;
   left: 37%;
 }
 
 .pc5 {
-  top: 4%;
+  top: 6%;
   left: 33.5%;
 }
 .pc6 {
-  top: 7%;
+  top: 9%;
   left: 33.5%;
 }
 .pc7 {
-  top: 9.5%;
+  top: 11.5%;
   left: 70%;
 }
 .pc8 {
-  top: 0.5%;
+  top: 2.5%;
   left: 70%;
 }
 .pc9 {
-  top: 0.5%;
+  top: 2.5%;
   left: 66%;
 }
 .pc10 {
-  top: 40.5%;
+  top: 42.5%;
   left: 6%;
   padding: 0.2%;
   background-color: white;
   border: 1px solid black;
 }
 .pc11 {
-  top: 40.5%;
+  top: 42.5%;
   left: 3%;
   padding: 0.2%;
   background-color: white;
   border: 1px solid black;
 }
 .pc12 {
-  top: 43.5%;
+  top: 45.5%;
   left: 2.2%;
   padding: 0.2%;
   background-color: white;
   border: 1px solid black;
 }
 .pc13 {
-  top: 66%;
+  top: 68%;
   left: 3%;
   padding: 0.2%;
   background-color: white;
@@ -98,64 +98,64 @@
 }
 
 .mouseHover.pc1 {
-  top: 5%;
+  top: 7%;
   left: 48%;
 }
 
 .mouseHover.pc2 {
-  top: 8%;
+  top: 10%;
   left: 48%;
 }
 
 .mouseHover.pc3 {
-  top: 1%;
+  top: 3%;
   left: 43.5%;
 }
 
 .mouseHover.pc4 {
-  top: 1%;
+  top: 3%;
   left: 40%;
 }
 .mouseHover.pc5 {
-  top: 4%;
+  top: 6%;
   left: 36.5%;
 }
 .mouseHover.pc6 {
-  top: 7%;
+  top: 9%;
   left: 36.5%;
 }
 .mouseHover.pc7 {
-  top: 9.6%;
+  top: 11.6%;
   left: 73%;
 }
 .mouseHover.pc8 {
-  top: 0.5%;
+  top: 2.5%;
   left: 73%;
 }
 .mouseHover.pc9 {
-  top: 0.5%;
+  top: 2.5%;
   left: 69%;
 }
 .mouseHover.pc10 {
-  top: 40.5%;
+  top: 42.5%;
   left: 9.5%;
 }
 .mouseHover.pc11 {
-  top: 40.5%;
+  top: 42.5%;
   left: 6.5%;
 }
 .mouseHover.pc12 {
-  top: 43.5%;
+  top: 45.5%;
   left: 5.7%;
 }
 .mouseHover.pc13 {
-  top: 66%;
+  top: 68%;
   left: 7.5%;
 }
 
 .iconPort {
-  width: 1vw;
+  width: clamp(0px, 1vw, 19.2px);
 }
 .iconFixe {
-  width: 1.4vw;
+  width: clamp(0px, 1.4vw, 26.88px);
 }
