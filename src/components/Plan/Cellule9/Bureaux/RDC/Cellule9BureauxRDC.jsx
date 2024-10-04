@@ -1,6 +1,7 @@
 import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons";
 import styles from "./Cellule9BureauxRDC.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
+import BackButton from "/src/components/BackButton";
 
 function Cellule9BureauxRDC() {
   return (
@@ -8,6 +9,7 @@ function Cellule9BureauxRDC() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Cellule 9</h1>
         <p className={`${styles.title2}`}>
           Voici le plan des bureaux N de la Cellule 9 :

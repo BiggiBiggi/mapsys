@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/ZoneContenants/PcIcons";
 import styles from "./ZoneContenants.module.scss";
 import ImpCopIcons from "/src/components/Icons/ZoneContenants/ImpCopIcons";
 import ClickableZone from "./ClickableZone";
+import BackButton from "../../BackButton";
 
 function ZoneContenants() {
   return (
@@ -9,6 +10,7 @@ function ZoneContenants() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Zone Contenants</h1>
         <p className={`${styles.title2}`}>
           Voici le plan de la Zone Contenants :

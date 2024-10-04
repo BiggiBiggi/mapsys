@@ -1,3 +1,4 @@
+import BackButton from "../BackButton";
 import styles from "./Administratif.module.scss";
 
 function Administratif() {
@@ -6,6 +7,7 @@ function Administratif() {
       <div
         className={`d-flex flex-column align-items-center justify-content-center b1 ${styles.posDiv}`}
       >
+        <BackButton />
         <h1 className={`${styles.title}`}>Administratif</h1>
         <p className={`${styles.title2}`}>
           Voici le plan de l&apos;administratif :
