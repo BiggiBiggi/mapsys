@@ -1,4 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Admin, Resource } from "react-admin";
+import simpleRestProvider from "ra-data-simple-rest";
+import CopieurList from "./components/Admin/CopieurList";
 import Cellule6 from "./components/Plan/Cellule6";
 import Cellule7 from "./components/Plan/Cellule7";
 import Cellule8 from "./components/Plan/Cellule8";
@@ -15,7 +18,9 @@ import Administratif from "./components/Plan/Administratif";
 import Pdg from "./components/Plan/PDG";
 import ZoneContenants from "/src/components/Plan/ZoneContenants/ZoneContenants.jsx";
 import ZoneContenantsBureau from "/src/components/Plan/ZoneContenants/Bureau/ZoneContenantsBureau.jsx";
-import Ffl from "./components/Plan/FFL";
+import Ffl from "./components/Plan/FFL/FFL";
+import BureauFFL from "./components/Plan/FFL/Bureaux/BureauFFL/BureauFFL";
+import BureauMuri from "./components/Plan/FFL/Bureaux/BureauMuri/BureauMuri";
 import Meca from "./components/Plan/MECA";
 import GelCellule1 from "./components/Plan/GelCellule1";
 import GelCellule2 from "./components/Plan/GelCellule2";
@@ -26,6 +31,9 @@ import PlanMasse from "./components/Plan/PlanMasse";
 import Cellule9Bureaux from "/src/components/Plan/Cellule9/Bureaux/Cellule9Bureaux";
 import Cellule9BureauxRDC from "/src/components/Plan/Cellule9/Bureaux/RDC/Cellule9BureauxRDC";
 import Cellule9BureauxEtage from "/src/components/Plan/Cellule9/Bureaux/Etage/Cellule9BureauxEtage.jsx";
+import Dashboard from "./components/Admin/Dashboard";
+
+const dataProvider = simpleRestProvider("http://localhost:5000/api");
 
 function App() {
   return (
@@ -63,6 +71,8 @@ function App() {
           <Route path="/airePalettes" element={<AirePalettes />} />
           <Route path="/pdg" element={<Pdg />} />
           <Route path="/ffl" element={<Ffl />} />
+          <Route path="/ffl/bureauFfl" element={<BureauFFL />} />
+          <Route path="/ffl/bureauMurisserie" element={<BureauMuri />} />
           <Route path="/zoneContenants" element={<ZoneContenants />} />
           <Route
             path="/zoneContenants/bureau"
@@ -72,6 +82,18 @@ function App() {
           <Route path="/meca" element={<Meca />} />
           <Route path="/gelCellule1" element={<GelCellule1 />} />
           <Route path="/gelCellule2" element={<GelCellule2 />} />
+          <Route
+            path="/admin/*"
+            element={
+              <Admin
+                dashboard={Dashboard}
+                dataProvider={dataProvider}
+                basename="/admin"
+              >
+                <Resource name="imp_copieurs" list={CopieurList} />
+              </Admin>
+            }
+          />
         </Routes>
         <Footer />
       </Router>

@@ -10,7 +10,7 @@ app.use(express.json()); // Permet à l'API de parser les corps des requêtes en
 const db = mysql.createConnection({
   host: "localhost", // Remplacez par votre hôte MySQL
   user: "root", // Remplacez par votre utilisateur MySQL
-  password: "", // Remplacez par votre mot de passe MySQL
+  password: "root", // Remplacez par votre mot de passe MySQL
   database: "mapsys", // Remplacez par le nom de votre base de données
 });
 

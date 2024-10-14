@@ -20,7 +20,7 @@ function ZoneContenantsBureau() {
       >
         <div className={styles.imageContainer}>
           <img
-            className={`${styles.img}`}
+            className={`card-rect ${styles.img}`}
             src="/src/assets/images/ZoneContenantsBureau.png"
             alt="Bureau Contenants"
           />

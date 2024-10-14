@@ -1,10 +1,20 @@
-.imp1 {
+.imp1,
+.imp2,
+.imp3 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
 }
 
 .imp1 {
-  top: 3.6%;
+  top: 29.5%;
+  left: 10.5%;
+}
+.imp2 {
+  top: 22%;
+  left: 10.5%;
+}
+.imp3 {
+  top: 75%;
   left: 71%;
 }
 
@@ -22,8 +32,16 @@
 }
 
 .mouseHover.imp1 {
-  top: 3.6%;
-  left: 74%;
+  top: 29.5%;
+  left: 15.5%;
+}
+.mouseHover.imp2 {
+  top: 22%;
+  left: 15.5%;
+}
+.mouseHover.imp3 {
+  top: 75%;
+  left: 86%;
 }
 
 .iconImp {

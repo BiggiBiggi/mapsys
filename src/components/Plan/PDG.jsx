@@ -1,21 +1,33 @@
+import PcIcons from "/src/components/Icons/PDG/PcIcons";
+import ImpSupIcons from "../Icons/PDG/ImpSupIcons";
+import ImpCopIcons from "../Icons/PDG/ImpCopIcons";
 import BackButton from "../BackButton";
 
 function Pdg() {
   return (
-    <div className={`container`}>
+    <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center`}
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
         <BackButton />
-        <h1 className="my-30">Poste de Garde</h1>
-        <p>Voici le plan du Poste de Garde :</p>
+        <h1 className={`title`}>Poste de Garde</h1>
+        <p className={`title2`}>Voici le plan du Poste de Garde:</p>
       </div>
       <div
-        className={`d-flex flex-fill align-items-center justify-content-center `}
+        className={`d-flex flex-fill align-items-center justify-content-center`}
       >
-        <img src="src\assets\images\pdg.png" alt="Poste de Garde" />
+        <div className="imageContainer">
+          <img
+            className={`card-rect img`}
+            src="/src/assets/images/PDG.png"
+            alt="PDG"
+          />
+          <PcIcons />
+          <ImpSupIcons />
+          <ImpCopIcons />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

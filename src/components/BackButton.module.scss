@@ -12,6 +12,7 @@
   cursor: pointer;
   transition: 0.2s opacity;
   transition: 0.4s background-color;
+  box-shadow: 0px 0px 30px black;
   &:hover {
     opacity: 0.8;
     background-color: var(--primary);

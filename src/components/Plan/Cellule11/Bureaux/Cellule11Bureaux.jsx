@@ -6,11 +6,11 @@ function Cellule11Bureaux() {
   return (
     <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
         <BackButton />
-        <h1 className={`${styles.title}`}>Choix bureaux Cellule 11 </h1>
-        <p className={`${styles.title2}`}>
+        <h1 className={`title`}>Choix bureaux Cellule 11 </h1>
+        <p className={`title2`}>
           Cliquez sur le niveau que vous souhaitez voir :
         </p>
       </div>

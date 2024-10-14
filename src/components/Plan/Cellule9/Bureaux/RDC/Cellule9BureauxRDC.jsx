@@ -7,11 +7,11 @@ function Cellule9BureauxRDC() {
   return (
     <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center ${styles.divTitle}`}
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
         <BackButton />
-        <h1 className={`${styles.title}`}>Cellule 9</h1>
-        <p className={`${styles.title2}`}>
+        <h1 className={`title`}>Cellule 9</h1>
+        <p className={`title2`}>
           Voici le plan des bureaux N de la Cellule 9 :
         </p>
       </div>
@@ -20,7 +20,7 @@ function Cellule9BureauxRDC() {
       >
         <div className={`${styles.imageContainer}`}>
           <img
-            className={`${styles.img}`}
+            className={`card-rect ${styles.img}`}
             src="/src/assets/images/bureauxCellule9RDC.png"
             alt="Bureaux RDC Cellule 9"
           />

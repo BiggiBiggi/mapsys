@@ -2,20 +2,26 @@ import BackButton from "../BackButton";
 
 function AirePalettes() {
   return (
-    <div className={`container`}>
+    <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center`}
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
         <BackButton />
-        <h1 className="my-30">Aire Palettes</h1>
-        <p>Voici le plan de la zone Aire Palettes :</p>
+        <h1 className={`title`}>Aire Palettes</h1>
+        <p className={`title2`}>Voici le plan de l&apos;Aire Palettes :</p>
       </div>
       <div
         className={`d-flex flex-fill align-items-center justify-content-center`}
       >
-        <img src="src\assets\images\airePalettes.png" alt="Aire Palettes" />
+        <div className={`imageContainer`}>
+          <img
+            className={`card-rect img`}
+            src="/src/assets/images/airePalettes.png"
+            alt="Aire Palettes"
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

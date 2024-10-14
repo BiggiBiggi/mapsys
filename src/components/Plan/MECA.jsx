@@ -1,21 +1,33 @@
+import PcIcons from "/src/components/Icons/Meca/PcIcons";
+import ImpSupIcons from "../Icons/Meca/ImpSupIcons";
+import ImpCopIcons from "../Icons/Meca/ImpCopIcons";
 import BackButton from "../BackButton";
 
 function Meca() {
   return (
-    <div className={`container`}>
+    <>
       <div
-        className={`d-flex flex-column align-items-center justify-content-center`}
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
         <BackButton />
-        <h1 className="my-30">MECA</h1>
-        <p>Voici le plan de la MECA :</p>
+        <h1 className={`title`}>Meca</h1>
+        <p className={`title2`}>Voici le plan de la Meca :</p>
       </div>
       <div
-        className={`d-flex flex-fill align-items-center justify-content-center `}
+        className={`d-flex flex-fill align-items-center justify-content-center`}
       >
-        <img src="src\assets\images\MECA.png" alt="MECA" />
+        <div className="imageContainer">
+          <img
+            className={`card-rect img`}
+            src="/src/assets/images/Meca.png"
+            alt="Meca"
+          />
+          <PcIcons />
+          <ImpSupIcons />
+          <ImpCopIcons />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

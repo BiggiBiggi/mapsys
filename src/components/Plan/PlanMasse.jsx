@@ -9,11 +9,15 @@ function PlanMasse() {
       <div
         className={`d-flex flex-column align-items-center ${styles.divLogo} justify-content-center`}
       >
-        <img className={`${styles.logo}`} src={logo} alt="Logo Intermarché" />
+        <img
+          className={`${styles.logo} d-flex justify-content-center align-item-center`}
+          src={logo}
+          alt="Logo Intermarché"
+        />
       </div>
       <div className={`${styles.imageWrapper} container`}>
         <img
-          className={`d-flex flex-fill align-items-center justify-content-center ${styles.planImage}`}
+          className={`d-flex flex-fill align-items-center justify-content-center card-masse ${styles.planImage}`}
           src={planBase}
           alt="Plan Base"
         />

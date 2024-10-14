@@ -1,0 +1,21 @@
+.clickableZone {
+  position: absolute;
+  display: block;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: rgba($color: lightgray, $alpha: 0.5);
+  }
+}
+
+.ffl {
+  top: 64.5%;
+  left: 37.4%;
+  height: 3.83%;
+  width: 10.1%;
+}
+.muri {
+  top: 85%;
+  left: 89.4%;
+  height: 2.5%;
+  width: 6.8%;
+}
