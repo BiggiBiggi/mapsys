@@ -1,0 +1,18 @@
+.btnRDC {
+  position: absolute;
+  font-size: xx-large;
+  top: 30%;
+  left: 19%;
+  width: clamp(0px, 30vw, 576px);
+  height: clamp(0px, 20vw, 384px);
+  font-size: 3vw;
+}
+.btnEtage {
+  position: absolute;
+  font-size: xx-large;
+  top: 30%;
+  right: 19%;
+  width: clamp(0px, 30vw, 576px);
+  height: clamp(0px, 20vw, 384px);
+  font-size: 3vw;
+}

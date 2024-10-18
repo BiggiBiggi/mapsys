@@ -28,7 +28,7 @@ function ImpSupIcons() {
     <div>
       <img
         onClick={() => openLink("http://172.27.238.139/")}
-        onMouseOver={() => handleMouseOver(37, "imp1")}
+        onMouseOver={() => handleMouseOver(23, "imp1")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp1} ${styles.iconImp}`}
         src={ImpSup}

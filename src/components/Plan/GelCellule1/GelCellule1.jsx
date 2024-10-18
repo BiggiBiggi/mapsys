@@ -1,7 +1,6 @@
-import PcIcons from "/src/components/Icons/GelCellule1/PcIcons";
-import ImpSupIcons from "../Icons/GelCellule1/ImpSupIcons";
-import ImpCopIcons from "../Icons/GelCellule1/ImpCopIcons";
-import BackButton from "../BackButton";
+import ImpSupIcons from "/src/components/Icons/GelCellule1/ImpSupIcons";
+import BackButton from "/src/components/BackButton";
+import ClickableZone from "./ClickableZone";
 
 function GelCellule1() {
   return (
@@ -22,9 +21,8 @@ function GelCellule1() {
             src="/src/assets/images/GelCellule1.png"
             alt="Gel Cellule 1"
           />
-          <PcIcons />
           <ImpSupIcons />
-          <ImpCopIcons />
+          <ClickableZone />
         </div>
       </div>
     </>

@@ -8,6 +8,7 @@ const CopieurList = (props) => (
       <TextField source="Lieux" label="Lieux" />
       <TextField source="Model" label="Modèle" />
       <TextField source="Adresse_IP" label="Adresse IP" />
+      <TextField source="Nom_Infolog" label="Nom Infolog" />
     </Datagrid>
   </List>
 );

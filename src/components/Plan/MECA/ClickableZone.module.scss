@@ -1,0 +1,28 @@
+.clickableZone {
+  position: absolute;
+  display: block;
+  transition: 0.2s background-color;
+
+  &:hover {
+    background-color: rgba($color: lightgray, $alpha: 0.5);
+  }
+}
+
+.ordo {
+  top: 37%;
+  left: 20.3%;
+  height: 7.8%;
+  width: 7%;
+}
+.cefrais {
+  top: 65.91%;
+  left: 50.6%;
+  height: 3.4%;
+  width: 9.1%;
+}
+.bureaux {
+  top: 93.8%;
+  left: 92%;
+  height: 4.3%;
+  width: 6%;
+}

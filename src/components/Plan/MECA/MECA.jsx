@@ -1,7 +1,8 @@
 import PcIcons from "/src/components/Icons/Meca/PcIcons";
-import ImpSupIcons from "../Icons/Meca/ImpSupIcons";
-import ImpCopIcons from "../Icons/Meca/ImpCopIcons";
-import BackButton from "../BackButton";
+import ImpSupIcons from "/src/components/Icons/Meca/ImpSupIcons.jsx";
+import ImpCopIcons from "/src/components/Icons/Meca/ImpCopIcons";
+import BackButton from "/src/components/BackButton.jsx";
+import ClickableZone from "./ClickableZone";
 
 function Meca() {
   return (
@@ -25,6 +26,7 @@ function Meca() {
           <PcIcons />
           <ImpSupIcons />
           <ImpCopIcons />
+          <ClickableZone />
         </div>
       </div>
     </>
