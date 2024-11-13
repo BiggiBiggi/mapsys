@@ -1,29 +1,8 @@
-.pc1,
-.pc2,
-.pc3,
-.pc4 {
+.pc1 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
-}
-
-.pc1 {
-  top: 4%;
-  left: 30%;
-}
-
-.pc2 {
-  top: 20%;
-  left: 4%;
-}
-
-.pc3 {
-  top: 54%;
-  left: 4%;
-}
-
-.pc4 {
   top: 70%;
-  left: 4%;
+  left: 36.5%;
 }
 
 /* Tooltip styling */
@@ -40,23 +19,8 @@
 }
 
 .mouseHover.pc1 {
-  top: 4%;
-  left: 40%;
-}
-
-.mouseHover.pc2 {
-  top: 20%;
-  left: 14%;
-}
-
-.mouseHover.pc3 {
-  top: 54%;
-  left: 14%;
-}
-
-.mouseHover.pc4 {
   top: 70%;
-  left: 14%;
+  left: 46.5%;
 }
 
 .iconFixe {

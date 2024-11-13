@@ -33,45 +33,9 @@ function PcIcons() {
             hoveredPcId
           )
         }
-        onMouseOver={() => handleMouseOver(37, "pc1")}
+        onMouseOver={() => handleMouseOver(44, "pc1")}
         onMouseOut={handleMouseOut}
         className={`${styles.pc1} ${styles.iconFixe}`}
-        src={pcFixe}
-      />
-      <img
-        onClick={() =>
-          openLink(
-            "http://172.27.38.34/glpi/front/computer.form.php?id=",
-            hoveredPcId
-          )
-        }
-        onMouseOver={() => handleMouseOver(36, "pc2")}
-        onMouseOut={handleMouseOut}
-        className={`${styles.pc2} ${styles.iconFixe}`}
-        src={pcFixe}
-      />
-      <img
-        onClick={() =>
-          openLink(
-            "http://172.27.38.34/glpi/front/computer.form.php?id=",
-            hoveredPcId
-          )
-        }
-        onMouseOver={() => handleMouseOver(35, "pc3")}
-        onMouseOut={handleMouseOut}
-        className={`${styles.pc3} ${styles.iconFixe}`}
-        src={pcFixe}
-      />
-      <img
-        onClick={() =>
-          openLink(
-            "http://172.27.38.34/glpi/front/computer.form.php?id=",
-            hoveredPcId
-          )
-        }
-        onMouseOver={() => handleMouseOver(175, "pc4")}
-        onMouseOut={handleMouseOut}
-        className={`${styles.pc4} ${styles.iconFixe}`}
         src={pcFixe}
       />
 

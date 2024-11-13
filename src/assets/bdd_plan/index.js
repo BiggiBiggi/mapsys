@@ -47,38 +47,55 @@ ________________________________________________________________________________
 {-----------------------API GET Complete List-----------------------}
 */
 app.get("/api/imp_support", (req, res) => {
-  const { _sort, _order } = req.query; // Récupérer les paramètres de tri
-  console.log("Sort Field:", _sort); // Log du champ de tri
-  console.log("Order:", _order); // Log de l'ordre de tri
+  const { sort, range, filter } = req.query;
 
-  let sql = "SELECT * FROM imp_support";
+  // Définir les valeurs par défaut pour le tri
+  let sortField = "Nom_IMP";
+  let sortOrder = "ASC";
 
-  // Ajouter le tri si les paramètres sont présents et valides
-  if (_sort && _order) {
-    const validSortFields = [
-      "Nom_IMP",
-      "Adresse_IP",
-      "SN",
-      "Lieux_Affectation",
-      "Type",
-    ];
-    const validOrderValues = ["ASC", "DESC"];
-
-    // Vérification des champs et ordres
-    if (validSortFields.includes(_sort) && validOrderValues.includes(_order)) {
-      sql += ` ORDER BY ${_sort} ${_order}`;
-      console.log("Constructed SQL Query with Sorting:", sql); // Log de la requête SQL construite
-    } else {
-      console.log("Invalid sort field or order:", { _sort, _order }); // Log en cas de paramètres invalides
-      return res.status(400).json({ error: "Invalid sort field or order" });
+  // Traitement du paramètre `sort` JSON
+  if (sort) {
+    try {
+      const [field, order] = JSON.parse(sort);
+      sortField = field;
+      sortOrder = order;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ de tri :", error);
     }
-  } else {
-    console.log("No sorting parameters provided."); // Log si aucun paramètre de tri n'est fourni
   }
+
+  // Traitement du paramètre `range` JSON pour la pagination
+  let offset = 0;
+  let limit = 5; // Nombre par défaut
+  if (range) {
+    try {
+      const [start, end] = JSON.parse(range);
+      offset = start;
+      limit = end - start + 1;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ range :", error);
+    }
+  }
+
+  // Filtrage de base avec `filter`
+  let whereClause = "";
+  if (filter) {
+    try {
+      const filters = JSON.parse(filter);
+      if (filters.q) {
+        whereClause = `WHERE Nom_IMP LIKE '%${filters.q}%'`;
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ filter :", error);
+    }
+  }
+
+  // Construire la requête SQL avec tri et pagination
+  let sql = `SELECT * FROM imp_support ${whereClause} ORDER BY ${sortField} ${sortOrder} LIMIT ${limit} OFFSET ${offset}`;
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("Database query error:", err); // Log pour les erreurs de requête
+      console.error("Erreur lors de la requête SQL :", err);
       res.status(500).send(err);
       return;
     }
@@ -87,17 +104,17 @@ app.get("/api/imp_support", (req, res) => {
 
     const mappedResults = results.map((result) => ({
       ...result,
-      id: result.ID, // Utilise le bon champ pour l'ID
+      id: result.id, // Assurez-vous d'utiliser le bon champ pour l'identifiant
     }));
 
+    // Ajouter l'en-tête Content-Range pour la pagination
     res.setHeader(
       "Content-Range",
-      `imp_support 0-${totalResults}/${totalResults}`
+      `imp_support ${offset}-${offset + totalResults - 1}/${totalResults}`
     );
     res.setHeader("Access-Control-Expose-Headers", "Content-Range");
 
-    console.log("Query Results:", mappedResults); // Log des résultats de la requête
-    res.json(mappedResults); // Retourner les résultats
+    res.json(mappedResults);
   });
 });
 
@@ -120,7 +137,7 @@ app.get("/api/imp_support/:id", (req, res) => {
 
     const result = {
       ...results[0],
-      id: results[0].ID || results[0].id, // Assurez-vous que la colonne ID est correcte
+      id: results[0].id, // Assurez-vous que la colonne ID est correcte
     };
 
     res.json(result); // Retourner l'imprimante avec son 'id'
@@ -132,17 +149,17 @@ app.get("/api/imp_support/:id", (req, res) => {
 */
 app.put("/api/imp_support/:id", (req, res) => {
   const { id } = req.params;
-  const { Nom_IMP, Adresse_IP, SN, Lieux_Affectation, Type } = req.body;
+  const { Nom_IMP, AdresseIp, SN, LieuxAffectation, Type } = req.body;
 
   const sql = `
     UPDATE imp_support 
-    SET Nom_IMP = ?, Adresse_IP = ?, SN = ?, Lieux_Affectation = ?, Type = ?
+    SET Nom_IMP = ?, AdresseIp = ?, SN = ?, LieuxAffectation = ?, Type = ?
     WHERE id = ?
   `;
 
   db.query(
     sql,
-    [Nom_IMP, Adresse_IP, SN, Lieux_Affectation, Type, id],
+    [Nom_IMP, AdresseIp, SN, LieuxAffectation, Type, id],
     (err, result) => {
       if (err) {
         console.error("Erreur lors de la mise à jour :", err);
@@ -169,16 +186,16 @@ app.put("/api/imp_support/:id", (req, res) => {
 {-----------------------API POST-----------------------}
 */
 app.post("/api/imp_support", (req, res) => {
-  const { Nom_IMP, Adresse_IP, SN, Lieux_Affectation, Type } = req.body;
+  const { Nom_IMP, AdresseIp, SN, LieuxAffectation, Type } = req.body;
 
   const sql = `
-    INSERT INTO imp_support (Nom_IMP, Adresse_IP, SN, Lieux_Affectation, Type)
+    INSERT INTO imp_support (Nom_IMP, AdresseIp, SN, LieuxAffectation, Type)
     VALUES (?, ?, ?, ?, ?)
   `;
 
   db.query(
     sql,
-    [Nom_IMP, Adresse_IP, SN, Lieux_Affectation, Type],
+    [Nom_IMP, AdresseIp, SN, LieuxAffectation, Type],
     (err, result) => {
       if (err) {
         console.error("Erreur lors de l'insertion :", err);
@@ -232,29 +249,74 @@ ________________________________________________________________________________
 {-----------------------API GET Complete List-----------------------}
 */
 app.get("/api/imp_copieurs", (req, res) => {
-  const sql = "SELECT * FROM imp_copieurs"; // Remplacez par votre requête SQL
+  const { sort, range, filter } = req.query;
+
+  // Définir les valeurs par défaut pour le tri
+  let sortField = "NomImpServeur";
+  let sortOrder = "ASC";
+
+  // Traitement du paramètre `sort` JSON
+  if (sort) {
+    try {
+      const [field, order] = JSON.parse(sort);
+      sortField = field;
+      sortOrder = order;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ de tri :", error);
+    }
+  }
+
+  // Traitement du paramètre `range` JSON pour la pagination
+  let offset = 0;
+  let limit = 5; // Nombre par défaut
+  if (range) {
+    try {
+      const [start, end] = JSON.parse(range);
+      offset = start;
+      limit = end - start + 1;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ range :", error);
+    }
+  }
+
+  // Filtrage de base avec `filter`
+  let whereClause = "";
+  if (filter) {
+    try {
+      const filters = JSON.parse(filter);
+      if (filters.q) {
+        whereClause = `WHERE NomImpServeur LIKE '%${filters.q}%'`;
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ filter :", error);
+    }
+  }
+
+  // Construire la requête SQL avec tri et pagination
+  let sql = `SELECT * FROM imp_copieurs ${whereClause} ORDER BY ${sortField} ${sortOrder} LIMIT ${limit} OFFSET ${offset}`;
+
   db.query(sql, (err, results) => {
     if (err) {
+      console.error("Erreur lors de la requête SQL :", err);
       res.status(500).send(err);
       return;
     }
 
     const totalResults = results.length;
 
-    // Mapper les résultats pour que chaque objet ait un champ 'id'
     const mappedResults = results.map((result) => ({
       ...result,
-      id: result.copieur_id || result.Id || result.id, // Remplacer par le nom de votre champ d'identifiant dans la base de données
+      id: result.id, // Assurez-vous d'utiliser le bon champ pour l'identifiant
     }));
 
     // Ajouter l'en-tête Content-Range pour la pagination
     res.setHeader(
       "Content-Range",
-      `imp_copieurs 0-${totalResults}/${totalResults}`
+      `imp_copieurs ${offset}-${offset + totalResults - 1}/${totalResults}`
     );
     res.setHeader("Access-Control-Expose-Headers", "Content-Range");
 
-    res.json(mappedResults); // Retourner les résultats avec 'id'
+    res.json(mappedResults);
   });
 });
 
@@ -289,17 +351,17 @@ app.get("/api/imp_copieurs/:id", (req, res) => {
 */
 app.put("/api/imp_copieurs/:id", (req, res) => {
   const { id } = req.params;
-  const { Nom_IMP_Serveur, Lieux, Model, Adresse_IP } = req.body;
+  const { NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog } = req.body;
 
   const sql = `
     UPDATE imp_copieurs 
-    SET Nom_IMP_Serveur = ?, Lieux = ?, Model = ?, Adresse_IP = ?
+    SET NomImpServeur = ?, AdresseIp = ?, SN = ?, Lieux = ?, Model = ?, NomInfolog = ?
     WHERE id = ?
   `;
 
   db.query(
     sql,
-    [Nom_IMP_Serveur, Lieux, Model, Adresse_IP, id],
+    [NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog, id],
     (err, result) => {
       if (err) {
         console.error("Erreur lors de la mise à jour :", err);
@@ -323,6 +385,58 @@ app.put("/api/imp_copieurs/:id", (req, res) => {
 });
 
 /*
+{-----------------------API POST-----------------------}
+*/
+app.post("/api/imp_copieurs", (req, res) => {
+  const { NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog } = req.body;
+
+  const sql = `
+    INSERT INTO imp_copieurs (NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de l'insertion :", err);
+        return res.status(500).send(err);
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Imprimante créée avec succès",
+        id: result.insertId, // Retourner l'ID généré par l'insertion
+      });
+    }
+  );
+});
+
+/*
+{-----------------------API DELETE-----------------------}
+*/
+app.delete("/api/imp_copieurs/:id", (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM imp_copieurs WHERE id = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Erreur lors de la suppression :", err);
+      return res.status(500).send(err);
+    }
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: "Aucune imprimante trouvée avec cet ID" });
+    }
+
+    res.json({ success: true, message: "Imprimante supprimée avec succès" });
+  });
+});
+
+/*
 
 
 _______________________________________________________________________________________
@@ -337,26 +451,74 @@ ________________________________________________________________________________
 {-----------------------API GET Complete List-----------------------}
 */
 app.get("/api/pc_glpi", (req, res) => {
-  const sql = "SELECT * FROM pc_glpi"; // Remplacez par votre requête SQL
+  const { sort, range, filter } = req.query;
+
+  // Définir les valeurs par défaut pour le tri
+  let sortField = "Nom_PC";
+  let sortOrder = "ASC";
+
+  // Traitement du paramètre `sort` JSON
+  if (sort) {
+    try {
+      const [field, order] = JSON.parse(sort);
+      sortField = field;
+      sortOrder = order;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ de tri :", error);
+    }
+  }
+
+  // Traitement du paramètre `range` JSON pour la pagination
+  let offset = 0;
+  let limit = 10; // Nombre par défaut
+  if (range) {
+    try {
+      const [start, end] = JSON.parse(range);
+      offset = start;
+      limit = end - start + 1;
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ range :", error);
+    }
+  }
+
+  // Filtrage de base avec `filter`
+  let whereClause = "";
+  if (filter) {
+    try {
+      const filters = JSON.parse(filter);
+      if (filters.q) {
+        whereClause = `WHERE Nom_PC LIKE '%${filters.q}%'`;
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing du champ filter :", error);
+    }
+  }
+
+  // Construire la requête SQL avec tri et pagination
+  let sql = `SELECT * FROM pc_glpi ${whereClause} ORDER BY ${sortField} ${sortOrder} LIMIT ${limit} OFFSET ${offset}`;
+
   db.query(sql, (err, results) => {
     if (err) {
+      console.error("Erreur lors de la requête SQL :", err);
       res.status(500).send(err);
       return;
     }
 
     const totalResults = results.length;
 
-    // Mapper les résultats pour que chaque objet ait un champ 'id'
     const mappedResults = results.map((result) => ({
       ...result,
-      id: result.ID, // Remplacer par le nom de votre champ d'identifiant dans la base de données
+      id: result.ID, // Assurez-vous d'utiliser le bon champ pour l'identifiant
     }));
 
     // Ajouter l'en-tête Content-Range pour la pagination
-    res.setHeader("Content-Range", `pc_glpi 0-${totalResults}/${totalResults}`);
+    res.setHeader(
+      "Content-Range",
+      `pc_glpi ${offset}-${offset + totalResults - 1}/${totalResults}`
+    );
     res.setHeader("Access-Control-Expose-Headers", "Content-Range");
 
-    res.json(mappedResults); // Retourner les résultats avec 'id'
+    res.json(mappedResults);
   });
 });
 
@@ -389,34 +551,86 @@ app.get("/api/pc_glpi/:id", (req, res) => {
 /*
 {-----------------------API PUT-----------------------}
 */
-app.put("/api/pc_glpi/:id", (req, res) => {
+app.put("/api/pc_glpi/:ID", (req, res) => {
   const { id } = req.params;
-  const { Nom_PC, SN, IP_Wifi, IP_Filaire, Prise } = req.body;
+  const { Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, ID_GLPI } = req.body;
 
   const sql = `
     UPDATE pc_glpi 
-    SET Nom_PC = ?, SN = ?, IP_Wifi = ?, IP_Filaire = ?, Prise = ?
+    SET Nom_PC = ?, SN = ?, IP_Wifi = ?, IP_Filaire = ?, Prise = ?, ID_GLPI = ?
     WHERE id = ?
   `;
 
-  db.query(sql, [Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, id], (err, result) => {
+  db.query(
+    sql,
+    [Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, ID_GLPI, id],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de la mise à jour :", err);
+        return res.status(500).send(err);
+      }
+
+      // Utiliser le résultat pour envoyer une réponse plus informative
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Aucun PC trouvée avec cet ID" });
+      }
+
+      res.json({
+        success: true,
+        message: "PC mis à jour avec succès",
+        id,
+      });
+    }
+  );
+});
+
+/*
+{-----------------------API POST-----------------------}
+*/
+app.post("/api/pc_glpi", (req, res) => {
+  const { Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, ID_GLPI } = req.body;
+
+  const sql = `
+    INSERT INTO pc_glpi (Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, ID_GLPI)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [Nom_PC, SN, IP_Wifi, IP_Filaire, Prise, ID_GLPI],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de l'insertion :", err);
+        return res.status(500).send(err);
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "PC créé avec succès",
+        id: result.insertId, // Retourner l'ID généré par l'insertion
+      });
+    }
+  );
+});
+
+/*
+{-----------------------API DELETE-----------------------}
+*/
+app.delete("/api/pc_glpi/:id", (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM pc_glpi WHERE ID = ?";
+  db.query(sql, [id], (err, result) => {
     if (err) {
-      console.error("Erreur lors de la mise à jour :", err);
+      console.error("Erreur lors de la suppression :", err);
       return res.status(500).send(err);
     }
 
-    // Utiliser le résultat pour envoyer une réponse plus informative
     if (result.affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ error: "Aucun ordinateur trouvée avec cet ID" });
+      return res.status(404).json({ error: "Aucun PC trouvée avec cet ID" });
     }
 
-    res.json({
-      success: true,
-      message: "Ordinateur mis à jour avec succès",
-      id,
-    });
+    res.json({ success: true, message: "PC supprimée avec succès" });
   });
 });
 

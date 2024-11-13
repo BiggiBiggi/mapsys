@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "mysql": "^2.18.1",
+    "node-polyglot": "^2.6.0",
     "ra-data-simple-rest": "^5.2.2",
+    "ra-i18n-polyglot": "^5.3.3",
+    "ra-language-french": "^5.3.3",
     "react": "^18.3.1",
     "react-admin": "^5.2.2",
     "react-dom": "^18.3.1",

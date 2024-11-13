@@ -24,7 +24,7 @@ function ImpSupports({
       });
   }, []);
 
-  const filteredImpSup = ImpSupports.filter((imp) => imp.ID === id);
+  const filteredImpSup = ImpSupports.filter((imp) => imp.id === id);
 
   return (
     <div className={`${styles.container}`}>
@@ -39,7 +39,7 @@ function ImpSupports({
               </tr>
               <tr>
                 {showIP && <th>Adresse IP :</th>}{" "}
-                {showIP && <td>{imp.Adresse_IP}</td>}
+                {showIP && <td>{imp.AdresseIp}</td>}
               </tr>
               <tr>
                 {showSN && <th>Numéro de Serie :</th>}{" "}
@@ -51,7 +51,7 @@ function ImpSupports({
               </tr>
 
               <tr>
-                {showID && <th>ID :</th>} {showID && <td>{imp.ID}</td>}
+                {showID && <th>ID :</th>} {showID && <td>{imp.id}</td>}
               </tr>
             </tr>
           ))}

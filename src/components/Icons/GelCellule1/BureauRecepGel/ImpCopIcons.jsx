@@ -29,10 +29,10 @@ function ImpCopIcons() {
       <img
         onClick={() =>
           openLink(
-            "http://172.27.238.60/web/guest/fr/websys/webArch/mainFrame.cgi"
+            "http://172.27.238.57/web/guest/fr/websys/webArch/mainFrame.cgi"
           )
         }
-        onMouseOver={() => handleMouseOver(29, "imp1")}
+        onMouseOver={() => handleMouseOver(37, "imp1")}
         onMouseOut={handleMouseOut}
         className={`${styles.imp1} ${styles.iconImp}`}
         src={ImpCop}

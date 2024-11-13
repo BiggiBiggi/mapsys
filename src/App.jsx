@@ -6,16 +6,17 @@ import {
 } from "react-router-dom";
 import { Admin, Resource } from "react-admin";
 
-import simpleRestProvider from "ra-data-simple-rest";
-import CopieurList from "./components/Admin/CopieurList";
-import PrintIcon from "@mui/icons-material/Print";
-import ComputerTwoToneIcon from "@mui/icons-material/ComputerTwoTone";
 import {
   SupportList,
   SupportCreate,
   SupportEdit,
 } from "./components/Admin/SupportList";
-import PCList from "./components/Admin/PCList";
+import {
+  CopieurList,
+  CopieurCreate,
+  CopieurEdit,
+} from "./components/Admin/CopieurList";
+import { PCList, PCCreate, PCEdit } from "./components/Admin/PCList";
 import Cellule6 from "./components/Plan/Cellule6";
 import Cellule7 from "./components/Plan/Cellule7";
 import Cellule8 from "./components/Plan/Cellule8";
@@ -48,14 +49,14 @@ import PlanMasse from "./components/Plan/PlanMasse";
 import Cellule9Bureaux from "/src/components/Plan/Cellule9/Bureaux/Cellule9Bureaux";
 import Cellule9BureauxRDC from "/src/components/Plan/Cellule9/Bureaux/RDC/Cellule9BureauxRDC";
 import Cellule9BureauxEtage from "/src/components/Plan/Cellule9/Bureaux/Etage/Cellule9BureauxEtage.jsx";
-import Dashboard from "./components/Admin/Dashboard";
 import BureauOrdo from "./components/Plan/MECA/Bureaux/Ordo/BureauOrdo";
 import BureauCeFrais from "./components/Plan/MECA/Bureaux/CeFRAIS/BureauCeFrais";
 import MecaBureaux from "./components/Plan/MECA/Bureaux/MecaBureaux";
 import BureauRecepFrais from "./components/Plan/MECA/Bureaux/RecepFrais/BureauRecepFrais";
 import BureauRexFrais from "./components/Plan/MECA/Bureaux/RexFrais/BureauRexFrais";
-
-const dataProvider = simpleRestProvider("http://localhost:5000/api");
+import { dataProvider, i18nProvider } from "./components/Admin/DataProvider";
+import { MyLayout } from "./components/Admin/Theme/MyLayout";
+import LoginPage from "./components/Admin/Connexion/LoginPage";
 
 function App() {
   return (
@@ -127,35 +128,39 @@ function AppContent() {
           path="/gelCellule1/bureauRecepGel"
           element={<BureauRecepGel />}
         />
+        <Route path="/admin/login" element={<LoginPage />} />
         <Route path="/gelCellule2" element={<GelCellule2 />} />
         <Route path="/gelCellule2/salleRepos" element={<SalleRepos />} />
         <Route
           path="/admin/*"
           element={
             <Admin
-              dashboard={Dashboard}
               dataProvider={dataProvider}
               basename="/admin"
+              i18nProvider={i18nProvider}
+              layout={MyLayout}
+              darkTheme={null}
             >
               <Resource
                 name="imp_copieurs"
                 options={{ label: "Imprimantes Copieurs" }}
                 list={CopieurList}
-                icon={PrintIcon}
+                edit={CopieurEdit}
+                create={CopieurCreate}
               />
               <Resource
                 name="imp_support"
                 edit={SupportEdit}
                 create={SupportCreate}
                 options={{ label: "Imprimantes Supports" }}
-                icon={PrintIcon}
                 list={SupportList}
               />
               <Resource
                 name="pc_glpi"
-                options={{ label: "Ordinateurs GLPI" }}
+                edit={PCEdit}
+                create={PCCreate}
+                options={{ label: "PC Glpi" }}
                 list={PCList}
-                icon={ComputerTwoToneIcon}
               />
             </Admin>
           }

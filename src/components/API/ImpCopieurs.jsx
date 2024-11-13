@@ -36,7 +36,7 @@ function ImpCopieurs({
             <tr key={index}>
               <tr>
                 {showNomImp && <th>Nom IMP Serveur :</th>}{" "}
-                {showNomImp && <td>{imp.Nom_IMP_Serveur}</td>}
+                {showNomImp && <td>{imp.NomImpServeur}</td>}
               </tr>
               <tr>
                 {showModel && <th>Modèle :</th>}{" "}
@@ -44,7 +44,7 @@ function ImpCopieurs({
               </tr>
               <tr>
                 {showIP && <th>Adresse IP :</th>}{" "}
-                {showIP && <td>{imp.Adresse_IP}</td>}
+                {showIP && <td>{imp.AdresseIp}</td>}
               </tr>
               <tr>
                 {showSN && <th>Numéro de Serie :</th>}{" "}
@@ -52,7 +52,7 @@ function ImpCopieurs({
               </tr>
               <tr>
                 {showNomInf && <th>Nom Infolog :</th>}{" "}
-                {showNomInf && <td>{imp.Nom_Infolog}</td>}
+                {showNomInf && <td>{imp.NomInfolog}</td>}
               </tr>
               <tr>
                 {showID && <th>ID :</th>} {showID && <td>{imp.Id}</td>}
