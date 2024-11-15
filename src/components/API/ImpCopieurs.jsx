@@ -25,7 +25,7 @@ function ImpCopieurs({
       });
   }, []);
 
-  const filteredImp = impCopieurs.filter((imp) => imp.Id === id);
+  const filteredImp = impCopieurs.filter((imp) => imp.id === id);
 
   return (
     <div className={`${styles.container}`}>

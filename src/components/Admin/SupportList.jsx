@@ -17,7 +17,9 @@ import {
 } from "react-admin";
 import { MyPagination } from "./Theme/MyPagination";
 
-const supportFilters = [<TextInput source="q" label="Rechercher" alwaysOn />];
+const supportFilters = [
+  <TextInput source="q" label="Rechercher" alwaysOn resettable={true} />,
+];
 
 const ListActions = () => (
   <TopToolbar>
@@ -41,7 +43,7 @@ export const SupportList = () => (
       <TextField source="LieuxAffectation" label="Emplacement" />
       <TextField source="Type" label="Modèle" />
       <EditButton label="Modifier" />
-      <DeleteButton label="Supprimer" />
+      <DeleteButton label="Supprimer" mutationMode="pessimistic" />
     </Datagrid>
   </List>
 );

@@ -17,7 +17,9 @@ import {
 } from "react-admin";
 import { MyPagination } from "./Theme/MyPagination";
 
-const PCFilters = [<TextInput source="q" label="Rechercher" alwaysOn />];
+const PCFilters = [
+  <TextInput source="q" label="Rechercher" alwaysOn resettable={true} />,
+];
 
 const ListActions = () => (
   <TopToolbar>

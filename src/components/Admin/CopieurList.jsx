@@ -17,7 +17,9 @@ import {
 } from "react-admin";
 import { MyPagination } from "./Theme/MyPagination";
 
-const CopieurFilters = [<TextInput source="q" label="Rechercher" alwaysOn />];
+const CopieurFilters = [
+  <TextInput source="q" label="Rechercher" alwaysOn resettable={true} />,
+];
 
 const ListActions = () => (
   <TopToolbar>
@@ -30,7 +32,7 @@ export const CopieurList = () => (
   <List
     actions={<ListActions />}
     filters={CopieurFilters}
-    sort={{ field: "NomImpServeur", order: "ASC" }}
+    sort={{ field: "AdresseIp", order: "ASC" }}
     pagination={<MyPagination />}
   >
     <Datagrid rowClick={false}>
@@ -41,13 +43,13 @@ export const CopieurList = () => (
       <TextField source="AdresseIp" label="Adresse IP" />
       <TextField source="NomInfolog" label="Nom Infolog" />
       <EditButton label="Modifier" />
-      <DeleteButton label="Supprimer" />
+      <DeleteButton label="Supprimer" mutationMode="pessimistic" />
     </Datagrid>
   </List>
 );
 
 export const CopieurEdit = () => (
-  <Edit title="Modification Imprimante Copieuse">
+  <Edit title="Modification Imprimante Copieur">
     <SimpleForm toolbar={<CustomToolbar />}>
       <TextInput source="id" label="ID" disabled />
       <TextInput source="NomImpServeur" label="Nom du Copieur" />
@@ -66,7 +68,7 @@ const CustomToolbar = (props) => (
 );
 
 export const CopieurCreate = () => (
-  <Create title="Création Imprimante Copieuse" notification={false}>
+  <Create title="Création Imprimante Copieuse">
     <SimpleForm toolbar={<CustomToolbar />}>
       <TextInput source="NomImpServeur" label="Nom du Copieur" />
       <TextInput source="Lieux" label="Lieux" />

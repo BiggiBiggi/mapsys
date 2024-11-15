@@ -2,6 +2,9 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const cron = require("node-cron");
+const ping = require("ping");
+const axios = require("axios");
 
 const app = express();
 app.use(cors()); // CORS pour autoriser toutes les requêtes
@@ -66,7 +69,7 @@ app.get("/api/imp_support", (req, res) => {
 
   // Traitement du paramètre `range` JSON pour la pagination
   let offset = 0;
-  let limit = 5; // Nombre par défaut
+  let limit = 1000; // Nombre par défaut
   if (range) {
     try {
       const [start, end] = JSON.parse(range);
@@ -83,7 +86,11 @@ app.get("/api/imp_support", (req, res) => {
     try {
       const filters = JSON.parse(filter);
       if (filters.q) {
-        whereClause = `WHERE Nom_IMP LIKE '%${filters.q}%'`;
+        whereClause = `WHERE Nom_IMP LIKE '%${filters.q}%' OR 
+        AdresseIp LIKE '%${filters.q}%' OR 
+        SN LIKE '%${filters.q}%' OR 
+        LieuxAffectation LIKE '%${filters.q}%' OR 
+        Type LIKE '%${filters.q}%'`;
       }
     } catch (error) {
       console.error("Erreur lors du parsing du champ filter :", error);
@@ -268,7 +275,7 @@ app.get("/api/imp_copieurs", (req, res) => {
 
   // Traitement du paramètre `range` JSON pour la pagination
   let offset = 0;
-  let limit = 5; // Nombre par défaut
+  let limit = 1000; // Nombre par défaut
   if (range) {
     try {
       const [start, end] = JSON.parse(range);
@@ -285,7 +292,11 @@ app.get("/api/imp_copieurs", (req, res) => {
     try {
       const filters = JSON.parse(filter);
       if (filters.q) {
-        whereClause = `WHERE NomImpServeur LIKE '%${filters.q}%'`;
+        whereClause = `WHERE NomImpServeur LIKE '%${filters.q}%' OR 
+        Lieux LIKE '%${filters.q}%' OR 
+        Model LIKE '%${filters.q}%' OR 
+        AdresseIp LIKE '%${filters.q}%' OR 
+        NomInfolog LIKE '%${filters.q}%'`;
       }
     } catch (error) {
       console.error("Erreur lors du parsing du champ filter :", error);
@@ -392,7 +403,7 @@ app.post("/api/imp_copieurs", (req, res) => {
 
   const sql = `
     INSERT INTO imp_copieurs (NomImpServeur, AdresseIp, SN, Lieux, Model, NomInfolog)
-    VALUES (?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
 
   db.query(
@@ -470,7 +481,7 @@ app.get("/api/pc_glpi", (req, res) => {
 
   // Traitement du paramètre `range` JSON pour la pagination
   let offset = 0;
-  let limit = 10; // Nombre par défaut
+  let limit = 10000; // Nombre par défaut
   if (range) {
     try {
       const [start, end] = JSON.parse(range);
@@ -487,7 +498,12 @@ app.get("/api/pc_glpi", (req, res) => {
     try {
       const filters = JSON.parse(filter);
       if (filters.q) {
-        whereClause = `WHERE Nom_PC LIKE '%${filters.q}%'`;
+        whereClause = `WHERE Nom_PC LIKE '%${filters.q}%' OR 
+        ID_GLPI LIKE '%${filters.q}%' OR 
+        SN LIKE '%${filters.q}%' OR 
+        IP_Wifi LIKE '%${filters.q}%' OR 
+        Prise LIKE '%${filters.q}%' OR 
+        IP_Filaire LIKE '%${filters.q}%'`;
       }
     } catch (error) {
       console.error("Erreur lors du parsing du champ filter :", error);
@@ -632,6 +648,97 @@ app.delete("/api/pc_glpi/:id", (req, res) => {
 
     res.json({ success: true, message: "PC supprimée avec succès" });
   });
+});
+
+/*
+
+_______________________________________________________________________________________
+
+----------------------------------- Ping Adresse IP -----------------------------------
+_______________________________________________________________________________________
+
+
+*/
+
+/*
+{----------------------- Récupération des IP -----------------------}
+*/
+
+// Route pour récupérer toutes les adresses IP et les noms d'imprimantes
+app.get("/api/ips", (req, res) => {
+  const query1 = "SELECT NomImpServeur, AdresseIp FROM imp_copieurs";
+  const query2 = "SELECT Nom_IMP, AdresseIp FROM imp_support";
+
+  // Exécuter plusieurs requêtes pour récupérer les IP et noms d'imprimantes de différentes tables
+  db.query(query1, (err, results1) => {
+    if (err) {
+      return res.status(500).json({
+        error:
+          "Erreur lors de la récupération des adresses IP et noms (Table 1)",
+      });
+    }
+
+    db.query(query2, (err, results2) => {
+      if (err) {
+        return res.status(500).json({
+          error:
+            "Erreur lors de la récupération des adresses IP et noms (Table 2)",
+        });
+      }
+
+      // Fusionner les résultats des deux tables et envoyer la réponse
+      const allImpData = [...results1, ...results2];
+      res.json({ devices: allImpData });
+    });
+  });
+});
+
+/*
+{----------------------- Ping des IP -----------------------}
+*/
+
+// Stocker les imprimantes non accessibles
+let offlineDevices = [];
+
+// Fonction pour effectuer un ping et mettre à jour les imprimantes non accessibles
+async function monitorIPs() {
+  try {
+    // Récupérer les IPs et noms d'imprimantes depuis l'API
+    const response = await axios.get("http://localhost:5000/api/ips");
+    const devices = response.data.devices;
+
+    offlineDevices = []; // Réinitialiser la liste des imprimantes non accessibles
+
+    // Faire un ping sur chaque IP
+    for (const device of devices) {
+      const { AdresseIp, NomImpServeur, Nom_IMP } = device;
+      const result = await ping.promise.probe(AdresseIp);
+
+      if (!result.alive) {
+        // Ajouter l'imprimante à la liste si l'IP ne répond pas
+        const name = NomImpServeur || Nom_IMP; // Utiliser le nom disponible
+        offlineDevices.push({ ip: AdresseIp, name });
+      }
+    }
+  } catch (error) {
+    console.error("Erreur lors de la surveillance des IPs :", error);
+  }
+}
+
+// Tâche cron pour faire des pings toutes les minutes
+cron.schedule("*/30 * * * *", () => {
+  console.log("Vérification des IPs...");
+  monitorIPs();
+  console.log("Vérification des IPs terminées !");
+});
+
+/*
+{----------------------- API des IP inaccessibles -----------------------}
+*/
+
+// Ajouter cette route dans ton serveur Node.js pour récupérer les imprimantes hors ligne
+app.get("/api/offline-ips", (req, res) => {
+  res.json({ offlineDevices });
 });
 
 // Démarrer le serveur sur le port 5000
