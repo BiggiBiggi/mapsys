@@ -1,8 +1,5 @@
 import styles from "./SalleRepos.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "/src/components/Icons/GelCellule2/SalleRepos/PcIcons";
-import ImpSupIcons from "/src/components/Icons/GelCellule2/SalleRepos/ImpSupIcons";
-import ImpCopIcons from "/src/components/Icons/GelCellule2/SalleRepos/ImpCopIcons";
 
 function SalleRepos() {
   return (
@@ -23,9 +20,6 @@ function SalleRepos() {
             src="/src/assets/images/SalleRepos.png"
             alt="Bureau Prep Gel"
           />
-          <PcIcons />
-          <ImpCopIcons />
-          <ImpSupIcons />
         </div>
       </div>
     </>

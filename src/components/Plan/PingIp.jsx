@@ -36,7 +36,7 @@ function OfflineIPs() {
   return (
     <div className={`${styles.IpContainer} p-10 d-flex flex-column center`}>
       <h2 className={`mb-10`}>
-        <strong>!!! ALERTE IMPRIMANTES KO !!!</strong>
+        <strong>!!! ALERTES KO !!!</strong>
       </h2>
       <ul>
         {/* Vérifier si offlineDevices est un tableau non vide */}

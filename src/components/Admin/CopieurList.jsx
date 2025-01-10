@@ -42,6 +42,7 @@ export const CopieurList = () => (
       <TextField source="Model" label="Modèle" />
       <TextField source="AdresseIp" label="Adresse IP" />
       <TextField source="NomInfolog" label="Nom Infolog" />
+      <TextField source="prise" label="Prise" />
       <EditButton label="Modifier" />
       <DeleteButton label="Supprimer" mutationMode="pessimistic" />
     </Datagrid>
@@ -57,6 +58,7 @@ export const CopieurEdit = () => (
       <TextInput source="Model" label="Modèle" />
       <TextInput source="AdresseIp" label="Adresse IP" />
       <TextInput source="NomInfolog" label="Nom Infolog" />
+      <TextInput source="prise" label="Prise" />
     </SimpleForm>
   </Edit>
 );
@@ -75,6 +77,7 @@ export const CopieurCreate = () => (
       <TextInput source="Model" label="Modèle" />
       <TextInput source="AdresseIp" label="Adresse IP" />
       <TextInput source="NomInfolog" label="Nom Infolog" />
+      <TextInput source="prise" label="Prise" />
     </SimpleForm>
   </Create>
 );

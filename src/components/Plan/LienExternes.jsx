@@ -11,7 +11,7 @@ function Liens() {
   return (
     <>
       <div className={`${styles.linksContainer}`}>
-        <div className={`${styles.externLinks} m-30 p-10`}>
+        <div className={`${styles.internLinks} m-30 p-10`}>
           <div>
             <h2>
               <u>Liens Internes :</u>
@@ -29,7 +29,7 @@ function Liens() {
             </Link>
           </div>
         </div>
-        <div className={`${styles.internLinks} m-30 p-10`}>
+        <div className={`${styles.externLinks} m-30 p-10`}>
           <div>
             <h2>
               <u>Liens Externes :</u>
@@ -41,13 +41,13 @@ function Liens() {
               <img src={glpi} alt="Logo GLPI" />
             </a>
             <a
-              href="http://172.27.38.34/glpi/front/central.php"
+              href="https://ocs-groupement/ocsreports/index.php"
               target="_blank"
             >
               <img src={ocs} alt="Logo OCS" />
             </a>
             <a
-              href="http://172.27.38.34/glpi/front/central.php"
+              href="https://mousquetaires.service-now.com/now/nav/ui/classic/params/target/%2Fhome.do%3F"
               target="_blank"
             >
               <img src={oasis} alt="Logo Oasis" />

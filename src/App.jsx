@@ -29,7 +29,11 @@ import Cellule11BureauxRDC from "/src/components/Plan/Cellule11/Bureaux/RDC/Cell
 import Cellule12 from "./components/Plan/Cellule12";
 import Cellule13 from "./components/Plan/Cellule13";
 import AirePalettes from "./components/Plan/AirePalettes";
-import Administratif from "./components/Plan/Administratif";
+import Administratif from "./components/Plan/Administratif/Administratif";
+import RDCAdmin from "./components/Plan/Administratif/Etages/RDC/RDCAdmin";
+import R1Admin from "./components/Plan/Administratif/Etages/R1/R1Admin";
+import R2Admin from "./components/Plan/Administratif/Etages/R2/R2Admin";
+import Scafruits from "./components/Plan/Administratif/Etages/ScaFruit(R1,5)/Scafruits";
 import Pdg from "./components/Plan/PDG";
 import ZoneContenants from "/src/components/Plan/ZoneContenants/ZoneContenants.jsx";
 import ZoneContenantsBureau from "/src/components/Plan/ZoneContenants/Bureau/ZoneContenantsBureau.jsx";
@@ -74,7 +78,7 @@ function AppContent() {
   const location = useLocation(); // Utiliser useLocation à l'intérieur du Router
 
   // Condition pour masquer le header et le footer sur la route /admin
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminRoute = location.pathname.startsWith("/admin/");
 
   return (
     <>
@@ -116,6 +120,10 @@ function AppContent() {
           element={<ZoneContenantsBureau />}
         />
         <Route path="/administratif" element={<Administratif />} />
+        <Route path="/administratif/etage/rdc" element={<RDCAdmin />} />
+        <Route path="/administratif/etage/r1" element={<R1Admin />} />
+        <Route path="/administratif/etage/r2" element={<R2Admin />} />
+        <Route path="/administratif/etage/scafruits" element={<Scafruits />} />
         <Route path="/meca" element={<Meca />} />
         <Route path="/meca/bureaux" element={<MecaBureaux />} />
         <Route path="/meca/bureaux/recepfrais" element={<BureauRecepFrais />} />

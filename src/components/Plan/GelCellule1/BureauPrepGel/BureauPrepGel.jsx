@@ -1,7 +1,6 @@
 import styles from "./BureauPrepGel.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
 import PcIcons from "/src/components/Icons/GelCellule1/BureauPrepGel/PcIcons";
-import ImpSupIcons from "/src/components/Icons/GelCellule1/BureauPrepGel/ImpSupIcons";
 import ImpCopIcons from "/src/components/Icons/GelCellule1/BureauPrepGel/ImpCopIcons";
 
 function BureauPrepGel() {
@@ -25,7 +24,6 @@ function BureauPrepGel() {
           />
           <PcIcons />
           <ImpCopIcons />
-          <ImpSupIcons />
         </div>
       </div>
     </>

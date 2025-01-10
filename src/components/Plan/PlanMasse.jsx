@@ -3,6 +3,7 @@ import ClickableZone from "./ClickableZone";
 import styles from "./PlanMasse.module.scss";
 import logo from "/src/assets/images/logo_inter.png";
 import Base from "/src/assets/images/photoBase.png";
+import ITMLAI from "/src/assets/images/ITMLAI.png";
 import OfflineIPs from "./PingIp";
 import Liens from "./LienExternes";
 
@@ -16,13 +17,8 @@ function PlanMasse() {
         <div className={`${styles.base} center d-flex `}>
           <img src={Base} alt="Photo Base" />
         </div>
-        <div className={`${styles.txt} center d-flex `}>
-          <div className={`${styles.txtBox} p-20`}>
-            <h2>
-              ITMLAI <br />
-              Base Intermarché de Castets
-            </h2>
-          </div>
+        <div className={`${styles.itmlai} center d-flex `}>
+          <img src={ITMLAI} alt="ITMLAI Base Intermarché de Castets" />
         </div>
       </div>
       <Liens />

@@ -1,11 +1,16 @@
-.imp1 {
+.imp1,
+.imp2 {
   position: absolute;
   font-size: clamp(0px, 1vw, 24px);
 }
 
 .imp1 {
-  top: 3.6%;
-  left: 71%;
+  top: 29%;
+  left: 5%;
+}
+.imp2 {
+  top: 29%;
+  left: 50%;
 }
 
 /* Tooltip styling */
@@ -22,10 +27,14 @@
 }
 
 .mouseHover.imp1 {
-  top: 3.6%;
-  left: 74%;
+  top: 29%;
+  left: 10%;
+}
+.mouseHover.imp2 {
+  top: 29%;
+  left: 55%;
 }
 
 .iconImp {
-  width: 1.2vw;
+  width: 1.6vw;
 }
