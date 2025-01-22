@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./PcGLPI.module.scss";
+import React from "react";
 
 function PcGLPI({
   id,
@@ -14,54 +15,63 @@ function PcGLPI({
   const [pcGLPI, setPcGLPI] = useState([]);
 
   useEffect(() => {
-    // Faire une requête GET à l'API pour récupérer tous les PC
     axios
       .get("http://localhost:5000/api/pc_glpi")
       .then((response) => {
-        setPcGLPI(response.data); // Mettre à jour l'état avec les données reçues
+        setPcGLPI(response.data);
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des PCs:", error);
       });
   }, []);
 
-  // Filtrer pour n'afficher que le PC avec l'ID spécifié
   const filteredPC = pcGLPI.filter((pc) => pc.ID_GLPI === id);
 
   return (
-    <div className={`${styles.container}`}>
+    <div className={styles.container}>
       <h3>Détails du PC :</h3>
-      <table>
-        <tbody>
-          {filteredPC.map((pc, index) => (
-            <tr key={index}>
-              <tr>
-                {showNom && <th>Nom du PC :</th>}{" "}
-                {showNom && <td>{pc.Nom_PC}</td>}
-              </tr>
-              <tr>
-                {showSN && <th>Numéro de Série :</th>}{" "}
-                {showSN && <td>{pc.SN}</td>}
-              </tr>
-              <tr>
-                {showIpWifi && <th>IP Wifi :</th>}{" "}
-                {showIpWifi && <td>{pc.IP_Wifi}</td>}
-              </tr>
-              <tr>
-                {showIpFilaire && <th>Ip Filaire :</th>}{" "}
-                {showIpFilaire && <td>{pc.IP_Filaire}</td>}
-              </tr>
-              <tr>
-                {showID && <th>ID GLPI :</th>} {showID && <td>{pc.ID_GLPI}</td>}
-              </tr>
-              <tr>
-                {showPrise && <th>Prise :</th>}{" "}
-                {showPrise && <td>{pc.Prise}</td>}
-              </tr>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.pcTable}>
+        {filteredPC.map((pc) => (
+          <React.Fragment key={pc.ID_GLPI}>
+            {showNom && (
+              <div className={styles.row}>
+                <span className={styles.label}>Nom du PC :</span>
+                <span className={styles.value}>{pc.Nom_PC}</span>
+              </div>
+            )}
+            {showSN && (
+              <div className={styles.row}>
+                <span className={styles.label}>Numéro de Série :</span>
+                <span className={styles.value}>{pc.SN}</span>
+              </div>
+            )}
+            {showIpWifi && (
+              <div className={styles.row}>
+                <span className={styles.label}>IP Wifi :</span>
+                <span className={styles.value}>{pc.IP_Wifi}</span>
+              </div>
+            )}
+            {showIpFilaire && (
+              <div className={styles.row}>
+                <span className={styles.label}>IP Filaire :</span>
+                <span className={styles.value}>{pc.IP_Filaire}</span>
+              </div>
+            )}
+            {showID && (
+              <div className={styles.row}>
+                <span className={styles.label}>ID GLPI :</span>
+                <span className={styles.value}>{pc.ID_GLPI}</span>
+              </div>
+            )}
+            {showPrise && (
+              <div className={styles.row}>
+                <span className={styles.label}>Prise :</span>
+                <span className={styles.value}>{pc.Prise}</span>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 }

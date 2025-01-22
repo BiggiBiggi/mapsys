@@ -1,7 +1,8 @@
-import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons";
+// import PcIcons from "/src/components/Icons/Administratif/R1/PcIcons";
 import styles from "./R1Admin.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
+// import ImpCopIcons from "/src/components/Icons/Administratif/R1/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
+import DeviceManagerWrapper from "../../../../DeviceManagerWrapper";
 
 function R1Admin() {
   return (
@@ -24,10 +25,9 @@ function R1Admin() {
             src="/src/assets/images/r1_admin.png"
             alt="RDC Zone Administrative"
           />
-          {/* <h3 className={`${styles.name1}`}>Réception SEC</h3>
-          <h3 className={`${styles.name2}`}>Stocks</h3> */}
-          <PcIcons />
-          <ImpCopIcons />
+          {/* <PcIcons />
+          <ImpCopIcons /> */}
+          <DeviceManagerWrapper planId="R1_admin" />
         </div>
       </div>
     </>
