@@ -1,7 +1,7 @@
-import PcIcons from "/src/components/Icons/Cellule6/PcIcons";
-import ImpCopIcons from "../Icons/Cellule6/ImpCopIcons";
-import ImpSupIcons from "../Icons/Cellule6/ImpSupIcons";
+// import ImpCopIcons from "../Icons/Cellule6/ImpCopIcons";
+// import ImpSupIcons from "../Icons/Cellule6/ImpSupIcons";
 import BackButton from "../BackButton";
+import DeviceManagerWrapper from "../DeviceManagerWrapper";
 
 function Cellule6() {
   return (
@@ -22,9 +22,9 @@ function Cellule6() {
             src="/src/assets/images/cellule6.png"
             alt="Cellule 6"
           />
-          <PcIcons />
-          <ImpCopIcons />
-          <ImpSupIcons />
+          {/* <ImpCopIcons /> */}
+          {/* <ImpSupIcons /> */}
+          <DeviceManagerWrapper planId="cellule6" />
         </div>
       </div>
     </>

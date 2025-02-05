@@ -13,14 +13,14 @@ const deviceTypes = [
     name: "PC Portable",
     icon: pcPortable,
     table: "pc_glpi",
-    prefix: "S068164",
+    prefixes: ["S068164", "S973164"],
   },
   {
     id: "pcFixe",
     name: "PC Fixe",
     icon: pcFixe,
     table: "pc_glpi",
-    prefix: "S068163",
+    prefixes: ["S068163", "S973163", "GTB_PDG", "PC-SPARE"],
   },
   {
     id: "imprimanteSupport",
@@ -52,6 +52,13 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   const [deviceDetails, setDeviceDetails] = useState({});
   const mapContainerRef = useRef(null);
   const draggedDeviceRef = useRef(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedEditDevice, setSelectedEditDevice] = useState(null);
+  const [editMode, setEditMode] = useState(null); // 'position' or 'info'
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [newDeviceInfo, setNewDeviceInfo] = useState(null);
+  const [deviceBeingEdited, setDeviceBeingEdited] = useState(null);
+  const [isEditModalReady, setIsEditModalReady] = useState(false);
 
   const fetchDeviceDetails = useCallback(async (deviceId, deviceType) => {
     try {
@@ -69,8 +76,11 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         ...prev,
         [deviceId]: data,
       }));
+
+      return data; // Assurez-vous de retourner les données
     } catch (error) {
       console.error("Error fetching device details:", error);
+      throw error; // Propagez l'erreur pour que la promesse soit rejetée
     }
   }, []);
 
@@ -79,9 +89,15 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
     if (savedDevices) {
       const parsedDevices = JSON.parse(savedDevices);
       setDevices(parsedDevices);
+      const details = {};
       parsedDevices.forEach((device) => {
-        fetchDeviceDetails(device.databaseId, device.type);
+        if (device.details) {
+          details[device.databaseId] = device.details;
+        } else {
+          fetchDeviceDetails(device.databaseId, device.type);
+        }
       });
+      setDeviceDetails(details);
     } else if (initialDevices) {
       setDevices(initialDevices);
       initialDevices.forEach((device) => {
@@ -91,16 +107,17 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   }, [planId, initialDevices, fetchDeviceDetails]);
 
   const fetchDevicesFromDatabase = useCallback(
-    async (table, prefix) => {
+    async (table, prefixes) => {
       try {
         let url = `${API_BASE_URL}/${table}`;
         if (searchTerm) {
           url += `?search=${encodeURIComponent(searchTerm)}`;
         }
-        if (prefix) {
-          url += `${searchTerm ? "&" : "?"}type=${
-            prefix === "S068164" ? "portable" : "fixe"
-          }`;
+        if (prefixes && prefixes.length > 0) {
+          const prefixQuery = prefixes
+            .map((prefix) => `type=${prefix}`)
+            .join("&");
+          url += `${searchTerm ? "&" : "?"}${prefixQuery}`;
         }
 
         const response = await fetch(url);
@@ -127,9 +144,50 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
     [searchTerm]
   );
 
+  const fetchDevicesOfSameType = useCallback(
+    async (deviceType) => {
+      const type = deviceTypes.find((t) => t.id === deviceType);
+      if (!type) return;
+
+      try {
+        let url = `${API_BASE_URL}/${type.table}`;
+        if (searchTerm) {
+          url += `?search=${encodeURIComponent(searchTerm)}`;
+        }
+        if (type.prefixes && type.prefixes.length > 0) {
+          const prefixQuery = type.prefixes
+            .map((prefix) => `type=${prefix}`)
+            .join("&");
+          url += `${searchTerm ? "&" : "?"}${prefixQuery}`;
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Devices of same type fetched:", data);
+
+        const devicesWithIds = data.map((device) => ({
+          ...device,
+          uniqueId: `${type.table}-${
+            device.id || device.ID || Date.now()
+          }-${Math.random().toString(36).substr(2, 9)}`,
+        }));
+        setDatabaseDevices(devicesWithIds);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching devices of same type:", error);
+        setDatabaseDevices([]);
+        setError(error.message);
+      }
+    },
+    [searchTerm]
+  );
+
   useEffect(() => {
     if (selectedType) {
-      fetchDevicesFromDatabase(selectedType.table, selectedType.prefix);
+      fetchDevicesFromDatabase(selectedType.table, selectedType.prefixes);
     }
   }, [selectedType, fetchDevicesFromDatabase]);
 
@@ -167,9 +225,9 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         id: `${planId}-${selectedType.id}-${Date.now()}`,
         type: selectedType.id,
         databaseId: deviceData.ID || deviceData.id,
-        details: deviceData, // Stockage des détails complets
-        x: 0,
-        y: 0,
+        details: deviceData,
+        x: 50, // Centre horizontalement
+        y: 50, // Centre verticalement
       };
 
       setDevices((prevDevices) => {
@@ -203,23 +261,20 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   }, [devices, planId, onSaveDevices]);
 
   const handleConfirmPlacements = useCallback(() => {
-    if (isPlacingDevice) {
-      setIsPlacingDevice(false);
-    }
+    setIsPlacingDevice(false);
+    setDeviceBeingEdited(null);
     handleSavePositions();
-  }, [isPlacingDevice, handleSavePositions]);
+  }, [handleSavePositions]);
 
   const handleMouseMove = useCallback(
     (e) => {
       if (draggedDeviceRef.current && !isDeleteModalOpen) {
-        const newX =
-          e.clientX -
-          draggedDeviceRef.current.mapOffsetX -
-          draggedDeviceRef.current.startX;
-        const newY =
-          e.clientY -
-          draggedDeviceRef.current.mapOffsetY -
-          draggedDeviceRef.current.startY;
+        const mapRect = mapContainerRef.current.getBoundingClientRect();
+        const planWidth = mapRect.width;
+        const planHeight = mapRect.height;
+
+        const newX = ((e.clientX - mapRect.left) / planWidth) * 100;
+        const newY = ((e.clientY - mapRect.top) / planHeight) * 100;
 
         draggedDeviceRef.current.x = newX;
         draggedDeviceRef.current.y = newY;
@@ -228,7 +283,8 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
           draggedDeviceRef.current.id
         );
         if (deviceElement) {
-          deviceElement.style.transform = `translate(${newX}px, ${newY}px)`;
+          deviceElement.style.left = `${draggedDeviceRef.current.x}%`;
+          deviceElement.style.top = `${draggedDeviceRef.current.y}%`;
         }
       }
     },
@@ -241,6 +297,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
       setDevices((prevDevices) =>
         prevDevices.map((d) => (d.id === id ? { ...d, x, y } : d))
       );
+      setDeviceBeingEdited(null);
     }
     window.removeEventListener("mousemove", handleMouseMove);
     window.removeEventListener("mouseup", handleMouseUp);
@@ -249,27 +306,36 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
 
   const handleMouseDown = useCallback(
     (e, device) => {
-      if (isPlacingDevice && device.id !== devices[devices.length - 1].id) {
-        return;
+      if (
+        isPlacingDevice &&
+        (deviceBeingEdited
+          ? device.id === deviceBeingEdited.id
+          : device.id === devices[devices.length - 1].id)
+      ) {
+        e.preventDefault();
+        const mapRect = mapContainerRef.current.getBoundingClientRect();
+        const x = ((e.clientX - mapRect.left) / mapRect.width) * 100;
+        const y = ((e.clientY - mapRect.top) / mapRect.height) * 100;
+
+        draggedDeviceRef.current = {
+          ...device,
+          startX: x,
+          startY: y,
+          originalX: device.x,
+          originalY: device.y,
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
       }
-      e.preventDefault();
-      const deviceRect = e.target.getBoundingClientRect();
-      const mapRect = mapContainerRef.current.getBoundingClientRect();
-
-      draggedDeviceRef.current = {
-        ...device,
-        startX: e.clientX - deviceRect.left,
-        startY: e.clientY - deviceRect.top,
-        originalX: device.x,
-        originalY: device.y,
-        mapOffsetX: mapRect.left,
-        mapOffsetY: mapRect.top,
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
     },
-    [isPlacingDevice, devices, handleMouseMove, handleMouseUp]
+    [
+      isPlacingDevice,
+      devices,
+      handleMouseMove,
+      handleMouseUp,
+      deviceBeingEdited,
+    ]
   );
 
   useEffect(() => {
@@ -279,8 +345,26 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
     };
   }, [handleMouseMove, handleMouseUp]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Forcer une mise à jour de l'état pour re-rendre les icônes
+      setDevices((prevDevices) => [...prevDevices]);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+    if (editMode === "info") {
+      fetchDevicesOfSameType(selectedEditDevice.type);
+    } else {
+      fetchDevicesFromDatabase(selectedType?.table, selectedType?.prefixes);
+    }
   };
 
   const handleDeleteDevice = useCallback(
@@ -425,25 +509,103 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
     return { tooltipContent, name };
   };
 
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+    setSelectedEditDevice(null);
+    setEditMode(null);
+    setIsEditModalReady(false);
+
+    // Chargez les appareils de manière asynchrone
+    Promise.all(
+      devices.map((device) =>
+        fetchDeviceDetails(device.databaseId, device.type)
+      )
+    ).then(() => {
+      setIsEditModalReady(true);
+    });
+  };
+
+  const handleEditOptionSelect = (mode) => {
+    setEditMode(mode);
+    if (mode === "position") {
+      setIsEditModalOpen(false);
+      setIsPlacingDevice(true);
+      setDeviceBeingEdited(selectedEditDevice);
+    } else if (mode === "info") {
+      fetchDevicesOfSameType(selectedEditDevice.type);
+    }
+  };
+
+  const handleDeviceInfoUpdate = (device) => {
+    setNewDeviceInfo(device);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeviceUpdate = () => {
+    setDevices((prevDevices) =>
+      prevDevices.map((d) =>
+        d.id === selectedEditDevice.id
+          ? {
+              ...d,
+              databaseId:
+                newDeviceInfo.id || newDeviceInfo.ID || newDeviceInfo.ID_GLPI,
+              details: newDeviceInfo,
+            }
+          : d
+      )
+    );
+    setDeviceDetails((prevDetails) => ({
+      ...prevDetails,
+      [newDeviceInfo.id || newDeviceInfo.ID || newDeviceInfo.ID_GLPI]:
+        newDeviceInfo,
+    }));
+    setShowConfirmation(false);
+    setIsEditModalOpen(false);
+    setSelectedEditDevice(null);
+    setNewDeviceInfo(null);
+    setEditMode(null);
+
+    // Sauvegarde dans le localStorage
+    const updatedDevices = devices.map((d) =>
+      d.id === selectedEditDevice.id
+        ? {
+            ...d,
+            databaseId:
+              newDeviceInfo.id || newDeviceInfo.ID || newDeviceInfo.ID_GLPI,
+            details: newDeviceInfo,
+          }
+        : d
+    );
+    localStorage.setItem(`devices_${planId}`, JSON.stringify(updatedDevices));
+    onSaveDevices(updatedDevices);
+  };
+
   return (
     <div className={styles.deviceManager}>
-      <button
-        onClick={addDevice}
-        className={`${styles.addButton} ${
-          isPlacingDevice ? styles.confirmButton : ""
-        }`}
-      >
-        {isPlacingDevice ? "Confirmer l'emplacement" : "Ajouter un appareil"}
-      </button>
-
-      <button onClick={openDeleteModal} className={styles.deleteButton}>
-        Supprimer un appareil
-      </button>
+      <div className={styles.controlPanel}>
+        <button onClick={handleEditClick} className={styles.editButton}>
+          Modifier un appareil
+        </button>
+        <button
+          onClick={isPlacingDevice ? handleConfirmPlacements : addDevice}
+          className={isPlacingDevice ? styles.confirmButton : styles.addButton}
+        >
+          {isPlacingDevice ? "Confirmer l'emplacement" : "Ajouter un appareil"}
+        </button>
+        <button onClick={openDeleteModal} className={styles.deleteButton}>
+          Supprimer un appareil
+        </button>
+      </div>
 
       <div
         ref={mapContainerRef}
         className={styles.mapContainer}
-        style={{ position: "relative", width: "100%", height: "100%" }}
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          overflow: "visible", // Permettre au tooltip de déborder
+        }}
       >
         {devices.map((device) => {
           const details = deviceDetails[device.databaseId] || {};
@@ -454,12 +616,22 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
               className={styles.deviceIcon}
               style={{
                 position: "absolute",
-                left: 0,
-                top: 0,
-                transform: `translate(${device.x}px, ${device.y}px)`,
-                cursor: "grab",
+                left: `${device.x}%`,
+                top: `${device.y}%`,
+                transform: "translate(-50%, -50%)",
+                cursor:
+                  isPlacingDevice &&
+                  (deviceBeingEdited
+                    ? device.id === deviceBeingEdited.id
+                    : device.id === devices[devices.length - 1].id)
+                    ? "grab"
+                    : "default",
                 transition: "none",
-                zIndex: 0,
+                zIndex: device.id === devices[devices.length - 1].id ? 1 : 0,
+                width: "5%",
+                height: "auto",
+                maxWidth: "30px",
+                maxHeight: "30px",
               }}
               onMouseDown={(e) => handleMouseDown(e, device)}
               draggable={false}
@@ -471,7 +643,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
                   "/placeholder.svg"
                 }
                 alt={device.type}
-                style={{ width: "30px", height: "30px" }}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
               <div className={styles.tooltip}>
                 {renderDeviceTooltip(device, details).tooltipContent}
@@ -480,6 +652,142 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
           );
         })}
       </div>
+
+      {isEditModalOpen && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>Modifier un appareil</h2>
+
+            {isEditModalReady ? (
+              !selectedEditDevice ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Rechercher un appareil..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className={styles.searchInput}
+                  />
+                  <div className={styles.deviceListContainer}>
+                    <div className={styles.deviceList}>
+                      {devices.map((device) => {
+                        const details = deviceDetails[device.databaseId] || {};
+                        const deviceType = deviceTypes.find(
+                          (t) => t.id === device.type
+                        );
+                        return (
+                          <button
+                            key={device.id}
+                            onClick={() => setSelectedEditDevice(device)}
+                            className={styles.deviceButton}
+                          >
+                            {deviceType.name} -{" "}
+                            {details.Nom_PC ||
+                              details.NomImpServeur ||
+                              details.Nom_IMP ||
+                              "Inconnu"}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              ) : !editMode ? (
+                <div className={styles.editOptions}>
+                  <button
+                    className={styles.editOptionButton}
+                    onClick={() => handleEditOptionSelect("position")}
+                  >
+                    Modifier l&apos;emplacement
+                  </button>
+                  <button
+                    className={styles.editOptionButton}
+                    onClick={() => handleEditOptionSelect("info")}
+                  >
+                    Modifier les informations
+                  </button>
+                </div>
+              ) : editMode === "info" ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Rechercher un appareil..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className={styles.searchInput}
+                  />
+                  <div className={styles.deviceListContainer}>
+                    <div className={styles.deviceList}>
+                      {databaseDevices.map((device) => (
+                        <button
+                          key={device.uniqueId}
+                          onClick={() => handleDeviceInfoUpdate(device)}
+                          className={styles.deviceButton}
+                        >
+                          {device.Nom_PC ||
+                            device.NomImpServeur ||
+                            device.Nom_IMP}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : null
+            ) : (
+              <div className={styles.loading}>Chargement des appareils...</div>
+            )}
+
+            <div className={styles.modalButtons}>
+              <button
+                onClick={() => {
+                  setIsEditModalOpen(false);
+                  setSelectedEditDevice(null);
+                  setEditMode(null);
+                  setIsEditModalReady(false);
+                }}
+                className={styles.closeButton}
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirmation && (
+        <div className={styles.modal}>
+          <div className={styles.confirmationDialog}>
+            <h3>Confirmer le remplacement</h3>
+            <p>
+              Voulez-vous remplacer{" "}
+              {deviceDetails[selectedEditDevice.databaseId]?.Nom_PC ||
+                deviceDetails[selectedEditDevice.databaseId]?.NomImpServeur ||
+                deviceDetails[selectedEditDevice.databaseId]?.Nom_IMP ||
+                "cet appareil"}{" "}
+              par{" "}
+              {newDeviceInfo?.Nom_PC ||
+                newDeviceInfo?.NomImpServeur ||
+                newDeviceInfo?.Nom_IMP ||
+                "le nouvel appareil"}{" "}
+              ?
+            </p>
+            <div className={styles.confirmationButtons}>
+              <button onClick={confirmDeviceUpdate} className="confirm">
+                Confirmer
+              </button>
+              <button
+                onClick={() => {
+                  setShowConfirmation(false);
+                  setNewDeviceInfo(null);
+                }}
+                className="cancel"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className={styles.modal} style={{ zIndex: 2000 }}>

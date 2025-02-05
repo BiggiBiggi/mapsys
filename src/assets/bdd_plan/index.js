@@ -111,10 +111,27 @@ const handleApiRequest = (table, req, res) => {
 
   // Ajout du filtre pour les PC portables et fixes
   if (table === "pc_glpi" && req.query.type) {
-    if (req.query.type === "portable") {
-      whereConditions.push(`Nom_PC LIKE 'S068164%'`);
-    } else if (req.query.type === "fixe") {
-      whereConditions.push(`Nom_PC LIKE 'S068163%'`);
+    const types = Array.isArray(req.query.type)
+      ? req.query.type
+      : [req.query.type];
+    const prefixConditions = types
+      .map((type) => {
+        if (type === "S068164" || type === "S973164") {
+          return `Nom_PC LIKE '${type}%'`;
+        } else if (
+          type === "S068163" ||
+          type === "S973163" ||
+          type === "GTB_PDG" ||
+          type === "PC-SPARE"
+        ) {
+          return `Nom_PC LIKE '${type}%'`;
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    if (prefixConditions.length > 0) {
+      whereConditions.push(`(${prefixConditions.join(" OR ")})`);
     }
   }
 

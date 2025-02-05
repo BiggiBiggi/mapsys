@@ -1,12 +1,10 @@
-// import PcIcons from "/src/components/Icons/Administratif/R1/PcIcons";
 import styles from "./R1Admin.module.scss";
-// import ImpCopIcons from "/src/components/Icons/Administratif/R1/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
-import DeviceManagerWrapper from "../../../../DeviceManagerWrapper";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function R1Admin() {
   return (
-    <>
+    <div className={`d-flex flex-column h-100`}>
       <div
         className={`d-flex flex-column align-items-center justify-content-center divTitle`}
       >
@@ -17,7 +15,7 @@ function R1Admin() {
         </p>
       </div>
       <div
-        className={`d-flex flex-fill align-items-center justify-content-center`}
+        className={`flex-grow-1 d-flex align-items-start justify-content-center position-relative`}
       >
         <div className={`${styles.imageContainer}`}>
           <img
@@ -25,12 +23,10 @@ function R1Admin() {
             src="/src/assets/images/r1_admin.png"
             alt="RDC Zone Administrative"
           />
-          {/* <PcIcons />
-          <ImpCopIcons /> */}
           <DeviceManagerWrapper planId="R1_admin" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
