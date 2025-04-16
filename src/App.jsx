@@ -61,6 +61,8 @@ import BureauRexFrais from "./components/Plan/MECA/Bureaux/RexFrais/BureauRexFra
 import { dataProvider, i18nProvider } from "./components/Admin/DataProvider";
 import { MyLayout } from "./components/Admin/Theme/MyLayout";
 import LoginPage from "./components/Admin/Connexion/LoginPage";
+import Login from "./components/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -77,100 +79,137 @@ function App() {
 function AppContent() {
   const location = useLocation(); // Utiliser useLocation à l'intérieur du Router
 
-  // Condition pour masquer le header et le footer sur la route /admin
-  const isAdminRoute = location.pathname.startsWith("/admin/");
+  // Condition pour masquer le header et le footer sur la route /admin et /login
+  const isAdminRoute =
+    location.pathname.startsWith("/admin/") || location.pathname === "/login";
 
   return (
     <>
       {!isAdminRoute && <Header />}{" "}
       {/* Masquer le header sur les routes admin */}
       <Routes>
-        <Route path="/" element={<PlanMasse />} />
-        <Route path="/cellule6" element={<Cellule6 />} />
-        <Route path="/cellule7" element={<Cellule7 />} />
-        <Route path="/cellule8" element={<Cellule8 />} />
-        <Route path="/cellule9" element={<Cellule9 />} />
-        <Route path="/cellule9/bureaux" element={<Cellule9Bureaux />} />
-        <Route path="/cellule9/bureaux/rdc" element={<Cellule9BureauxRDC />} />
-        <Route
-          path="/cellule9/bureaux/etage"
-          element={<Cellule9BureauxEtage />}
-        />
-        <Route path="/cellule10" element={<Cellule10 />} />
-        <Route path="/cellule11" element={<Cellule11 />} />
-        <Route path="/cellule11/bureaux" element={<Cellule11Bureaux />} />
-        <Route
-          path="/cellule11/bureaux/rdc"
-          element={<Cellule11BureauxRDC />}
-        />
-        <Route
-          path="/cellule11/bureaux/etage"
-          element={<Cellule11BureauxEtage />}
-        />
-        <Route path="/cellule12" element={<Cellule12 />} />
-        <Route path="/cellule13" element={<Cellule13 />} />
-        <Route path="/airePalettes" element={<AirePalettes />} />
-        <Route path="/pdg" element={<Pdg />} />
-        <Route path="/ffl" element={<Ffl />} />
-        <Route path="/ffl/bureauFfl" element={<BureauFFL />} />
-        <Route path="/ffl/bureauMurisserie" element={<BureauMuri />} />
-        <Route path="/zoneContenants" element={<ZoneContenants />} />
-        <Route
-          path="/zoneContenants/bureau"
-          element={<ZoneContenantsBureau />}
-        />
-        <Route path="/administratif" element={<Administratif />} />
-        <Route path="/administratif/etage/rdc" element={<RDCAdmin />} />
-        <Route path="/administratif/etage/r1" element={<R1Admin />} />
-        <Route path="/administratif/etage/r2" element={<R2Admin />} />
-        <Route path="/administratif/etage/scafruits" element={<Scafruits />} />
-        <Route path="/meca" element={<Meca />} />
-        <Route path="/meca/bureaux" element={<MecaBureaux />} />
-        <Route path="/meca/bureaux/recepfrais" element={<BureauRecepFrais />} />
-        <Route path="/meca/bureaux/rexfrais" element={<BureauRexFrais />} />
-        <Route path="/meca/bureauOrdo" element={<BureauOrdo />} />
-        <Route path="/meca/bureauCEFrais" element={<BureauCeFrais />} />
-        <Route path="/gelCellule1" element={<GelCellule1 />} />
-        <Route path="/gelCellule1/bureauPrepGel" element={<BureauPrepGel />} />
-        <Route
-          path="/gelCellule1/bureauRecepGel"
-          element={<BureauRecepGel />}
-        />
+        {/* Routes publiques */}
+        <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<LoginPage />} />
-        <Route path="/gelCellule2" element={<GelCellule2 />} />
-        <Route path="/gelCellule2/salleRepos" element={<SalleRepos />} />
+
+        {/* Routes protégées */}
         <Route
-          path="/admin/*"
+          path="*"
           element={
-            <Admin
-              dataProvider={dataProvider}
-              basename="/admin"
-              i18nProvider={i18nProvider}
-              layout={MyLayout}
-              darkTheme={null}
-            >
-              <Resource
-                name="imp_copieurs"
-                options={{ label: "Imprimantes Copieurs" }}
-                list={CopieurList}
-                edit={CopieurEdit}
-                create={CopieurCreate}
-              />
-              <Resource
-                name="imp_support"
-                edit={SupportEdit}
-                create={SupportCreate}
-                options={{ label: "Imprimantes Supports" }}
-                list={SupportList}
-              />
-              <Resource
-                name="pc_glpi"
-                edit={PCEdit}
-                create={PCCreate}
-                options={{ label: "PC Glpi" }}
-                list={PCList}
-              />
-            </Admin>
+            <PrivateRoute>
+              <Routes>
+                <Route path="/" element={<PlanMasse />} />
+                <Route path="/cellule6" element={<Cellule6 />} />
+                <Route path="/cellule7" element={<Cellule7 />} />
+                <Route path="/cellule8" element={<Cellule8 />} />
+                <Route path="/cellule9" element={<Cellule9 />} />
+                <Route path="/cellule9/bureaux" element={<Cellule9Bureaux />} />
+                <Route
+                  path="/cellule9/bureaux/rdc"
+                  element={<Cellule9BureauxRDC />}
+                />
+                <Route
+                  path="/cellule9/bureaux/etage"
+                  element={<Cellule9BureauxEtage />}
+                />
+                <Route path="/cellule10" element={<Cellule10 />} />
+                <Route path="/cellule11" element={<Cellule11 />} />
+                <Route
+                  path="/cellule11/bureaux"
+                  element={<Cellule11Bureaux />}
+                />
+                <Route
+                  path="/cellule11/bureaux/rdc"
+                  element={<Cellule11BureauxRDC />}
+                />
+                <Route
+                  path="/cellule11/bureaux/etage"
+                  element={<Cellule11BureauxEtage />}
+                />
+                <Route path="/cellule12" element={<Cellule12 />} />
+                <Route path="/cellule13" element={<Cellule13 />} />
+                <Route path="/airePalettes" element={<AirePalettes />} />
+                <Route path="/pdg" element={<Pdg />} />
+                <Route path="/ffl" element={<Ffl />} />
+                <Route path="/ffl/bureauFfl" element={<BureauFFL />} />
+                <Route path="/ffl/bureauMurisserie" element={<BureauMuri />} />
+                <Route path="/zoneContenants" element={<ZoneContenants />} />
+                <Route
+                  path="/zoneContenants/bureau"
+                  element={<ZoneContenantsBureau />}
+                />
+                <Route path="/administratif" element={<Administratif />} />
+                <Route path="/administratif/etage/rdc" element={<RDCAdmin />} />
+                <Route path="/administratif/etage/r1" element={<R1Admin />} />
+                <Route path="/administratif/etage/r2" element={<R2Admin />} />
+                <Route
+                  path="/administratif/etage/scafruits"
+                  element={<Scafruits />}
+                />
+                <Route path="/meca" element={<Meca />} />
+                <Route path="/meca/bureaux" element={<MecaBureaux />} />
+                <Route
+                  path="/meca/bureaux/recepfrais"
+                  element={<BureauRecepFrais />}
+                />
+                <Route
+                  path="/meca/bureaux/rexfrais"
+                  element={<BureauRexFrais />}
+                />
+                <Route path="/meca/bureauOrdo" element={<BureauOrdo />} />
+                <Route path="/meca/bureauCEFrais" element={<BureauCeFrais />} />
+                <Route path="/gelCellule1" element={<GelCellule1 />} />
+                <Route
+                  path="/gelCellule1/bureauPrepGel"
+                  element={<BureauPrepGel />}
+                />
+                <Route
+                  path="/gelCellule1/bureauRecepGel"
+                  element={<BureauRecepGel />}
+                />
+                <Route path="/gelCellule2" element={<GelCellule2 />} />
+                <Route
+                  path="/gelCellule2/salleRepos"
+                  element={<SalleRepos />}
+                />
+
+                {/* React-admin toujours autorisé (géré séparément) */}
+                <Route
+                  path="/admin/*"
+                  element={
+                    <Admin
+                      dataProvider={dataProvider}
+                      basename="/admin"
+                      i18nProvider={i18nProvider}
+                      layout={MyLayout}
+                      darkTheme={null}
+                    >
+                      <Resource
+                        name="imp_copieurs"
+                        options={{ label: "Imprimantes Copieurs" }}
+                        list={CopieurList}
+                        edit={CopieurEdit}
+                        create={CopieurCreate}
+                      />
+                      <Resource
+                        name="imp_support"
+                        edit={SupportEdit}
+                        create={SupportCreate}
+                        options={{ label: "Imprimantes Supports" }}
+                        list={SupportList}
+                      />
+                      <Resource
+                        name="pc_glpi"
+                        edit={PCEdit}
+                        create={PCCreate}
+                        options={{ label: "PC Glpi" }}
+                        list={PCList}
+                      />
+                    </Admin>
+                  }
+                />
+              </Routes>
+            </PrivateRoute>
           }
         />
       </Routes>

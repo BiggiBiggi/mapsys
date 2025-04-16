@@ -2,6 +2,7 @@ import styles from "./BureauRecepFrais.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
 import PcIcons from "/src/components/Icons/MECA/Bureaux/RecepFrais/PcIcons";
 import ImpCopIcons from "/src/components/Icons/MECA/Bureaux/RecepFrais/ImpCopIcons";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauRecepFrais() {
   return (
@@ -24,6 +25,7 @@ function BureauRecepFrais() {
           />
           <PcIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="recepfrais_meca" />
         </div>
       </div>
     </>

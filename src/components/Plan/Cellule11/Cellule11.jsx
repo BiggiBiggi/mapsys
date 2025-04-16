@@ -3,6 +3,7 @@ import styles from "./Cellule11.module.scss";
 import ImpSupIcons from "/src/components/Icons/Cellule11/ImpSupIcons.jsx";
 import ClickableZone from "./ClickableZone";
 import BackButton from "../../BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Cellule11() {
   return (
@@ -26,6 +27,7 @@ function Cellule11() {
           <ClickableZone />
           <PcIcons />
           <ImpSupIcons />
+          <DeviceManagerWrapper planId="cellule11" />
         </div>
       </div>
     </>

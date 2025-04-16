@@ -10,9 +10,9 @@ function Header() {
       <Link to="/">
         <img src={mapsys} alt="Logo MapSys" />
       </Link>
-      <Link className={`${styles.links} flex-fill`} to="/">
+      <Link className={`${styles.links}`} to="/">
         <div className="flex-fill">
-          <h1>MapSys</h1>
+          <h1>Accueil</h1>
         </div>
       </Link>
     </header>

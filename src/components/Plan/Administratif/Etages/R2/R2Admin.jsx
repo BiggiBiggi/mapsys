@@ -29,7 +29,7 @@ function R2Admin() {
           <h3 className={`${styles.name2}`}>Stocks</h3>
           {/* <PcIcons />
           <ImpCopIcons /> */}
-          <DeviceManagerWrapper planId="R2_admin" />
+          <DeviceManagerWrapper planId="Etage2_admin" />
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@ import BackButton from "/src/components/BackButton.jsx";
 import PcIcons from "../../../../Icons/FFL/BureauMuri/PcIcons";
 import ImpSupIcons from "../../../../Icons/FFL/BureauMuri/ImpSupIcons";
 import ImpCopIcons from "../../../../Icons/FFL/BureauMuri/ImpCopIcons";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauMuri() {
   return (
@@ -26,6 +27,7 @@ function BureauMuri() {
           <PcIcons />
           <ImpCopIcons />
           <ImpSupIcons />
+          <DeviceManagerWrapper planId="murisserie_ffl" />
         </div>
       </div>
     </>

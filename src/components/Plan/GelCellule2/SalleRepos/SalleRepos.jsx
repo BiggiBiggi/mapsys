@@ -1,5 +1,6 @@
 import styles from "./SalleRepos.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function SalleRepos() {
   return (
@@ -20,6 +21,7 @@ function SalleRepos() {
             src="/src/assets/images/SalleRepos.png"
             alt="Bureau Prep Gel"
           />
+          <DeviceManagerWrapper planId="repos_gelcellule2" />
         </div>
       </div>
     </>

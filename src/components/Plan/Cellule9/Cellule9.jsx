@@ -4,6 +4,7 @@ import ImpSupIcons from "/src/components/Icons/Cellule9/ImpSupIcons.jsx";
 import ClickableZone from "./ClickableZone";
 import ImpCopIcons from "../../Icons/Cellule9/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Cellule9() {
   return (
@@ -28,6 +29,7 @@ function Cellule9() {
           <PcIcons />
           <ImpSupIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="cellule9" />
         </div>
       </div>
     </>

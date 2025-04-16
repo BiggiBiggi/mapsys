@@ -4,6 +4,7 @@ const cors = require("cors");
 const cron = require("node-cron");
 const ping = require("ping");
 const axios = require("axios");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 app.use(cors());
@@ -141,8 +142,6 @@ const handleApiRequest = (table, req, res) => {
 
   let sql = `SELECT * FROM ${table} ${whereClause} ORDER BY ${sortField} ${sortOrder} LIMIT ${limit} OFFSET ${offset}`;
 
-  console.log("Requête SQL exécutée :", sql);
-
   db.query(sql, (err, results) => {
     if (err) {
       console.error("Erreur lors de la requête SQL :", err);
@@ -152,7 +151,6 @@ const handleApiRequest = (table, req, res) => {
     }
 
     const totalResults = results.length;
-    console.log(`Nombre de résultats pour ${table}: ${totalResults}`);
 
     const mappedResults = results.map((result) => ({
       ...result,
@@ -166,14 +164,12 @@ const handleApiRequest = (table, req, res) => {
     );
     res.setHeader("Access-Control-Expose-Headers", "Content-Range");
 
-    console.log(`Envoi de la réponse JSON pour ${table}`);
     res.json(mappedResults);
   });
 };
 
 // API IMP SUPPORT
 app.get("/api/imp_support", (req, res) => {
-  console.log("Requête reçue pour /api/imp_support");
   handleApiRequest("imp_support", req, res);
 });
 
@@ -187,7 +183,6 @@ app.get("/api/imp_support/:id", (req, res) => {
     }
 
     if (results.length === 0) {
-      console.log("Aucun élément trouvé pour l'id :", id);
       return res.status(404).json({ error: "Element does not exist" });
     }
 
@@ -281,7 +276,6 @@ app.delete("/api/imp_support/:id", (req, res) => {
 
 // API IMP COPIEUR
 app.get("/api/imp_copieurs", (req, res) => {
-  console.log("Requête reçue pour /api/imp_copieurs");
   handleApiRequest("imp_copieurs", req, res);
 });
 
@@ -295,7 +289,6 @@ app.get("/api/imp_copieurs/:id", (req, res) => {
     }
 
     if (results.length === 0) {
-      console.log("Aucun élément trouvé pour l'id :", id);
       return res.status(404).json({ error: "Element does not exist" });
     }
 
@@ -390,7 +383,6 @@ app.delete("/api/imp_copieurs/:id", (req, res) => {
 
 // API PC GLPI
 app.get("/api/pc_glpi", (req, res) => {
-  console.log("Requête reçue pour /api/pc_glpi");
   const type = req.query.type; // 'portable' ou 'fixe'
   handleApiRequest("pc_glpi", { ...req, query: { ...req.query, type } }, res);
 });
@@ -405,7 +397,6 @@ app.get("/api/pc_glpi/:id", (req, res) => {
     }
 
     if (results.length === 0) {
-      console.log("Aucun élément trouvé pour l'id :", id);
       return res.status(404).json({ error: "Element does not exist" });
     }
 
@@ -545,9 +536,7 @@ async function monitorIPs() {
 }
 
 cron.schedule("*/30 * * * *", () => {
-  console.log("Vérification des IPs...");
   monitorIPs();
-  console.log("Vérification des IPs terminées !");
 });
 
 app.get("/api/offline-ips", (req, res) => {
@@ -555,6 +544,33 @@ app.get("/api/offline-ips", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
+app.listen(PORT, () => {});
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  const sql = "SELECT * FROM users WHERE username = ?";
+  db.query(sql, [username], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Erreur serveur" });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).json({ message: "Utilisateur introuvable" });
+    }
+
+    const user = results[0];
+
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
+
+    if (!passwordIsValid) {
+      return res.status(401).json({ message: "Mot de passe incorrect" });
+    }
+
+    res.json({
+      id: user.id,
+      username: user.username,
+      role: user.role,
+    });
+  });
 });

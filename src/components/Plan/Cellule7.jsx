@@ -1,6 +1,7 @@
 import PcIcons from "/src/components/Icons/Cellule7/PcIcons";
 import ImpSupIcons from "../Icons/Cellule7/ImpSupIcons";
 import BackButton from "../BackButton";
+import DeviceManagerWrapper from "../DeviceManagerWrapper";
 
 function Cellule7() {
   return (
@@ -23,6 +24,7 @@ function Cellule7() {
           />
           <PcIcons />
           <ImpSupIcons />
+          <DeviceManagerWrapper planId="cellule7" />
         </div>
       </div>
     </>

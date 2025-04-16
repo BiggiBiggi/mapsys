@@ -5,7 +5,7 @@ function Footer() {
     <footer
       className={`${styles.footer} align-items-center justify-content-center d-flex flex-row p-10`}
     >
-      <p>Copyright © 2024 Service Informatique, ITMLAI Base de Castets.</p>
+      <p>Copyright © 2025 Freland Benjamin, ITMLAI Base de Castets.</p>
     </footer>
   );
 }

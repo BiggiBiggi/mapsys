@@ -3,6 +3,7 @@ import ImpSupIcons from "/src/components/Icons/Meca/ImpSupIcons.jsx";
 import ImpCopIcons from "/src/components/Icons/Meca/ImpCopIcons";
 import BackButton from "/src/components/BackButton.jsx";
 import ClickableZone from "./ClickableZone";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Meca() {
   return (
@@ -27,6 +28,7 @@ function Meca() {
           <ImpSupIcons />
           <ImpCopIcons />
           <ClickableZone />
+          <DeviceManagerWrapper planId="meca" />
         </div>
       </div>
     </>

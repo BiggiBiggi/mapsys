@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/Cellule11/Etage/PcIcons";
 import styles from "./Cellule11BureauxEtage.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule11/Etage/ImpCopIcons";
 import BackButton from "../../../../BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Cellule9BureauxEtage() {
   return (
@@ -11,9 +12,7 @@ function Cellule9BureauxEtage() {
       >
         <BackButton />
         <h1 className={`title`}>Cellule 11</h1>
-        <p className={`title2`}>
-          Voici le plan des Bureaux N+1 de la Cellule 11 :
-        </p>
+        <p className={`title2`}>Voici le plan des Étage 1 de la Cellule 11 :</p>
       </div>
       <div
         className={`d-flex flex-fill align-items-center justify-content-center`}
@@ -28,6 +27,7 @@ function Cellule9BureauxEtage() {
           <h3 className={`${styles.name2}`}>RH Proximité</h3>
           <PcIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="Etage1_cellule11" />
         </div>
       </div>
     </>

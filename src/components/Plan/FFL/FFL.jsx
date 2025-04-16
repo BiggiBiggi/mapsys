@@ -3,6 +3,7 @@ import styles from "./FFL.module.scss";
 import ImpSupIcons from "../../Icons/FFL/ImpSupIcons";
 import BackButton from "../../BackButton";
 import ClickableZone from "./ClickableZone";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Ffl() {
   return (
@@ -26,6 +27,7 @@ function Ffl() {
           <PcIcons />
           <ImpSupIcons />
           <ClickableZone />
+          <DeviceManagerWrapper planId="ffl" />
         </div>
       </div>
     </>

@@ -1,4 +1,5 @@
 import BackButton from "../BackButton";
+import DeviceManagerWrapper from "../DeviceManagerWrapper";
 
 function AirePalettes() {
   return (
@@ -19,6 +20,7 @@ function AirePalettes() {
             src="/src/assets/images/airePalettes.png"
             alt="Aire Palettes"
           />
+          <DeviceManagerWrapper planId="airpalette" />
         </div>
       </div>
     </>

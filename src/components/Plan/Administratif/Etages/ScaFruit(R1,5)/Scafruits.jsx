@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons"
 import styles from "./Scafruits.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Scafruits() {
   return (
@@ -24,6 +25,7 @@ function Scafruits() {
           />
           <PcIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="scafruits" />
         </div>
       </div>
     </>

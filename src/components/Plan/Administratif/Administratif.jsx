@@ -24,12 +24,12 @@ function Administratif() {
         </Link>
         <Link to="/administratif/etage/r1">
           <button className={`btn btn-reverse-primary ${styles.btnR1}`}>
-            R+1
+            Étage 1
           </button>
         </Link>
         <Link to="/administratif/etage/r2">
           <button className={`btn btn-reverse-primary ${styles.btnR2}`}>
-            R+2
+            Étage 2
           </button>
         </Link>
       </div>
@@ -38,7 +38,7 @@ function Administratif() {
       >
         <Link to="/administratif/etage/scafruits">
           <button className={`btn btn-reverse-primary ${styles.btnScafruits}`}>
-            Scafruits (R+1,5)
+            Scafruits (Étage 1,5)
           </button>
         </Link>
       </div>

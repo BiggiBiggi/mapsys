@@ -1,9 +1,9 @@
 import glpi from "/src/assets/images/glpi.png";
 import ocs from "/src/assets/images/ocs.png";
 import oasis from "/src/assets/images/oasis.png";
-import copieur from "/src/assets/images/copieur.png";
-import support from "/src/assets/images/support.png";
-import ordi from "/src/assets/images/ordi.png";
+import copieur from "/src/assets/images/impCopieur.png";
+import support from "/src/assets/images/ImpSupport.png";
+import ordi from "/src/assets/images/pcPortable.png";
 import styles from "./LienExternes.module.scss";
 import { Link } from "react-router-dom";
 

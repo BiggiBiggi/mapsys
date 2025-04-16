@@ -3,6 +3,7 @@ import styles from "./Cellule11BureauxRDC.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule11/RDC/ImpCopIcons";
 import ImpSupIcons from "../../../../Icons/Cellule11/RDC/ImpSupIcons";
 import BackButton from "../../../../BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Cellule9BureauxRDC() {
   return (
@@ -30,6 +31,7 @@ function Cellule9BureauxRDC() {
           <PcIcons />
           <ImpCopIcons />
           <ImpSupIcons />
+          <DeviceManagerWrapper planId="RDC_cellule11" />
         </div>
       </div>
     </>

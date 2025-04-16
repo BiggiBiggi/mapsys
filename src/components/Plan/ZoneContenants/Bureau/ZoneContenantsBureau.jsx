@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/ZoneContenants/Bureau/PcIcons.jsx";
 import styles from "./ZoneContenantsBureau.module.scss";
 import ImpCopIcons from "/src/components/Icons/ZoneContenants/Bureau/ImpCopIcons.jsx";
 import BackButton from "../../../BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function ZoneContenantsBureau() {
   return (
@@ -26,6 +27,7 @@ function ZoneContenantsBureau() {
           />
           <PcIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="bureau_contenants" />
         </div>
       </div>
     </>

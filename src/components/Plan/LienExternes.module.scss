@@ -7,7 +7,7 @@
 
 .externLinks {
   background-color: #ffffff;
-  border: 4px solid #2589b5;
+  border: 4px solid var(--primary);
   box-shadow: -10px 10px 30px black;
   border-radius: 1em;
   border-top-right-radius: 0;
@@ -22,7 +22,7 @@
 .internLinks {
   background-color: #ffffff;
   box-shadow: 10px 10px 30px black;
-  border: 4px solid #2589b5;
+  border: 4px solid var(--primary);
   border-radius: 1em;
   border-top-left-radius: 0;
   border-bottom-right-radius: 0;

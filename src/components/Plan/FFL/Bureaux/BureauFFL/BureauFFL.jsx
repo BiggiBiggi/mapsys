@@ -3,6 +3,7 @@ import BackButton from "/src/components/BackButton.jsx";
 import PcIcons from "../../../../Icons/FFL/BureauFFL/PcIcons";
 import ImpSupIcons from "../../../../Icons/FFL/BureauFFL/ImpSupIcons";
 import ImpCopIcons from "../../../../Icons/FFL/BureauFFL/ImpCopIcons";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauFFL() {
   return (
@@ -26,6 +27,7 @@ function BureauFFL() {
           <PcIcons />
           <ImpCopIcons />
           <ImpSupIcons />
+          <DeviceManagerWrapper planId="bureau_ffl" />
         </div>
       </div>
     </>

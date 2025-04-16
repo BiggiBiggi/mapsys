@@ -23,7 +23,7 @@ function R1Admin() {
             src="/src/assets/images/r1_admin.png"
             alt="RDC Zone Administrative"
           />
-          <DeviceManagerWrapper planId="R1_admin" />
+          <DeviceManagerWrapper planId="Etage1_admin" />
         </div>
       </div>
     </div>

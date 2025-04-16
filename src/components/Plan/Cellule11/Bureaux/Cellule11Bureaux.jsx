@@ -19,12 +19,12 @@ function Cellule11Bureaux() {
       >
         <Link to="/cellule11/bureaux/rdc">
           <button className={`btn btn-reverse-primary ${styles.btnRDC}`}>
-            Bureaux N
+            RDC
           </button>
         </Link>
         <Link to="/cellule11/bureaux/etage">
           <button className={`btn btn-reverse-primary ${styles.btnEtage}`}>
-            Bureaux N+1
+            Étage 1
           </button>
         </Link>
       </div>

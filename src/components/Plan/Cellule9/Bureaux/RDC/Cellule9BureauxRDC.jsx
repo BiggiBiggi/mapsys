@@ -2,6 +2,7 @@ import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons"
 import styles from "./Cellule9BureauxRDC.module.scss";
 import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
 function Cellule9BureauxRDC() {
   return (
@@ -28,6 +29,7 @@ function Cellule9BureauxRDC() {
           <h3 className={`${styles.name2}`}>Stocks</h3>
           <PcIcons />
           <ImpCopIcons />
+          <DeviceManagerWrapper planId="RDC_cellule9" />
         </div>
       </div>
     </>
