@@ -13,9 +13,7 @@ function Liens() {
       <div className={`${styles.linksContainer}`}>
         <div className={`${styles.internLinks} m-30 p-10`}>
           <div>
-            <h2>
-              <u>Liens Internes :</u>
-            </h2>
+            <h2>Liens Internes :</h2>
           </div>
           <div>
             <Link to={"/admin/imp_copieurs"}>
@@ -31,9 +29,7 @@ function Liens() {
         </div>
         <div className={`${styles.externLinks} m-30 p-10`}>
           <div>
-            <h2>
-              <u>Liens Externes :</u>
-            </h2>
+            <h2>Liens Externes :</h2>
             <a
               href="http://172.27.38.34/glpi/front/central.php"
               target="_blank"

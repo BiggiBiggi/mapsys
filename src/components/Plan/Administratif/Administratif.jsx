@@ -10,9 +10,7 @@ function Administratif() {
       >
         <BackButton />
         <h1 className={`title`}>Choix Étage Zone Administrative</h1>
-        <p className={`title2`}>
-          Cliquez sur le niveau que vous souhaitez voir :
-        </p>
+        <p className={`title2`}>Sélectionnez l'étage :</p>
       </div>
       <div
         className={`d-flex flex-fill flex-row align-items-center justify-content-center ${styles.button} `}

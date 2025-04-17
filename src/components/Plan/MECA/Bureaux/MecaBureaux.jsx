@@ -10,9 +10,7 @@ function MecaBureaux() {
       >
         <BackButton />
         <h1 className={`title`}>Choix bureaux MECA</h1>
-        <p className={`title2`}>
-          Cliquez sur le niveau que vous souhaitez voir :
-        </p>
+        <p className={`title2`}>Sélectionnez l'étage :</p>
       </div>
       <div
         className={`d-flex flex-fill align-items-center justify-content-center`}

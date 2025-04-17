@@ -62,7 +62,7 @@ import { dataProvider, i18nProvider } from "./components/Admin/DataProvider";
 import { MyLayout } from "./components/Admin/Theme/MyLayout";
 import LoginPage from "./components/Admin/Connexion/LoginPage";
 import Login from "./components/Login";
-import PrivateRoute from "./components/PrivateRoute";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
@@ -82,6 +82,13 @@ function AppContent() {
   // Condition pour masquer le header et le footer sur la route /admin et /login
   const isAdminRoute =
     location.pathname.startsWith("/admin/") || location.pathname === "/login";
+
+  // Condition pour forcer le Login avant d'acceder au site
+  const PrivateRoute = ({ children }) => {
+    const user = sessionStorage.getItem("user");
+
+    return user ? children : <Navigate to="/login" />;
+  };
 
   return (
     <>

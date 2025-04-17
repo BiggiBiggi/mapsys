@@ -663,7 +663,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
                 <>
                   <input
                     type="text"
-                    placeholder="Rechercher un appareil..."
+                    placeholder="Rechercher le matériel dans la liste ci-dessous..."
                     value={searchTerm}
                     onChange={handleSearch}
                     className={styles.searchInput}
@@ -711,7 +711,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
                 <>
                   <input
                     type="text"
-                    placeholder="Rechercher un appareil..."
+                    placeholder="Rechercher le matériel dans la liste ci-dessous..."
                     value={searchTerm}
                     onChange={handleSearch}
                     className={styles.searchInput}
@@ -819,7 +819,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
             <h2 className={styles.modalTitle}>Choisissez un appareil</h2>
             <input
               type="text"
-              placeholder="Rechercher un appareil..."
+              placeholder="Rechercher le matériel dans la liste ci-dessous..."
               value={searchTerm}
               onChange={handleSearch}
               className={styles.searchInput}
