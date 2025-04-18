@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./DeviceManager.module.scss";
 
@@ -627,7 +629,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
                     ? "grab"
                     : "default",
                 transition: "none",
-                zIndex: device.id === devices[devices.length - 1].id ? 1 : 0,
                 width: "5%",
                 height: "auto",
                 maxWidth: "30px",
