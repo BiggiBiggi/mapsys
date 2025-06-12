@@ -1,0 +1,229 @@
+.ME01,
+.ME02,
+.ME03,
+.ME04,
+.ME05,
+.ME07,
+.ME08,
+.ME09,
+.ME10,
+.ME11,
+.ME12,
+.ME13,
+.ME14,
+.ME15,
+.ME16,
+.ME17,
+.ME18,
+.ME20,
+.ME21,
+.ME22,
+.ME23,
+.ME24,
+.I06820V1,
+.I06820R7 {
+  position: absolute;
+  font-size: clamp(0px, 1vw, 24px);
+}
+
+.ME01 {
+  top: 55%;
+  left: 27%;
+}
+.ME02 {
+  top: 55%;
+  left: 37%;
+}
+.ME03 {
+  top: 55%;
+  left: 47%;
+}
+.ME04 {
+  top: 47%;
+  left: 27%;
+}
+.ME05 {
+  top: 47%;
+  left: 37%;
+}
+.ME07 {
+  top: 33%;
+  left: 77%;
+}
+.ME08 {
+  top: 33%;
+  left: 67%;
+}
+.ME09 {
+  top: 33%;
+  left: 57%;
+}
+.ME10 {
+  top: 33%;
+  left: 47%;
+}
+.ME11 {
+  top: 33%;
+  left: 37%;
+}
+.ME12 {
+  top: 33%;
+  left: 27%;
+}
+.ME13 {
+  top: 25%;
+  left: 77%;
+}
+.ME14 {
+  top: 25%;
+  left: 67%;
+}
+.ME15 {
+  top: 25%;
+  left: 57%;
+}
+.ME16 {
+  top: 25%;
+  left: 47%;
+}
+.ME17 {
+  top: 25%;
+  left: 37%;
+}
+.ME18 {
+  top: 25%;
+  left: 27%;
+}
+.ME20 {
+  top: 47%;
+  left: 47%;
+}
+.ME21 {
+  top: 55%;
+  left: 57%;
+}
+.ME22 {
+  top: 55%;
+  left: 67%;
+}
+.ME23 {
+  top: 47%;
+  left: 57%;
+}
+.ME24 {
+  top: 47%;
+  left: 67%;
+}
+.I06820V1 {
+  top: 21%;
+  left: 2%;
+}
+
+/* Tooltip styling */
+.mouseHover {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+}
+
+.mouseHover.ME01 {
+  top: 55%;
+  left: 31%;
+}
+.mouseHover.ME02 {
+  top: 55%;
+  left: 41%;
+}
+.mouseHover.ME03 {
+  top: 55%;
+  left: 51%;
+}
+.mouseHover.ME04 {
+  top: 47%;
+  left: 31%;
+}
+.mouseHover.ME05 {
+  top: 47%;
+  left: 41%;
+}
+.mouseHover.ME07 {
+  top: 33%;
+  left: 81%;
+}
+.mouseHover.ME08 {
+  top: 33%;
+  left: 71%;
+}
+.mouseHover.ME09 {
+  top: 33%;
+  left: 61%;
+}
+.mouseHover.ME10 {
+  top: 33%;
+  left: 51%;
+}
+.mouseHover.ME11 {
+  top: 33%;
+  left: 41%;
+}
+.mouseHover.ME12 {
+  top: 33%;
+  left: 31%;
+}
+.mouseHover.ME13 {
+  top: 25%;
+  left: 81%;
+}
+.mouseHover.ME14 {
+  top: 25%;
+  left: 71%;
+}
+.mouseHover.ME15 {
+  top: 25%;
+  left: 61%;
+}
+.mouseHover.ME16 {
+  top: 25%;
+  left: 51%;
+}
+.mouseHover.ME17 {
+  top: 25%;
+  left: 41%;
+}
+.mouseHover.ME18 {
+  top: 25%;
+  left: 31%;
+}
+.mouseHover.ME20 {
+  top: 47%;
+  left: 51%;
+}
+.mouseHover.ME21 {
+  top: 55%;
+  left: 61%;
+}
+.mouseHover.ME22 {
+  top: 55%;
+  left: 71%;
+}
+.mouseHover.ME23 {
+  top: 47%;
+  left: 61%;
+}
+.mouseHover.ME24 {
+  top: 47%;
+  left: 71%;
+}
+.mouseHover.I06820V1 {
+  top: 21%;
+  left: 7%;
+}
+.iconImp {
+  width: 1.6vw;
+}

@@ -1,0 +1,31 @@
+.imp1 {
+  position: absolute;
+  font-size: clamp(0px, 1vw, 24px);
+}
+
+.imp1 {
+  top: 3.6%;
+  left: 71%;
+}
+
+/* Tooltip styling */
+.mouseHover {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+}
+
+.mouseHover.imp1 {
+  top: 3.6%;
+  left: 74%;
+}
+
+.iconImp {
+  width: 1.2vw;
+}

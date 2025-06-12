@@ -1,0 +1,22 @@
+.back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 1%;
+  font-size: 2vw;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background-color: var(--gray-1);
+  padding: 0.2vw 0.5vw;
+  border-radius: 20%;
+  cursor: pointer;
+  transition: 0.2s opacity;
+  transition: 0.4s background-color;
+  box-shadow: 0px 0px 30px black;
+  &:hover {
+    opacity: 0.8;
+    background-color: var(--primary);
+    color: var(--gray-1);
+    border: 2px solid var(--primary);
+  }
+}

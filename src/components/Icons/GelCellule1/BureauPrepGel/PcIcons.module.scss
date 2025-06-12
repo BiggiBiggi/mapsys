@@ -1,0 +1,42 @@
+.pc1,
+.pc2 {
+  position: absolute;
+  font-size: clamp(0px, 1vw, 24px);
+}
+
+.pc1 {
+  top: 52%;
+  left: 50%;
+}
+
+.pc2 {
+  top: 15%;
+  left: 87.4%;
+}
+
+/* Tooltip styling */
+.mouseHover {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+}
+
+.mouseHover.pc1 {
+  top: 52%;
+  left: 61%;
+}
+
+.mouseHover.pc2 {
+  top: 15%;
+  left: 98.4%;
+}
+
+.iconFixe {
+  width: clamp(0px, 1.8vw, 1000px);
+}

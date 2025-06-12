@@ -1,0 +1,146 @@
+.clickableZone {
+  position: absolute;
+  display: block;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: rgba($color: lightgray, $alpha: 0.5);
+  }
+}
+
+a {
+  text-decoration: none;
+  p {
+    padding: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    color: black;
+    background-color: rgba($color: #d62828, $alpha: 0.4);
+    font-size: small;
+    margin-top: 20%;
+    border-radius: 10px;
+    font-size: 0.8vw;
+  }
+}
+
+.cellule6 {
+  top: 28.9%;
+  left: 52%;
+  height: 19.7%;
+  width: 8%;
+}
+.zoneContenants {
+  top: 48.8%;
+  left: 52%;
+  height: 19.7%;
+  width: 8%;
+}
+.ffl {
+  top: 28.9%;
+  left: 60.1%;
+  height: 39.4%;
+  width: 8.55%;
+}
+.meca {
+  top: 28.9%;
+  left: 68.7%;
+  height: 39.4%;
+  width: 14.3%;
+}
+.gelCellule1 {
+  top: 28.9%;
+  left: 88.6%;
+  height: 39.4%;
+  width: 5.45%;
+}
+.gelCellule2 {
+  top: 28.9%;
+  left: 83.1%;
+  height: 39.4%;
+  width: 5.45%;
+}
+.cellule7 {
+  top: 28.9%;
+  left: 46.7%;
+  height: 39.5%;
+  width: 5.4%;
+}
+.cellule8 {
+  top: 28.9%;
+  left: 39.8%;
+  height: 47.4%;
+  width: 6.9%;
+}
+.cellule9 {
+  top: 28.9%;
+  left: 32.9%;
+  height: 47.4%;
+  width: 6.9%;
+}
+.cellule10 {
+  top: 28.9%;
+  left: 26%;
+  height: 47.4%;
+  width: 6.9%;
+}
+.cellule11 {
+  top: 28.9%;
+  left: 19.1%;
+  height: 47.4%;
+  width: 6.9%;
+}
+.cellule12 {
+  top: 28.9%;
+  left: 12.1%;
+  height: 47.4%;
+  width: 6.9%;
+}
+.cellule13 {
+  top: 76.2%;
+  left: 12.1%;
+  height: 9.9%;
+  width: 6.9%;
+}
+.airePalettes {
+  top: 28.9%;
+  left: 5.5%;
+  height: 47.4%;
+  width: 6.6%;
+}
+.bureaux {
+  top: 15.6%;
+  left: 55.29%;
+  height: 13.4%;
+  width: 4.4%;
+}
+.pdg {
+  top: 0.2%;
+  left: 42.8%;
+  height: 3.7%;
+  width: 1.7%;
+}
+
+.txtPDG {
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  position: absolute;
+  top: -1.4%;
+  left: 45%;
+  color: black;
+  font-size: 0.8vw;
+  background-color: rgba($color: #d62828, $alpha: 0.4);
+}
+.txtAdministratif {
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  position: absolute;
+  top: 18%;
+  left: 60%;
+  color: black;
+  font-size: 0.8vw;
+  background-color: rgba($color: #d62828, $alpha: 0.4);
+}

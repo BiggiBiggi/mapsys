@@ -1,0 +1,10 @@
+.img {
+  width: clamp(0px, 50vw, 10000px);
+  display: block;
+  margin: 0 auto; /* Centre l'image horizontalement */
+}
+
+.imageContainer {
+  position: relative; /* Position relative pour le parent */
+  display: inline-block; /* Permet au conteneur de s'ajuster à la taille du contenu */
+}

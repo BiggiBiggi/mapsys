@@ -1,0 +1,49 @@
+.imp1,
+.imp2,
+.imp3 {
+  position: absolute;
+  font-size: clamp(0px, 1vw, 24px);
+}
+
+.imp1 {
+  top: 19.5%;
+  left: 92.5%;
+}
+.imp2 {
+  top: 24.5%;
+  left: 90.5%;
+}
+.imp3 {
+  top: 20.8%;
+  left: 46%;
+}
+
+/* Tooltip styling */
+.mouseHover {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+}
+
+.mouseHover.imp1 {
+  top: 19.5%;
+  left: 99.5%;
+}
+.mouseHover.imp2 {
+  top: 24.5%;
+  left: 97.5%;
+}
+.mouseHover.imp3 {
+  top: 20.8%;
+  left: 53%;
+}
+
+.iconImp {
+  width: 1.6vw;
+}

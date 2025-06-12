@@ -1,0 +1,30 @@
+.img {
+  width: clamp(0px, 50vw, 10000px);
+  display: block;
+  margin: 0 auto; /* Centre l'image horizontalement */
+}
+.name1 {
+  position: absolute;
+  left: 3%;
+  top: 2%;
+  font-size: 0.9vw;
+  background-color: var(--gray-1);
+  color: var(--primary);
+  padding: 1%;
+  border-radius: 6px;
+}
+.name2 {
+  position: absolute;
+  left: 3%;
+  top: 49.6%;
+  font-size: 1vw;
+  background-color: var(--gray-1);
+  color: var(--primary);
+  padding: 1%;
+  border-radius: 6px;
+}
+
+.imageContainer {
+  position: relative; /* Position relative pour le parent */
+  display: inline-block; /* Permet au conteneur de s'ajuster à la taille du contenu */
+}

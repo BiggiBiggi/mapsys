@@ -1,0 +1,38 @@
+import PcIcons from "/src/components/Icons/Meca/PcIcons";
+import ImpSupIcons from "/src/components/Icons/Meca/ImpSupIcons.jsx";
+import ImpCopIcons from "/src/components/Icons/Meca/ImpCopIcons";
+import BackButton from "/src/components/BackButton.jsx";
+import ClickableZone from "./ClickableZone";
+import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
+
+function Meca() {
+  return (
+    <>
+      <div
+        className={`d-flex flex-column align-items-center justify-content-center divTitle`}
+      >
+        <BackButton />
+        <h1 className={`title`}>Meca</h1>
+        <p className={`title2`}>Voici le plan de la Meca :</p>
+      </div>
+      <div
+        className={`d-flex flex-fill align-items-center justify-content-center`}
+      >
+        <div className="imageContainer">
+          <img
+            className={`card-rect img`}
+            src="/src/assets/images/Meca.png"
+            alt="Meca"
+          />
+          <PcIcons />
+          <ImpSupIcons />
+          <ImpCopIcons />
+          <ClickableZone />
+          <DeviceManagerWrapper planId="meca" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Meca;

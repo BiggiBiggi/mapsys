@@ -1,0 +1,50 @@
+{
+  "name": "mapsys",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n FRONT,BACK -c green,blue \"vite\" \"node src/assets/bdd_plan/index.js\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "bcrypt": "^5.1.1",
+    "classnames": "^2.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mysql2": "^3.14.1",
+    "node-cron": "^3.0.3",
+    "node-polyglot": "^2.6.0",
+    "ping": "^0.4.4",
+    "ra-data-simple-rest": "^5.2.2",
+    "ra-i18n-polyglot": "^5.3.3",
+    "ra-language-french": "^5.3.3",
+    "react": "^18.3.1",
+    "react-admin": "^5.7.2",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-login-page": "^1.0.4",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "axios": "^1.7.7",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "sass": "^1.77.8",
+    "vite": "^6.2.6"
+  }
+}

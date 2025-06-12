@@ -1,0 +1,43 @@
+.divTitle {
+  height: 7vw;
+  position: relative;
+}
+
+.title {
+  position: absolute;
+  display: block;
+  background-color: var(--gray-1);
+  border-radius: 10px;
+  padding: 0.4%;
+  color: var(--primary);
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-size: 1.5vw;
+}
+
+.title2 {
+  position: absolute;
+  display: block;
+  background-color: var(--gray-1);
+  border-radius: 10px;
+  padding: 0.4%;
+  color: var(--primary);
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-size: 0.7vw;
+}
+
+.img {
+  width: clamp(0px, 20vw, 1000px);
+  display: block;
+  margin: 0 auto; /* Centre l'image horizontalement */
+}
+
+.imageContainer {
+  position: relative; /* Position relative pour le parent */
+  display: inline-block; /* Permet au conteneur de s'ajuster à la taille du contenu */
+}

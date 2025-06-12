@@ -1,0 +1,35 @@
+.linksContainer {
+  display: flex;
+  justify-content: space-between; /* Espace entre les deux cadres */
+  width: 100%; /* Assurez-vous que le conteneur prend toute la largeur */
+  height: 14vw;
+}
+
+.externLinks {
+  background-color: #ffffff;
+  border: 4px solid var(--primary);
+  box-shadow: -10px 10px 30px black;
+  border-radius: 1em;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 48%;
+  font-size: 0.9vw;
+  img {
+    width: 4vw;
+    margin: 10px;
+  }
+}
+.internLinks {
+  background-color: #ffffff;
+  box-shadow: 10px 10px 30px black;
+  border: 4px solid var(--primary);
+  border-radius: 1em;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 48%;
+  font-size: 0.9vw;
+  img {
+    width: 4vw;
+    margin: 10px;
+  }
+}

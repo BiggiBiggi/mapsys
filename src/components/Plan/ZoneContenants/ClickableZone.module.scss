@@ -1,0 +1,15 @@
+.clickableZone {
+  position: absolute;
+  display: block;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: rgba($color: lightgray, $alpha: 0.5);
+  }
+}
+
+.recepsec {
+  top: 83%;
+  left: 87.3%;
+  height: 11.6%;
+  width: 10.6%;
+}
