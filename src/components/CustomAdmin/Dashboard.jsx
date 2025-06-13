@@ -41,18 +41,13 @@ function Dashboard() {
           }
         });
 
-        console.log("Dashboard stats - PC uniques:", pcIds.size);
-        console.log("Dashboard stats - Imprimantes uniques:", printerIds.size);
-
         setStats({
           equipments: pcIds.size,
           printers: printerIds.size,
         });
-      } else {
-        console.error("Erreur lors du chargement des équipements");
       }
     } catch (error) {
-      console.error("Erreur lors du chargement des statistiques:", error);
+      // Gestion silencieuse des erreurs en production
     } finally {
       setLoading(false);
     }

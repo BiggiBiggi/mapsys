@@ -84,8 +84,6 @@ function EquipmentForm() {
         id_glpi: formData.id_glpi || `GLPI-${Date.now()}`,
       };
 
-      console.log(`Envoi de la requête ${method} à ${url}`, dataToSend);
-
       const response = await fetch(url, {
         method,
         headers: {
@@ -96,17 +94,14 @@ function EquipmentForm() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Erreur serveur: ${response.status} - ${errorText}`);
         throw new Error(`Erreur serveur: ${response.status} - ${errorText}`);
       }
 
       const responseData = await response.json();
-      console.log("Réponse du serveur:", responseData);
 
       // Forcer un rafraîchissement complet pour s'assurer que les modifications sont visibles
       navigate("/equipments?refresh=" + Date.now(), { replace: true });
     } catch (err) {
-      console.error("Erreur complète:", err);
       setError(`Erreur lors de la sauvegarde: ${err.message}`);
     } finally {
       setLoading(false);

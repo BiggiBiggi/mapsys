@@ -197,11 +197,8 @@ function App() {
   const currentPath = useCurrentPath();
   const isAdminRoute = currentPath.startsWith("/admin");
 
-  console.log("🔍 Current path:", currentPath, "Is admin route:", isAdminRoute);
-
   // Si c'est une route admin, afficher la nouvelle interface d'administration
   if (isAdminRoute) {
-    console.log("🚀 Loading Custom Admin...");
     return <AdminApp />;
   }
 

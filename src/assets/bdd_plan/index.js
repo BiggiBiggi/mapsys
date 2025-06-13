@@ -31,7 +31,6 @@ async function checkApiAvailability(url) {
     const response = await fetch(url, { method: "HEAD" });
     return response.ok;
   } catch (error) {
-    console.error(`API non disponible: ${url}`, error);
     return false;
   }
 }
@@ -65,30 +64,20 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    console.error("Erreur de connexion à la base de données:", err);
     return;
   }
-  console.log("Connecté à la base de données MySQL");
 });
 
 db.connect((err) => {
   if (err) {
-    console.error("❌ ERREUR DE CONNEXION À LA BASE DE DONNÉES:", err);
-    console.error("Détails de l'erreur:", err.message);
-    console.error("Code d'erreur:", err.code);
     return;
   }
-  console.log("✅ Connecté à la base de données MySQL sur", db.config.host);
 
   // Test de la table users
   db.query(
     "SELECT nom, LENGTH(password) as pwd_length FROM users LIMIT 1",
     (err, results) => {
-      if (err) {
-        console.error("❌ Erreur test table users:", err);
-      } else {
-        console.log("✅ Test table users réussi:", results);
-      }
+      // Suppression des logs
     }
   );
 });
@@ -129,7 +118,7 @@ const handleApiRequest = (
       sortField = fieldMap[field] || `e.${field}` || "e.id_eqts";
       sortOrder = order || "ASC";
     } catch (error) {
-      console.error("Erreur lors du parsing du champ de tri :", error);
+      // Suppression du log d'erreur
     }
   }
 
@@ -142,7 +131,7 @@ const handleApiRequest = (
       offset = start;
       limit = end - start + 1;
     } catch (error) {
-      console.error("Erreur lors du parsing du champ range :", error);
+      // Suppression du log d'erreur
     }
   }
 
@@ -172,7 +161,7 @@ const handleApiRequest = (
       }
       // Ajoutez d'autres filtres spécifiques ici si nécessaire
     } catch (error) {
-      console.error("Erreur lors du parsing du champ filter :", error);
+      // Suppression du log d'erreur
     }
   }
 
@@ -188,7 +177,6 @@ const handleApiRequest = (
   // Exécution de la requête de comptage
   db.query(finalCountQuery, queryParams, (err, countResult) => {
     if (err) {
-      console.error("Erreur lors de la requête SQL (count):", err);
       return res.status(500).json({
         error: "Erreur lors de la requête SQL (count)",
         details: err.message,
@@ -199,7 +187,6 @@ const handleApiRequest = (
     // Exécution de la requête de données
     db.query(finalDataQuery, [...queryParams], (err, results) => {
       if (err) {
-        console.error("Erreur lors de la requête SQL (data):", err);
         return res.status(500).json({
           error: "Erreur lors de la requête SQL (data)",
           details: err.message,
@@ -272,7 +259,6 @@ app.get("/api/equipements/:id_eqts", (req, res) => {
   `;
   db.query(sql, [id_eqts], (err, results) => {
     if (err) {
-      console.error("Erreur lors de la requête :", err);
       return res.status(500).json({ error: "Erreur lors de la requête SQL" });
     }
     if (results.length === 0) {
@@ -286,19 +272,15 @@ app.get("/api/equipements/:id_eqts", (req, res) => {
 app.get("/api/equipements/type/:type", (req, res) => {
   const { type } = req.params;
 
-  console.log(`Récupération des équipements de type: ${type}`);
-
   // Utiliser db.query avec callback au lieu de db.execute avec promesses
   db.query("SELECT * FROM equipement WHERE type = ?", [type], (err, rows) => {
     if (err) {
-      console.error(`Erreur pour le type ${type}:`, err);
       return res.status(500).json({
         error: "Erreur serveur",
         details: err.message,
       });
     }
 
-    console.log(`${rows.length} équipements de type ${type} trouvés`);
     res.json(rows);
   });
 });
@@ -335,7 +317,6 @@ app.post("/api/equipements", (req, res) => {
         if (err) {
           return db.rollback(() => {
             // Annuler la transaction en cas d'erreur
-            console.error("Erreur insertion equipement:", err);
             res.status(500).json({
               error: "Erreur insertion equipement",
               details: err.message,
@@ -414,7 +395,6 @@ app.post("/api/equipements", (req, res) => {
             // En cas d'erreur dans les insertions dépendantes
             db.rollback(() => {
               // Annuler la transaction
-              console.error("Erreur insertion details equipement:", err);
               res.status(500).json({
                 error: "Erreur insertion details equipement",
                 details: err.message,
@@ -460,7 +440,6 @@ app.put("/api/equipements/:id_eqts", (req, res) => {
         if (err) {
           return db.rollback(() => {
             // Annuler en cas d'erreur
-            console.error("Erreur MAJ equipement:", err);
             res
               .status(500)
               .json({ error: "Erreur MAJ equipement", details: err.message });
@@ -552,7 +531,6 @@ app.put("/api/equipements/:id_eqts", (req, res) => {
           .catch((err) => {
             db.rollback(() => {
               // Annuler en cas d'erreur
-              console.error("Erreur MAJ details equipement:", err);
               res.status(500).json({
                 error: "Erreur MAJ details equipement",
                 details: err.message,
@@ -600,7 +578,6 @@ app.delete("/api/equipements/:id_eqts", (req, res) => {
           errorOccurred = true;
           return db.rollback(() => {
             // Annuler la transaction
-            console.error("Erreur suppression equipement:", err);
             res.status(500).json({
               error: "Erreur suppression equipement",
               details: err.message,
@@ -652,7 +629,6 @@ async function getIPsToPing() {
       "SELECT e.nom AS Nom_Equipement, ai.ip AS AdresseIp FROM equipement e JOIN adresse_ip ai ON e.id_eqts = ai.id_eqts WHERE ai.ip IS NOT NULL AND ai.ip != ''";
     db.query(sql, (err, results) => {
       if (err) {
-        console.error("Erreur récupération IPs à surveiller:", err);
         return reject(err);
       }
       resolve(results);
@@ -678,9 +654,8 @@ async function monitorIPs() {
       }
     }
     offlineDevices = currentOffline; // Met à jour la liste des appareils hors ligne
-    // console.log("Appareils hors ligne:", offlineDevices); // Pour débogage
   } catch (error) {
-    console.error("Erreur lors de la surveillance des IPs :", error.message);
+    // Suppression du log d'erreur
   }
 }
 
@@ -688,7 +663,6 @@ async function monitorIPs() {
 monitorIPs();
 cron.schedule("*/5 * * * *", () => {
   // Toutes les 5 minutes
-  console.log("Exécution de la surveillance planifiée des IPs...");
   monitorIPs();
 });
 
@@ -703,14 +677,8 @@ app.get("/api/offline-ips", (req, res) => {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  console.log("=== TENTATIVE DE CONNEXION ===");
-  console.log("Username reçu:", username);
-  console.log("Password reçu (longueur):", password ? password.length : 0);
-  console.log("Body complet:", JSON.stringify(req.body));
-
   // Validation des données d'entrée
   if (!username || !password) {
-    console.log("❌ Données manquantes");
     return res
       .status(400)
       .json({ message: "Nom d'utilisateur et mot de passe requis" });
@@ -721,35 +689,22 @@ app.post("/login", (req, res) => {
 
   db.query(sql, [username], (err, results) => {
     if (err) {
-      console.error("❌ Erreur SQL lors du login:", err);
       return res.status(500).json({ message: "Erreur serveur" });
     }
 
-    console.log("Nombre d'utilisateurs trouvés:", results.length);
-
     if (results.length === 0) {
-      console.log("❌ Utilisateur introuvable pour:", username);
       return res.status(401).json({ message: "Utilisateur introuvable" });
     }
 
     const user = results[0];
-    console.log("Utilisateur trouvé:", user.nom);
-    console.log(
-      "Hash en base (10 premiers caractères):",
-      user.password ? user.password.substring(0, 10) + "..." : "NULL"
-    );
 
     try {
-      console.log("Tentative de comparaison bcrypt...");
       const passwordIsValid = bcrypt.compareSync(password, user.password);
-      console.log("Résultat de la comparaison bcrypt:", passwordIsValid);
 
       if (!passwordIsValid) {
-        console.log("❌ Mot de passe incorrect pour:", username);
         return res.status(401).json({ message: "Mot de passe incorrect" });
       }
 
-      console.log("✅ Authentification réussie pour:", username);
       res.json({
         id: user.id,
         username: user.nom,
@@ -757,7 +712,6 @@ app.post("/login", (req, res) => {
         role: user.role,
       });
     } catch (bcryptError) {
-      console.error("❌ Erreur bcrypt:", bcryptError);
       return res
         .status(500)
         .json({ message: "Erreur lors de la vérification du mot de passe" });
@@ -769,15 +723,9 @@ app.post("/login", (req, res) => {
 
 // GET /api/users - Récupérer la liste de tous les utilisateurs
 app.get("/api/users", (req, res) => {
-  console.log("📊 Requête GET /api/users reçue");
-
   // Vérifier d'abord si la table users existe
   db.query("SHOW TABLES LIKE 'users'", (err, tables) => {
     if (err) {
-      console.error(
-        "❌ Erreur lors de la vérification de la table users:",
-        err
-      );
       return res.status(500).json({
         error: "Erreur serveur lors de la vérification de la table",
         details: err.message,
@@ -785,7 +733,6 @@ app.get("/api/users", (req, res) => {
     }
 
     if (tables.length === 0) {
-      console.error("❌ La table 'users' n'existe pas dans la base de données");
       return res.status(500).json({
         error: "La table 'users' n'existe pas dans la base de données",
         solution: "Veuillez créer la table users avec la structure appropriée",
@@ -795,36 +742,22 @@ app.get("/api/users", (req, res) => {
     // La table existe, vérifions sa structure
     db.query("DESCRIBE users", (err, columns) => {
       if (err) {
-        console.error(
-          "❌ Erreur lors de la vérification de la structure de la table users:",
-          err
-        );
         return res.status(500).json({
           error: "Erreur lors de la vérification de la structure de la table",
           details: err.message,
         });
       }
 
-      console.log(
-        "✅ Structure de la table users:",
-        columns.map((c) => c.Field)
-      );
-
       // Maintenant, récupérons les utilisateurs
       const sql = "SELECT id, nom, username, email, role, active FROM users";
       db.query(sql, (err, results) => {
         if (err) {
-          console.error(
-            "❌ Erreur lors de la récupération des utilisateurs:",
-            err
-          );
           return res.status(500).json({
             error: "Erreur lors de la récupération des utilisateurs",
             details: err.message,
           });
         }
 
-        console.log(`✅ ${results.length} utilisateurs récupérés avec succès`);
         res.json(results);
       });
     });
@@ -838,7 +771,6 @@ app.get("/api/users/:id", (req, res) => {
     "SELECT id, nom, username, email, role, active FROM users WHERE id = ?";
   db.query(sql, [id], (err, results) => {
     if (err) {
-      console.error("Erreur lors de la récupération de l'utilisateur:", err);
       return res.status(500).json({ error: "Erreur serveur" });
     }
     if (results.length === 0) {
@@ -857,7 +789,6 @@ app.post("/api/users", async (req, res) => {
     const checkSql = "SELECT id FROM users WHERE username = ? OR email = ?";
     db.query(checkSql, [username, email], async (err, results) => {
       if (err) {
-        console.error("Erreur lors de la vérification de l'utilisateur:", err);
         return res.status(500).json({ error: "Erreur serveur" });
       }
 
@@ -878,7 +809,6 @@ app.post("/api/users", async (req, res) => {
         [nom, username, email, hashedPassword, role, active],
         (err, result) => {
           if (err) {
-            console.error("Erreur lors de la création de l'utilisateur:", err);
             return res.status(500).json({ error: "Erreur serveur" });
           }
 
@@ -894,7 +824,6 @@ app.post("/api/users", async (req, res) => {
       );
     });
   } catch (error) {
-    console.error("Erreur lors de la création de l'utilisateur:", error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
@@ -909,7 +838,6 @@ app.put("/api/users/:id", async (req, res) => {
     const checkSql = "SELECT id FROM users WHERE id = ?";
     db.query(checkSql, [id], async (err, results) => {
       if (err) {
-        console.error("Erreur lors de la vérification de l'utilisateur:", err);
         return res.status(500).json({ error: "Erreur serveur" });
       }
 
@@ -925,7 +853,6 @@ app.put("/api/users/:id", async (req, res) => {
         [username, email, id],
         async (err, results) => {
           if (err) {
-            console.error("Erreur lors de la vérification des doublons:", err);
             return res.status(500).json({ error: "Erreur serveur" });
           }
 
@@ -943,10 +870,6 @@ app.put("/api/users/:id", async (req, res) => {
             [nom, username, email, role, active, id],
             (err, result) => {
               if (err) {
-                console.error(
-                  "Erreur lors de la mise à jour de l'utilisateur:",
-                  err
-                );
                 return res.status(500).json({ error: "Erreur serveur" });
               }
 
@@ -970,7 +893,6 @@ app.put("/api/users/:id", async (req, res) => {
       );
     });
   } catch (error) {
-    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
@@ -994,7 +916,6 @@ app.patch("/api/users/:id/password", async (req, res) => {
     const updateSql = "UPDATE users SET password = ? WHERE id = ?";
     db.query(updateSql, [hashedPassword, id], (err, result) => {
       if (err) {
-        console.error("Erreur lors de la mise à jour du mot de passe:", err);
         return res.status(500).json({ error: "Erreur serveur" });
       }
 
@@ -1005,7 +926,6 @@ app.patch("/api/users/:id/password", async (req, res) => {
       res.json({ message: "Mot de passe mis à jour avec succès" });
     });
   } catch (error) {
-    console.error("Erreur lors de la mise à jour du mot de passe:", error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
@@ -1024,7 +944,6 @@ app.patch("/api/users/:id/status", (req, res) => {
   const sql = "UPDATE users SET active = ? WHERE id = ?";
   db.query(sql, [active, id], (err, result) => {
     if (err) {
-      console.error("Erreur lors de la mise à jour du statut:", err);
       return res.status(500).json({ error: "Erreur serveur" });
     }
 
@@ -1043,7 +962,6 @@ app.delete("/api/users/:id", (req, res) => {
   const sql = "DELETE FROM users WHERE id = ?";
   db.query(sql, [id], (err, result) => {
     if (err) {
-      console.error("Erreur lors de la suppression de l'utilisateur:", err);
       return res.status(500).json({ error: "Erreur serveur" });
     }
 
@@ -1069,7 +987,7 @@ app.get("/api/lieux", (req, res) => {
       sortField = field === "id" ? "id" : "nom"; // Tri par 'id' ou 'nom'
       sortOrder = order || "ASC";
     } catch (e) {
-      console.error("Sort parse error:", e);
+      // Suppression du log d'erreur
     }
   }
 
@@ -1081,7 +999,7 @@ app.get("/api/lieux", (req, res) => {
       offset = start;
       limit = end - start + 1;
     } catch (e) {
-      console.error("Range parse error:", e);
+      // Suppression du log d'erreur
     }
   }
 
@@ -1096,7 +1014,7 @@ app.get("/api/lieux", (req, res) => {
         queryParams.push(`%${filters.q}%`, `%${filters.q}%`);
       }
     } catch (e) {
-      console.error("Filter parse error:", e);
+      // Suppression du log d'erreur
     }
   }
 
@@ -1104,7 +1022,6 @@ app.get("/api/lieux", (req, res) => {
   const countSql = `SELECT COUNT(*) as total FROM lieux ${whereClause}`;
   db.query(countSql, queryParams, (err, countResults) => {
     if (err) {
-      console.error("Lieux count error:", err);
       return res.status(500).json({ error: "SQL Error" });
     }
     const total = countResults[0].total;
@@ -1113,7 +1030,6 @@ app.get("/api/lieux", (req, res) => {
     const dataSql = `SELECT * FROM lieux ${whereClause} ORDER BY ${sortField} ${sortOrder} LIMIT ${limit} OFFSET ${offset}`;
     db.query(dataSql, queryParams, (err, results) => {
       if (err) {
-        console.error("Lieux data error:", err);
         return res.status(500).json({ error: "SQL Error" });
       }
       // Headers pour React Admin
@@ -1134,7 +1050,6 @@ app.get("/api/lieux/:id", (req, res) => {
   const sql = "SELECT * FROM lieux WHERE id = ?";
   db.query(sql, [id], (err, results) => {
     if (err) {
-      console.error("Lieu by ID error:", err);
       return res.status(500).json({ error: "SQL Error" });
     }
     if (results.length === 0) {
@@ -1149,8 +1064,6 @@ app.get("/api/lieux/:id", (req, res) => {
 app.post("/api/positionne", (req, res) => {
   const { id_eqts, id_poste_de_travail } = req.body;
 
-  console.log("📦 Received data:", { id_eqts, id_poste_de_travail });
-
   // Vérifier que l'ID de l'équipement est fourni
   if (!id_eqts) {
     return res.status(400).json({ error: "ID de l'équipement requis" });
@@ -1161,19 +1074,14 @@ app.post("/api/positionne", (req, res) => {
     "INSERT INTO positionne (id_eqts, id, date_position) VALUES (?, ?, NOW())";
   const values = [id_eqts, id_poste_de_travail];
 
-  console.log("🔍 SQL Query:", query);
-  console.log("🔍 SQL Values:", values);
-
   db.query(query, values, (err, result) => {
     if (err) {
-      console.error("❌ Erreur lors de l'insertion dans positionne :", err);
       return res.status(500).json({
         error: "Erreur lors du positionnement de l'équipement",
         details: err.message,
       });
     }
 
-    console.log("✅ Position ajoutée avec succès:", result);
     res.status(201).json({
       message: "Position ajoutée avec succès",
       insertId: result.insertId,
@@ -1189,10 +1097,8 @@ app.get("/api/positionne", (req, res) => {
 
   db.query(query, (err, results) => {
     if (err) {
-      console.error("❌ Erreur lors de la récupération des positions:", err);
       return res.status(500).json({ error: "Erreur serveur" });
     }
-    console.log("📍 Positions fetched:", results.length, "records");
     res.json(results);
   });
 });
@@ -1205,7 +1111,6 @@ app.delete("/api/positionne/:id_eqts", (req, res) => {
 
   db.query(query, [id_eqts], (err, result) => {
     if (err) {
-      console.error("❌ Erreur lors de la suppression de la position:", err);
       return res
         .status(500)
         .json({ error: "Erreur lors de la suppression de la position" });
@@ -1215,7 +1120,6 @@ app.delete("/api/positionne/:id_eqts", (req, res) => {
       return res.status(404).json({ error: "Position non trouvée" });
     }
 
-    console.log("✅ Position deleted for device:", id_eqts);
     res.json({ message: "Position supprimée avec succès" });
   });
 });

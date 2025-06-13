@@ -1,47 +1,48 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
 function Settings() {
   const [settings, setSettings] = useState({
     siteName: "Administration MapSys",
-    siteDescription: "Interface d'administration pour la gestion des équipements",
+    siteDescription:
+      "Interface d'administration pour la gestion des équipements",
     maintenanceMode: false,
     emailNotifications: true,
     autoBackup: true,
     backupFrequency: "daily",
     maxLoginAttempts: 5,
     sessionTimeout: 30,
-  })
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState("")
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
       // Simulation de sauvegarde
       setTimeout(() => {
-        setMessage("Paramètres sauvegardés avec succès !")
-        setLoading(false)
+        setMessage("Paramètres sauvegardés avec succès !");
+        setLoading(false);
 
         // Effacer le message après 3 secondes
-        setTimeout(() => setMessage(""), 3000)
-      }, 500)
+        setTimeout(() => setMessage(""), 3000);
+      }, 500);
     } catch (err) {
-      setMessage("Erreur lors de la sauvegarde")
-      setLoading(false)
+      setMessage("Erreur lors de la sauvegarde");
+      setLoading(false);
     }
-  }
+  };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
+    const { name, value, type, checked } = e.target;
     setSettings((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-    }))
-  }
+    }));
+  };
 
   const handleExportData = () => {
     // Simulation d'export
@@ -49,35 +50,36 @@ function Settings() {
       equipments: "Données des équipements...",
       printers: "Données des imprimantes...",
       users: "Données des utilisateurs...",
-    }
+    };
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `backup-${new Date().toISOString().split("T")[0]}.json`
-    a.click()
-    URL.revokeObjectURL(url)
-  }
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `backup-${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const handleImportData = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (event) => {
         try {
-          const data = JSON.parse(event.target.result)
-          console.log("Données importées:", data)
-          setMessage("Données importées avec succès !")
-          setTimeout(() => setMessage(""), 3000)
+          const data = JSON.parse(event.target.result);
+          setMessage("Données importées avec succès !");
+          setTimeout(() => setMessage(""), 3000);
         } catch (err) {
-          setMessage("Erreur lors de l'import du fichier")
-          setTimeout(() => setMessage(""), 3000)
+          setMessage("Erreur lors de l'import du fichier");
+          setTimeout(() => setMessage(""), 3000);
         }
-      }
-      reader.readAsText(file)
+      };
+      reader.readAsText(file);
     }
-  }
+  };
 
   return (
     <div className="settings">
@@ -86,7 +88,11 @@ function Settings() {
       </div>
 
       {message && (
-        <div className={`message ${message.includes("Erreur") ? "error" : "success"}`}>
+        <div
+          className={`message ${
+            message.includes("Erreur") ? "error" : "success"
+          }`}
+        >
           <p>{message}</p>
         </div>
       )}
@@ -122,7 +128,9 @@ function Settings() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="sessionTimeout">Timeout de session (minutes)</label>
+                <label htmlFor="sessionTimeout">
+                  Timeout de session (minutes)
+                </label>
                 <input
                   type="number"
                   id="sessionTimeout"
@@ -136,7 +144,9 @@ function Settings() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="maxLoginAttempts">Tentatives de connexion max</label>
+                <label htmlFor="maxLoginAttempts">
+                  Tentatives de connexion max
+                </label>
                 <input
                   type="number"
                   id="maxLoginAttempts"
@@ -226,7 +236,13 @@ function Settings() {
             <div className="backup-item">
               <h3>Importer les données</h3>
               <p>Restaurer les données à partir d'un fichier de sauvegarde</p>
-              <input type="file" accept=".json" onChange={handleImportData} className="file-input" id="import-file" />
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportData}
+                className="file-input"
+                id="import-file"
+              />
               <label htmlFor="import-file" className="btn-secondary">
                 📤 Importer les données
               </label>
@@ -258,7 +274,7 @@ function Settings() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Settings
+export default Settings;

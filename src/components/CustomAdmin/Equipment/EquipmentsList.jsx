@@ -33,7 +33,6 @@ function EquipmentsList() {
   useEffect(() => {
     const refreshParam = searchParams.get("refresh");
     if (refreshParam) {
-      console.log("🔄 Rafraîchissement forcé détecté");
       setRefreshTrigger((prev) => prev + 1);
       // Nettoyer l'URL après le rafraîchissement
       window.history.replaceState({}, "", "/admin/equipments");
@@ -43,7 +42,6 @@ function EquipmentsList() {
   const fetchEquipments = async () => {
     try {
       setLoading(true);
-      console.log("🔄 Chargement des équipements...");
 
       // Ajouter un paramètre de cache-busting pour éviter les problèmes de cache
       const timestamp = new Date().getTime();
@@ -56,7 +54,6 @@ function EquipmentsList() {
       }
 
       const data = await response.json();
-      console.log("📊 Données reçues:", data.length, "équipements");
 
       // Vérifier si nous avons des doublons d'ID
       const idCounts = {};
@@ -64,8 +61,6 @@ function EquipmentsList() {
         const id = eq.id_eqts || eq.ID || eq.id;
         idCounts[id] = (idCounts[id] || 0) + 1;
       });
-
-      console.log("🔍 Vérification des IDs:", idCounts);
 
       // Transformer les données pour l'affichage avec un index pour garantir l'unicité
       const formattedEquipments = data.map((eq, index) => {
@@ -85,7 +80,6 @@ function EquipmentsList() {
       setEquipments(formattedEquipments);
       setError(null);
     } catch (err) {
-      console.error("❌ Erreur lors du chargement des équipements:", err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -113,7 +107,6 @@ function EquipmentsList() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Erreur serveur: ${response.status} - ${errorText}`);
         throw new Error(`Erreur serveur: ${response.status} - ${errorText}`);
       }
 
@@ -121,7 +114,6 @@ function EquipmentsList() {
       refreshList();
       alert("Équipement supprimé avec succès");
     } catch (err) {
-      console.error("Erreur complète:", err);
       alert(`Erreur lors de la suppression: ${err.message}`);
     }
   };
@@ -146,7 +138,6 @@ function EquipmentsList() {
 
       // Si nous avons déjà vu cet ID, c'est un doublon
       if (seenIds.has(id)) {
-        console.log("Doublon détecté:", id, equipment.nom);
         return false;
       }
 

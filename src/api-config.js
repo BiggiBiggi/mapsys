@@ -62,7 +62,6 @@ export async function checkApiAvailability(url) {
     const response = await fetch(url, { method: "HEAD" });
     return response.ok;
   } catch (error) {
-    console.error(`API non disponible: ${url}`, error);
     return false;
   }
 }
@@ -83,10 +82,6 @@ export async function fetchDevicesByType(type) {
     }
     return await response.json();
   } catch (error) {
-    console.error(
-      `Erreur lors de la récupération des appareils de type ${type}:`,
-      error
-    );
     return [];
   }
 }
@@ -95,15 +90,11 @@ export async function fetchDevicesByType(type) {
 export async function fetchDeviceDetails(deviceId, deviceType) {
   try {
     if (!deviceId || !deviceType) {
-      console.warn("fetchDeviceDetails: deviceId ou deviceType manquant");
       return null;
     }
 
     const type = deviceTypes.find((t) => t.id === deviceType);
     if (!type) {
-      console.warn(
-        `fetchDeviceDetails: Type non trouvé pour deviceType: ${deviceType}`
-      );
       return null;
     }
 
@@ -111,16 +102,11 @@ export async function fetchDeviceDetails(deviceId, deviceType) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status} for URL: ${url}`);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     return await response.json();
   } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des détails de l'appareil:",
-      error
-    );
     throw error;
   }
 }
@@ -133,10 +119,8 @@ export async function fetchPositionedDevices() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("📍 Positioned devices fetched:", data);
     return data.map((item) => item.id_eqts); // Retourner seulement les IDs
   } catch (error) {
-    console.error("❌ Error fetching positioned devices:", error);
     return [];
   }
 }
@@ -146,19 +130,14 @@ export async function saveDevicePosition(deviceId, planId) {
   try {
     // Vérifier si l'ID est valide
     if (!deviceId) {
-      console.error("❌ Invalid device ID for positioning");
       return false;
     }
-
-    console.log(`📍 Attempting to save position for device ID: ${deviceId}`);
 
     // Structure adaptée à l'API
     const positionData = {
       id_eqts: deviceId,
       id_poste_de_travail: planId, // Sera utilisé comme "id" dans la table
     };
-
-    console.log("📦 Position data to send:", positionData);
 
     const response = await fetch(`${API_BASE_URL}/positionne`, {
       method: "POST",
@@ -170,14 +149,11 @@ export async function saveDevicePosition(deviceId, planId) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`❌ Server error: ${response.status} - ${errorText}`);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    console.log(`✅ Device ${deviceId} marked as positioned`);
     return true;
   } catch (error) {
-    console.error("❌ Error saving device position:", error);
     return false;
   }
 }
@@ -193,10 +169,8 @@ export async function removeDevicePosition(deviceId) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    console.log(`✅ Device ${deviceId} position removed`);
     return true;
   } catch (error) {
-    console.error("❌ Error removing device position:", error);
     return false;
   }
 }

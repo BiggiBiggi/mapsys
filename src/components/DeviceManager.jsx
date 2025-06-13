@@ -49,7 +49,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         }
         return data;
       } catch (error) {
-        console.error("❌ Error in fetchDeviceDetailsWrapper:", error);
         throw error;
       }
     },
@@ -65,7 +64,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
       // IMPORTANT: Toujours recharger les détails depuis l'API, ne pas utiliser les détails sauvegardés
       parsedDevices.forEach((device) => {
         if (device.databaseId) {
-          console.log(`🔄 Reloading details for device ${device.databaseId}`);
           fetchDeviceDetailsWrapper(device.databaseId, device.type);
         }
       });
@@ -106,19 +104,15 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Database devices fetched:", data);
 
         // Récupérer les appareils déjà positionnés
         const positionedDeviceIds = await fetchPositionedDevices();
-        console.log("📍 Already positioned device IDs:", positionedDeviceIds);
 
         // Filtrer les appareils déjà positionnés
         const availableDevices = data.filter((device) => {
           const deviceId = device.id_eqts || device.ID || device.id;
           return !positionedDeviceIds.includes(deviceId);
         });
-
-        console.log("✅ Available devices (not positioned):", availableDevices);
 
         const devicesWithIds = availableDevices.map((device) => ({
           ...device,
@@ -129,7 +123,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setDatabaseDevices(devicesWithIds);
         setError(null);
       } catch (error) {
-        console.error("Error fetching devices:", error);
         setDatabaseDevices([]);
         setError(error.message);
       }
@@ -157,7 +150,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Devices of same type fetched:", data);
 
         // Récupérer les appareils déjà positionnés
         const positionedDeviceIds = await fetchPositionedDevices();
@@ -177,7 +169,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setDatabaseDevices(devicesWithIds);
         setError(null);
       } catch (error) {
-        console.error("Error fetching devices of same type:", error);
         setDatabaseDevices([]);
         setError(error.message);
       }
@@ -219,21 +210,14 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
       const deviceData = databaseDevices.find(
         (d) => d.uniqueId === selectedDevice.uniqueId
       );
-      console.log("📋 Device data being saved:", deviceData);
 
       // Vérifier que nous avons un ID valide
       const databaseId = deviceData.id_eqts || deviceData.ID || deviceData.id;
 
       if (!databaseId) {
-        console.error(
-          "❌ No valid database ID found in device data:",
-          deviceData
-        );
         setError("Erreur: ID de l'appareil introuvable");
         return;
       }
-
-      console.log("✅ Using database ID:", databaseId);
 
       // IMPORTANT: Récupérer les détails complets depuis l'API avant de sauvegarder
       try {
@@ -247,8 +231,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
           x: 50,
           y: 50,
         };
-
-        console.log("💾 New device created:", newDevice);
 
         setDevices((prevDevices) => {
           const updatedDevices = [...prevDevices, newDevice];
@@ -266,15 +248,12 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setSearchTerm("");
         setSelectedDevice(null);
       } catch (error) {
-        console.error("❌ Error fetching device details:", error);
         setError("Erreur lors du chargement des détails de l'appareil");
       }
     }
   };
 
   const handleSavePositions = useCallback(() => {
-    console.log("💾 Saving positions:", devices);
-
     // Sauvegarder dans localStorage SANS les détails
     const devicesForStorage = devices.map((device) => {
       const newDevice = { ...device };
@@ -296,8 +275,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   }, [devices, planId]);
 
   const handleConfirmPlacements = useCallback(async () => {
-    console.log("✅ Confirming placements...");
-
     // Enregistrer l'appareil comme positionné dans la base de données
     if (deviceBeingEdited) {
       await saveDevicePosition(deviceBeingEdited.databaseId, planId);
@@ -476,10 +453,6 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   );
 
   const renderDeviceTooltip = (device, details) => {
-    console.log("🏷️ Rendering tooltip for device:", device.id);
-    console.log("📋 Device details passed to tooltip:", details);
-    console.log("🌐 IP in details:", details.ip);
-
     let tooltipContent;
     let name;
     switch (device.type) {

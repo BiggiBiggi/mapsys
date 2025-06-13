@@ -224,7 +224,6 @@ function UserForm() {
       }
 
       const userData = await response.json();
-      console.log("Données utilisateur récupérées:", userData);
 
       // Normaliser le rôle pour l'affichage dans le formulaire
       let displayRole = userData.role || "utilisateur";
@@ -244,7 +243,6 @@ function UserForm() {
         active: userData.active === 0 ? 0 : 1,
       });
     } catch (err) {
-      console.error("❌ Erreur lors de la récupération de l'utilisateur:", err);
       setError("Erreur lors de la récupération de l'utilisateur");
     } finally {
       setFetchingUser(false);
@@ -308,8 +306,6 @@ function UserForm() {
         delete dataToSend.password;
       }
 
-      console.log("Données à envoyer:", dataToSend);
-
       const url = isEditMode
         ? `${API_BASE_URL}/users/${id}`
         : `${API_BASE_URL}/users`;
@@ -332,7 +328,6 @@ function UserForm() {
       // Forcer un rafraîchissement de la liste des utilisateurs
       navigate("/users?refresh=" + Date.now());
     } catch (err) {
-      console.error("❌ Erreur lors de l'enregistrement:", err);
       setError(err.message || "Erreur lors de l'enregistrement");
     } finally {
       setLoading(false);

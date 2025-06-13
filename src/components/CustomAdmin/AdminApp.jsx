@@ -36,7 +36,6 @@ function AdminApp() {
     try {
       // Vérifier si l'utilisateur est connecté dans l'application principale
       const userSession = sessionStorage.getItem("user");
-      console.log("🔍 Session user:", userSession);
 
       if (!userSession) {
         setAuthState({
@@ -53,9 +52,7 @@ function AdminApp() {
       let userData;
       try {
         userData = JSON.parse(userSession);
-        console.log("👤 User data from session:", userData);
       } catch (parseError) {
-        console.error("❌ Erreur parsing session:", parseError);
         setAuthState({
           isAuthenticated: false,
           isAdmin: false,
@@ -70,7 +67,6 @@ function AdminApp() {
       // Utiliser directement les données de session sans appel API
       const userRole =
         userData.role || userData.Role || userData.type || userData.username;
-      console.log("🎭 Role from session:", userRole);
 
       // Considérer comme admin si le rôle contient "admin" ou si c'est l'utilisateur "admin"
       const isAdmin =
@@ -90,7 +86,6 @@ function AdminApp() {
         debugInfo: `Authentification basée sur la session, rôle: ${userRole}, isAdmin: ${isAdmin}`,
       });
     } catch (error) {
-      console.error("❌ Erreur générale d'authentification:", error);
       setAuthState({
         isAuthenticated: false,
         isAdmin: false,

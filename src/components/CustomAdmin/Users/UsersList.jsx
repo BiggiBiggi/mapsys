@@ -149,7 +149,6 @@ function UsersList() {
   useEffect(() => {
     const refreshParam = searchParams.get("refresh");
     if (refreshParam) {
-      console.log("🔄 Rafraîchissement forcé détecté");
       setRefreshTrigger((prev) => prev + 1);
       // Nettoyer l'URL après le rafraîchissement
       window.history.replaceState({}, "", "/admin/users");
@@ -163,19 +162,16 @@ function UsersList() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      console.log("🔄 Chargement des utilisateurs...");
 
       const timestamp = new Date().getTime();
       const response = await fetch(`${API_BASE_URL}/users?_=${timestamp}`);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error("❌ Réponse d'erreur:", errorData);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("👥 Utilisateurs récupérés:", data.length);
       setUsers(data);
       setError(null);
       setErrorDetails(null);
