@@ -3,44 +3,15 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./DeviceManager.module.scss";
 
-// Import your device icons
-import pcPortable from "/src/assets/images/PCPortable.png";
-import pcFixe from "/src/assets/images/PCFixe.png";
-import imprimanteSupport from "/src/assets/images/ImpSupport.png";
-import imprimanteCopieur from "/src/assets/images/impCopieur.png";
-
-const deviceTypes = [
-  {
-    id: "pcPortable",
-    name: "PC Portable",
-    icon: pcPortable,
-    table: "equipements",
-    dbType: "PC Portable", // Valeur exacte dans la colonne 'type' de la DB
-  },
-  {
-    id: "pcFixe",
-    name: "PC Fixe",
-    icon: pcFixe,
-    table: "equipements",
-    dbType: "PC Fixe",
-  },
-  {
-    id: "imprimanteSupport",
-    name: "Imprimante Support",
-    icon: imprimanteSupport,
-    table: "equipements",
-    dbType: "Imprimante Support",
-  },
-  {
-    id: "imprimanteCopieur",
-    name: "Imprimante Copieur",
-    icon: imprimanteCopieur,
-    table: "equipements",
-    dbType: "Imprimante Copieur",
-  },
-];
-
-const API_BASE_URL = "http://localhost:5000/api";
+// Import des configurations et fonctions depuis api-config.js
+import {
+  API_BASE_URL,
+  deviceTypes,
+  fetchDeviceDetails,
+  fetchPositionedDevices,
+  saveDevicePosition,
+  removeDevicePosition,
+} from "../api-config";
 
 function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   const [devices, setDevices] = useState([]);
@@ -64,143 +35,26 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
   const [deviceBeingEdited, setDeviceBeingEdited] = useState(null);
   const [isEditModalReady, setIsEditModalReady] = useState(false);
 
-  // Nouvelle fonction pour récupérer les appareils déjà positionnés
-  const fetchPositionedDevices = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/positionne`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("📍 Positioned devices fetched:", data);
-      return data.map((item) => item.id_eqts); // Retourner seulement les IDs
-    } catch (error) {
-      console.error("❌ Error fetching positioned devices:", error);
-      return [];
-    }
-  }, []);
-
-  // Fonction pour enregistrer un appareil comme positionné
-  const saveDevicePosition = useCallback(
-    async (deviceId) => {
+  // Utilisation de la fonction fetchDeviceDetails importée
+  const fetchDeviceDetailsWrapper = useCallback(
+    async (deviceId, deviceType) => {
       try {
-        // Vérifier si l'ID est valide
-        if (!deviceId) {
-          console.error("❌ Invalid device ID for positioning");
-          return false;
+        const data = await fetchDeviceDetails(deviceId, deviceType);
+        if (data) {
+          // IMPORTANT: Stocker les détails complets avec l'IP
+          setDeviceDetails((prev) => ({
+            ...prev,
+            [deviceId]: data,
+          }));
         }
-
-        console.log(
-          `📍 Attempting to save position for device ID: ${deviceId}`
-        );
-
-        // Structure adaptée à l'API - utiliser id au lieu de id_poste_de_travail
-        const positionData = {
-          id_eqts: deviceId,
-          id_poste_de_travail: planId, // Sera utilisé comme "id" dans la table
-        };
-
-        console.log("📦 Position data to send:", positionData);
-
-        const response = await fetch(`${API_BASE_URL}/positionne`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(positionData),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`❌ Server error: ${response.status} - ${errorText}`);
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        console.log(`✅ Device ${deviceId} marked as positioned`);
-        return true;
+        return data;
       } catch (error) {
-        console.error("❌ Error saving device position:", error);
-        // Afficher un message d'erreur à l'utilisateur mais ne pas bloquer le flux
-        setConfirmationMessage(
-          `⚠️ Erreur lors de l'enregistrement de la position (l'appareil est tout de même placé sur le plan)`
-        );
-        setTimeout(() => {
-          setConfirmationMessage("");
-        }, 5000);
-        return false;
+        console.error("❌ Error in fetchDeviceDetailsWrapper:", error);
+        throw error;
       }
     },
-    [planId]
+    []
   );
-
-  // Fonction pour libérer un appareil (le retirer de la table positionne)
-  const removeDevicePosition = useCallback(async (deviceId) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/positionne/${deviceId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      console.log(`✅ Device ${deviceId} position removed`);
-      return true;
-    } catch (error) {
-      console.error("❌ Error removing device position:", error);
-      return false;
-    }
-  }, []);
-
-  const fetchDeviceDetails = useCallback(async (deviceId, deviceType) => {
-    try {
-      // Vérifications de sécurité
-      if (!deviceId) {
-        console.warn("fetchDeviceDetails: deviceId is undefined or null");
-        return null;
-      }
-
-      if (!deviceType) {
-        console.warn("fetchDeviceDetails: deviceType is undefined or null");
-        return null;
-      }
-
-      const type = deviceTypes.find((t) => t.id === deviceType);
-      if (!type) {
-        console.warn(
-          `fetchDeviceDetails: No type found for deviceType: ${deviceType}`
-        );
-        return null;
-      }
-
-      const url = `${API_BASE_URL}/${type.table}/${deviceId}`;
-      console.log(`🔍 Fetching device details from: ${url}`);
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        console.error(
-          `❌ HTTP error! status: ${response.status} for URL: ${url}`
-        );
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("✅ Device details fetched:", data);
-      console.log("🌐 IP address in fetched data:", data.ip);
-
-      // IMPORTANT: Stocker les détails complets avec l'IP
-      setDeviceDetails((prev) => ({
-        ...prev,
-        [deviceId]: data,
-      }));
-
-      return data;
-    } catch (error) {
-      console.error("❌ Error fetching device details:", error);
-      throw error;
-    }
-  }, []);
 
   useEffect(() => {
     const savedDevices = localStorage.getItem(`devices_${planId}`);
@@ -212,16 +66,16 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
       parsedDevices.forEach((device) => {
         if (device.databaseId) {
           console.log(`🔄 Reloading details for device ${device.databaseId}`);
-          fetchDeviceDetails(device.databaseId, device.type);
+          fetchDeviceDetailsWrapper(device.databaseId, device.type);
         }
       });
     } else if (initialDevices) {
       setDevices(initialDevices);
       initialDevices.forEach((device) => {
-        fetchDeviceDetails(device.databaseId, device.type);
+        fetchDeviceDetailsWrapper(device.databaseId, device.type);
       });
     }
-  }, [planId, initialDevices, fetchDeviceDetails]);
+  }, [planId, initialDevices, fetchDeviceDetailsWrapper]);
 
   const fetchDevicesFromDatabase = useCallback(
     async (table, deviceTypeConfig) => {
@@ -280,7 +134,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setError(error.message);
       }
     },
-    [searchTerm, fetchPositionedDevices]
+    [searchTerm]
   );
 
   const fetchDevicesOfSameType = useCallback(
@@ -328,7 +182,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setError(error.message);
       }
     },
-    [searchTerm, fetchPositionedDevices]
+    [searchTerm]
   );
 
   useEffect(() => {
@@ -383,7 +237,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
 
       // IMPORTANT: Récupérer les détails complets depuis l'API avant de sauvegarder
       try {
-        await fetchDeviceDetails(databaseId, selectedType.id);
+        await fetchDeviceDetailsWrapper(databaseId, selectedType.id);
 
         const newDevice = {
           id: `${planId}-${selectedType.id}-${Date.now()}`,
@@ -446,16 +300,16 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
 
     // Enregistrer l'appareil comme positionné dans la base de données
     if (deviceBeingEdited) {
-      await saveDevicePosition(deviceBeingEdited.databaseId);
+      await saveDevicePosition(deviceBeingEdited.databaseId, planId);
     } else if (devices.length > 0) {
       const lastDevice = devices[devices.length - 1];
-      await saveDevicePosition(lastDevice.databaseId);
+      await saveDevicePosition(lastDevice.databaseId, planId);
     }
 
     setIsPlacingDevice(false);
     setDeviceBeingEdited(null);
     handleSavePositions();
-  }, [handleSavePositions, deviceBeingEdited, devices, saveDevicePosition]);
+  }, [handleSavePositions, deviceBeingEdited, devices, planId]);
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -614,7 +468,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
         setConfirmationMessage("");
       }, 3000);
     },
-    [planId, onSaveDevices, devices, removeDevicePosition]
+    [planId, onSaveDevices, devices]
   );
 
   const filteredDevices = databaseDevices.filter((device) =>
@@ -729,7 +583,7 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
     // Recharger tous les détails
     Promise.all(
       devices.map((device) =>
-        fetchDeviceDetails(device.databaseId, device.type)
+        fetchDeviceDetailsWrapper(device.databaseId, device.type)
       )
     ).then(() => {
       setIsEditModalReady(true);
@@ -770,10 +624,10 @@ function DeviceManager({ onSaveDevices, initialDevices, planId }) {
 
     // Libérer l'ancien appareil et enregistrer le nouveau
     await removeDevicePosition(oldDatabaseId);
-    await saveDevicePosition(newDatabaseId);
+    await saveDevicePosition(newDatabaseId, planId);
 
     // Recharger les détails pour le nouvel appareil
-    fetchDeviceDetails(newDatabaseId, selectedEditDevice.type);
+    fetchDeviceDetailsWrapper(newDatabaseId, selectedEditDevice.type);
 
     setShowConfirmation(false);
     setIsEditModalOpen(false);

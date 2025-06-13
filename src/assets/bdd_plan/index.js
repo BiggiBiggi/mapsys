@@ -6,20 +6,56 @@ const ping = require("ping");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 
+// Configuration centralisée des API endpoints
+// Cette configuration peut être exportée pour être utilisée par le frontend
+const API_BASE_URL = "http://localhost:5000/api";
+
+// Définition des endpoints disponibles
+const API_ENDPOINTS = {
+  // Tous les types d'équipements utilisent la même table "equipements"
+  equipements: `${API_BASE_URL}/equipements`,
+  // Les routes spécifiques pour filtrer par type
+  pc_portables: `${API_BASE_URL}/equipements/type/PC%20Portable`,
+  pc_fixes: `${API_BASE_URL}/equipements/type/PC%20Fixe`,
+  imprimantes_copieurs: `${API_BASE_URL}/equipements/type/Imprimante%20Copieur`,
+  imprimantes_support: `${API_BASE_URL}/equipements/type/Imprimante%20Support`,
+  // Autres endpoints
+  positionne: `${API_BASE_URL}/positionne`,
+  lieux: `${API_BASE_URL}/lieux`,
+  users: `${API_BASE_URL}/users`,
+};
+
+// Fonction utilitaire pour vérifier si une API est disponible
+async function checkApiAvailability(url) {
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    return response.ok;
+  } catch (error) {
+    console.error(`API non disponible: ${url}`, error);
+    return false;
+  }
+}
+
 const app = express();
 app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   res.header("Access-Control-Expose-Headers", "Content-Range, X-Total-Count");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
   next();
 });
 
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: "172.17.238.52",
+  host: "192.168.1.153",
   port: 3306,
   user: "root",
   password: "root",
@@ -55,6 +91,15 @@ db.connect((err) => {
       }
     }
   );
+});
+
+// Exposer ces configurations pour le frontend si nécessaire
+// Si vous utilisez Express pour servir votre frontend, vous pouvez ajouter une route:
+app.get("/api/config", (req, res) => {
+  res.json({
+    API_BASE_URL,
+    API_ENDPOINTS,
+  });
 });
 
 // Fonction générique pour gérer les requêtes API avec tri, pagination, et filtres
@@ -101,8 +146,8 @@ const handleApiRequest = (
     }
   }
 
-  let whereClauses = []; // Tableau pour stocker les conditions WHERE des filtres
-  let queryParams = []; // Tableau pour stocker les paramètres des requêtes préparées
+  const whereClauses = []; // Tableau pour stocker les conditions WHERE des filtres
+  const queryParams = []; // Tableau pour stocker les paramètres des requêtes préparées
 
   if (filter) {
     try {
@@ -596,6 +641,7 @@ app.delete("/api/equipements/:id_eqts", (req, res) => {
 });
 
 // --- SURVEILLANCE IP ---
+
 let offlineDevices = []; // Stocke les appareils hors ligne
 
 // Fonction pour récupérer les IPs à surveiller
@@ -719,6 +765,296 @@ app.post("/login", (req, res) => {
   });
 });
 
+// --- API pour les UTILISATEURS ---
+
+// GET /api/users - Récupérer la liste de tous les utilisateurs
+app.get("/api/users", (req, res) => {
+  console.log("📊 Requête GET /api/users reçue");
+
+  // Vérifier d'abord si la table users existe
+  db.query("SHOW TABLES LIKE 'users'", (err, tables) => {
+    if (err) {
+      console.error(
+        "❌ Erreur lors de la vérification de la table users:",
+        err
+      );
+      return res.status(500).json({
+        error: "Erreur serveur lors de la vérification de la table",
+        details: err.message,
+      });
+    }
+
+    if (tables.length === 0) {
+      console.error("❌ La table 'users' n'existe pas dans la base de données");
+      return res.status(500).json({
+        error: "La table 'users' n'existe pas dans la base de données",
+        solution: "Veuillez créer la table users avec la structure appropriée",
+      });
+    }
+
+    // La table existe, vérifions sa structure
+    db.query("DESCRIBE users", (err, columns) => {
+      if (err) {
+        console.error(
+          "❌ Erreur lors de la vérification de la structure de la table users:",
+          err
+        );
+        return res.status(500).json({
+          error: "Erreur lors de la vérification de la structure de la table",
+          details: err.message,
+        });
+      }
+
+      console.log(
+        "✅ Structure de la table users:",
+        columns.map((c) => c.Field)
+      );
+
+      // Maintenant, récupérons les utilisateurs
+      const sql = "SELECT id, nom, username, email, role, active FROM users";
+      db.query(sql, (err, results) => {
+        if (err) {
+          console.error(
+            "❌ Erreur lors de la récupération des utilisateurs:",
+            err
+          );
+          return res.status(500).json({
+            error: "Erreur lors de la récupération des utilisateurs",
+            details: err.message,
+          });
+        }
+
+        console.log(`✅ ${results.length} utilisateurs récupérés avec succès`);
+        res.json(results);
+      });
+    });
+  });
+});
+
+// GET /api/users/:id - Récupérer un utilisateur spécifique
+app.get("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  const sql =
+    "SELECT id, nom, username, email, role, active FROM users WHERE id = ?";
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error("Erreur lors de la récupération de l'utilisateur:", err);
+      return res.status(500).json({ error: "Erreur serveur" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+    res.json(results[0]);
+  });
+});
+
+// POST /api/users - Créer un nouvel utilisateur
+app.post("/api/users", async (req, res) => {
+  try {
+    const { nom, username, email, password, role, active } = req.body;
+
+    // Vérifier si l'utilisateur existe déjà
+    const checkSql = "SELECT id FROM users WHERE username = ? OR email = ?";
+    db.query(checkSql, [username, email], async (err, results) => {
+      if (err) {
+        console.error("Erreur lors de la vérification de l'utilisateur:", err);
+        return res.status(500).json({ error: "Erreur serveur" });
+      }
+
+      if (results.length > 0) {
+        return res
+          .status(409)
+          .json({ error: "Nom d'utilisateur ou email déjà utilisé" });
+      }
+
+      // Hacher le mot de passe
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Insérer le nouvel utilisateur
+      const insertSql =
+        "INSERT INTO users (nom, username, email, password, role, active) VALUES (?, ?, ?, ?, ?, ?)";
+      db.query(
+        insertSql,
+        [nom, username, email, hashedPassword, role, active],
+        (err, result) => {
+          if (err) {
+            console.error("Erreur lors de la création de l'utilisateur:", err);
+            return res.status(500).json({ error: "Erreur serveur" });
+          }
+
+          res.status(201).json({
+            id: result.insertId,
+            nom,
+            username,
+            email,
+            role,
+            active,
+          });
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Erreur lors de la création de l'utilisateur:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// PUT /api/users/:id - Mettre à jour un utilisateur
+app.put("/api/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nom, username, email, role, active } = req.body;
+
+    // Vérifier si l'utilisateur existe
+    const checkSql = "SELECT id FROM users WHERE id = ?";
+    db.query(checkSql, [id], async (err, results) => {
+      if (err) {
+        console.error("Erreur lors de la vérification de l'utilisateur:", err);
+        return res.status(500).json({ error: "Erreur serveur" });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      // Vérifier si le nom d'utilisateur ou l'email est déjà utilisé par un autre utilisateur
+      const duplicateCheckSql =
+        "SELECT id FROM users WHERE (username = ? OR email = ?) AND id != ?";
+      db.query(
+        duplicateCheckSql,
+        [username, email, id],
+        async (err, results) => {
+          if (err) {
+            console.error("Erreur lors de la vérification des doublons:", err);
+            return res.status(500).json({ error: "Erreur serveur" });
+          }
+
+          if (results.length > 0) {
+            return res
+              .status(409)
+              .json({ error: "Nom d'utilisateur ou email déjà utilisé" });
+          }
+
+          // Mettre à jour l'utilisateur
+          const updateSql =
+            "UPDATE users SET nom = ?, username = ?, email = ?, role = ?, active = ? WHERE id = ?";
+          db.query(
+            updateSql,
+            [nom, username, email, role, active, id],
+            (err, result) => {
+              if (err) {
+                console.error(
+                  "Erreur lors de la mise à jour de l'utilisateur:",
+                  err
+                );
+                return res.status(500).json({ error: "Erreur serveur" });
+              }
+
+              if (result.affectedRows === 0) {
+                return res
+                  .status(404)
+                  .json({ error: "Utilisateur non trouvé" });
+              }
+
+              res.json({
+                id,
+                nom,
+                username,
+                email,
+                role,
+                active,
+              });
+            }
+          );
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// PATCH /api/users/:id/password - Changer le mot de passe d'un utilisateur
+app.patch("/api/users/:id/password", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    if (!password || password.length < 6) {
+      return res
+        .status(400)
+        .json({ error: "Le mot de passe doit contenir au moins 6 caractères" });
+    }
+
+    // Hacher le nouveau mot de passe
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Mettre à jour le mot de passe
+    const updateSql = "UPDATE users SET password = ? WHERE id = ?";
+    db.query(updateSql, [hashedPassword, id], (err, result) => {
+      if (err) {
+        console.error("Erreur lors de la mise à jour du mot de passe:", err);
+        return res.status(500).json({ error: "Erreur serveur" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      res.json({ message: "Mot de passe mis à jour avec succès" });
+    });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du mot de passe:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// PATCH /api/users/:id/status - Changer le statut d'un utilisateur (actif/inactif)
+app.patch("/api/users/:id/status", (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+
+  if (active !== 0 && active !== 1) {
+    return res
+      .status(400)
+      .json({ error: "Le statut doit être 0 (inactif) ou 1 (actif)" });
+  }
+
+  const sql = "UPDATE users SET active = ? WHERE id = ?";
+  db.query(sql, [active, id], (err, result) => {
+    if (err) {
+      console.error("Erreur lors de la mise à jour du statut:", err);
+      return res.status(500).json({ error: "Erreur serveur" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    res.json({ message: "Statut mis à jour avec succès" });
+  });
+});
+
+// DELETE /api/users/:id - Supprimer un utilisateur
+app.delete("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM users WHERE id = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Erreur lors de la suppression de l'utilisateur:", err);
+      return res.status(500).json({ error: "Erreur serveur" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    res.json({ message: "Utilisateur supprimé avec succès" });
+  });
+});
+
 // --- API pour les LIEUX --- (La table 'lieux' n'est pas modifiée par les scripts de seed)
 
 // GET /api/lieux - Récupérer la liste de tous les lieux
@@ -750,7 +1086,7 @@ app.get("/api/lieux", (req, res) => {
   }
 
   let whereClause = "";
-  let queryParams = [];
+  const queryParams = [];
   if (filter) {
     // Gestion simple du filtre 'q' pour la recherche
     try {

@@ -1,31 +1,12 @@
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import { Admin, Resource } from "react-admin";
+"use client";
 
-import {
-  ImpSupList,
-  ImpSupEdit,
-  ImpSupCreate,
-} from "./components/Admin/ImpSupportList";
-import {
-  ImpCopList,
-  ImpCopEdit,
-  ImpCopCreate,
-} from "./components/Admin/ImpCopieurList";
-import {
-  PcFixeList,
-  PcFixeEdit,
-  PcFixeCreate,
-} from "./components/Admin/PcFixeList";
-import {
-  PcPortList,
-  PcPortEdit,
-  PcPortCreate,
-} from "./components/Admin/PcPortList";
+import { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+
+// Import de la nouvelle interface d'administration
+import AdminApp from "./components/CustomAdmin/AdminApp";
+
+// Imports pour l'application principale
 import Cellule6 from "./components/Plan/Cellule6";
 import Cellule7 from "./components/Plan/Cellule7";
 import Cellule8 from "./components/Plan/Cellule8";
@@ -67,155 +48,174 @@ import BureauCeFrais from "./components/Plan/MECA/Bureaux/CeFRAIS/BureauCeFrais"
 import MecaBureaux from "./components/Plan/MECA/Bureaux/MecaBureaux";
 import BureauRecepFrais from "./components/Plan/MECA/Bureaux/RecepFrais/BureauRecepFrais";
 import BureauRexFrais from "./components/Plan/MECA/Bureaux/RexFrais/BureauRexFrais";
-import { dataProvider, i18nProvider } from "./components/Admin/DataProvider";
-import { MyLayout } from "./components/Admin/Theme/MyLayout";
-import LoginPage from "./components/Admin/Connexion/LoginPage";
 import Login from "./components/Login";
 import { Navigate } from "react-router-dom";
 
-function App() {
-  return (
-    <div className={`d-flex flex-column ${styles.appContainer}`}>
-      <Router>
-        <AppContent />{" "}
-        {/* Utilisation d'un composant interne pour gérer l'affichage */}
-      </Router>
-    </div>
-  );
+// Hook pour détecter les changements d'URL
+function useCurrentPath() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = (...args) => {
+      originalPushState.apply(history, args);
+      handleLocationChange();
+    };
+
+    history.replaceState = (...args) => {
+      originalReplaceState.apply(history, args);
+      handleLocationChange();
+    };
+
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      history.pushState = originalPushState;
+      history.replaceState = originalReplaceState;
+    };
+  }, []);
+
+  return currentPath;
 }
 
-// Nouveau composant interne pour gérer le contenu en fonction de la route
+// Condition pour forcer le Login avant d'accéder au site
+function PrivateRoute({ children }) {
+  const user = sessionStorage.getItem("user");
+  return user ? children : <Navigate to="/login" />;
+}
+
 function AppContent() {
-  const location = useLocation(); // Utiliser useLocation à l'intérieur du Router
-
-  // Condition pour masquer le header et le footer sur la route /admin et /login
-  const isAdminRoute =
-    location.pathname.startsWith("/admin/") || location.pathname === "/login";
-
-  // Condition pour forcer le Login avant d'acceder au site
-  const PrivateRoute = ({ children }) => {
-    const user = sessionStorage.getItem("user");
-
-    return user ? children : <Navigate to="/login" />;
-  };
+  const location = useLocation();
+  const isLoginRoute = location.pathname === "/login";
 
   return (
-    <>
-      {!isAdminRoute && <Header />}{" "}
-      {/* Masquer le header sur les routes admin */}
+    <div className={`d-flex flex-column ${styles.appContainer}`}>
+      {!isLoginRoute && <Header />}
       <Routes>
         {/* Routes publiques */}
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/login" element={<LoginPage />} />
 
         {/* Routes protégées */}
         <Route
           path="*"
           element={
             <PrivateRoute>
-              <AppRoutes />
+              <Routes>
+                <Route path="/" element={<PlanMasse />} />
+                <Route path="/cellule6" element={<Cellule6 />} />
+                <Route path="/cellule7" element={<Cellule7 />} />
+                <Route path="/cellule8" element={<Cellule8 />} />
+                <Route path="/cellule9" element={<Cellule9 />} />
+                <Route path="/cellule9/bureaux" element={<Cellule9Bureaux />} />
+                <Route
+                  path="/cellule9/bureaux/rdc"
+                  element={<Cellule9BureauxRDC />}
+                />
+                <Route
+                  path="/cellule9/bureaux/etage"
+                  element={<Cellule9BureauxEtage />}
+                />
+                <Route path="/cellule10" element={<Cellule10 />} />
+                <Route path="/cellule11" element={<Cellule11 />} />
+                <Route
+                  path="/cellule11/bureaux"
+                  element={<Cellule11Bureaux />}
+                />
+                <Route
+                  path="/cellule11/bureaux/rdc"
+                  element={<Cellule11BureauxRDC />}
+                />
+                <Route
+                  path="/cellule11/bureaux/etage"
+                  element={<Cellule11BureauxEtage />}
+                />
+                <Route path="/cellule12" element={<Cellule12 />} />
+                <Route path="/cellule13" element={<Cellule13 />} />
+                <Route path="/airePalettes" element={<AirePalettes />} />
+                <Route path="/pdg" element={<Pdg />} />
+                <Route path="/ffl" element={<Ffl />} />
+                <Route path="/ffl/bureauFfl" element={<BureauFFL />} />
+                <Route path="/ffl/bureauMurisserie" element={<BureauMuri />} />
+                <Route path="/zoneContenants" element={<ZoneContenants />} />
+                <Route
+                  path="/zoneContenants/bureau"
+                  element={<ZoneContenantsBureau />}
+                />
+                <Route path="/administratif" element={<Administratif />} />
+                <Route path="/administratif/etage/rdc" element={<RDCAdmin />} />
+                <Route path="/administratif/etage/r1" element={<R1Admin />} />
+                <Route path="/administratif/etage/r2" element={<R2Admin />} />
+                <Route
+                  path="/administratif/etage/scafruits"
+                  element={<Scafruits />}
+                />
+                <Route path="/meca" element={<Meca />} />
+                <Route path="/meca/bureaux" element={<MecaBureaux />} />
+                <Route
+                  path="/meca/bureaux/recepfrais"
+                  element={<BureauRecepFrais />}
+                />
+                <Route
+                  path="/meca/bureaux/rexfrais"
+                  element={<BureauRexFrais />}
+                />
+                <Route path="/meca/bureauOrdo" element={<BureauOrdo />} />
+                <Route path="/meca/bureauCEFrais" element={<BureauCeFrais />} />
+                <Route path="/gelCellule1" element={<GelCellule1 />} />
+                <Route
+                  path="/gelCellule1/bureauPrepGel"
+                  element={<BureauPrepGel />}
+                />
+                <Route
+                  path="/gelCellule1/bureauRecepGel"
+                  element={<BureauRecepGel />}
+                />
+                <Route path="/gelCellule2" element={<GelCellule2 />} />
+                <Route
+                  path="/gelCellule2/salleRepos"
+                  element={<SalleRepos />}
+                />
+              </Routes>
             </PrivateRoute>
           }
         />
       </Routes>
-      {!isAdminRoute && <Footer />}{" "}
-      {/* Masquer le footer sur les routes admin */}
-    </>
+      {!isLoginRoute && <Footer />}
+    </div>
   );
 }
 
-const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<PlanMasse />} />
-      <Route path="/cellule6" element={<Cellule6 />} />
-      <Route path="/cellule7" element={<Cellule7 />} />
-      <Route path="/cellule8" element={<Cellule8 />} />
-      <Route path="/cellule9" element={<Cellule9 />} />
-      <Route path="/cellule9/bureaux" element={<Cellule9Bureaux />} />
-      <Route path="/cellule9/bureaux/rdc" element={<Cellule9BureauxRDC />} />
-      <Route
-        path="/cellule9/bureaux/etage"
-        element={<Cellule9BureauxEtage />}
-      />
-      <Route path="/cellule10" element={<Cellule10 />} />
-      <Route path="/cellule11" element={<Cellule11 />} />
-      <Route path="/cellule11/bureaux" element={<Cellule11Bureaux />} />
-      <Route path="/cellule11/bureaux/rdc" element={<Cellule11BureauxRDC />} />
-      <Route
-        path="/cellule11/bureaux/etage"
-        element={<Cellule11BureauxEtage />}
-      />
-      <Route path="/cellule12" element={<Cellule12 />} />
-      <Route path="/cellule13" element={<Cellule13 />} />
-      <Route path="/airePalettes" element={<AirePalettes />} />
-      <Route path="/pdg" element={<Pdg />} />
-      <Route path="/ffl" element={<Ffl />} />
-      <Route path="/ffl/bureauFfl" element={<BureauFFL />} />
-      <Route path="/ffl/bureauMurisserie" element={<BureauMuri />} />
-      <Route path="/zoneContenants" element={<ZoneContenants />} />
-      <Route path="/zoneContenants/bureau" element={<ZoneContenantsBureau />} />
-      <Route path="/administratif" element={<Administratif />} />
-      <Route path="/administratif/etage/rdc" element={<RDCAdmin />} />
-      <Route path="/administratif/etage/r1" element={<R1Admin />} />
-      <Route path="/administratif/etage/r2" element={<R2Admin />} />
-      <Route path="/administratif/etage/scafruits" element={<Scafruits />} />
-      <Route path="/meca" element={<Meca />} />
-      <Route path="/meca/bureaux" element={<MecaBureaux />} />
-      <Route path="/meca/bureaux/recepfrais" element={<BureauRecepFrais />} />
-      <Route path="/meca/bureaux/rexfrais" element={<BureauRexFrais />} />
-      <Route path="/meca/bureauOrdo" element={<BureauOrdo />} />
-      <Route path="/meca/bureauCEFrais" element={<BureauCeFrais />} />
-      <Route path="/gelCellule1" element={<GelCellule1 />} />
-      <Route path="/gelCellule1/bureauPrepGel" element={<BureauPrepGel />} />
-      <Route path="/gelCellule1/bureauRecepGel" element={<BureauRecepGel />} />
-      <Route path="/gelCellule2" element={<GelCellule2 />} />
-      <Route path="/gelCellule2/salleRepos" element={<SalleRepos />} />
+// Composant principal
+function App() {
+  const currentPath = useCurrentPath();
+  const isAdminRoute = currentPath.startsWith("/admin");
 
-      {/* React-admin toujours autorisé (géré séparément) */}
-      <Route
-        path="/admin/*"
-        element={
-          <Admin
-            dataProvider={dataProvider}
-            basename="/admin"
-            i18nProvider={i18nProvider}
-            layout={MyLayout}
-            darkTheme={null}
-          >
-            <Resource
-              name="imp_copieur"
-              options={{ label: "Imprimantes Copieurs" }}
-              list={ImpCopList}
-              edit={ImpCopEdit}
-              create={ImpCopCreate}
-            />
-            <Resource
-              name="imp_support"
-              options={{ label: "Imprimantes Supports" }}
-              list={ImpSupList}
-              edit={ImpSupEdit}
-              create={ImpSupCreate}
-            />
-            <Resource
-              name="pc_fixe"
-              options={{ label: "PC Fixe" }}
-              list={PcFixeList}
-              edit={PcFixeEdit}
-              create={PcFixeCreate}
-            />
-            <Resource
-              name="pc_port"
-              options={{ label: "PC Portable" }}
-              list={PcPortList}
-              edit={PcPortEdit}
-              create={PcPortCreate}
-            />
-          </Admin>
-        }
-      />
-    </Routes>
+  console.log("🔍 Current path:", currentPath, "Is admin route:", isAdminRoute);
+
+  // Si c'est une route admin, afficher la nouvelle interface d'administration
+  if (isAdminRoute) {
+    console.log("🚀 Loading Custom Admin...");
+    return <AdminApp />;
+  }
+
+  // Sinon, afficher l'application principale avec Router
+  return (
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <AppContent />
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
