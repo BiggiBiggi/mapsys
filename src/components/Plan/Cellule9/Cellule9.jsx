@@ -1,8 +1,5 @@
-import PcIcons from "/src/components/Icons/Cellule9/PcIcons";
 import styles from "./Cellule9.module.scss";
-import ImpSupIcons from "/src/components/Icons/Cellule9/ImpSupIcons.jsx";
 import ClickableZone from "./ClickableZone";
-import ImpCopIcons from "../../Icons/Cellule9/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
@@ -26,9 +23,6 @@ function Cellule9() {
             alt="Cellule 9"
           />
           <ClickableZone />
-          <PcIcons />
-          <ImpSupIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="cellule9" />
         </div>
       </div>

@@ -1,6 +1,4 @@
-import PcIcons from "/src/components/Icons/Cellule11/Etage/PcIcons";
 import styles from "./Cellule11BureauxEtage.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule11/Etage/ImpCopIcons";
 import BackButton from "../../../../BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
@@ -25,8 +23,6 @@ function Cellule9BureauxEtage() {
           />
           <h3 className={`${styles.name1}`}>REX Sec</h3>
           <h3 className={`${styles.name2}`}>RH Proximité</h3>
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="Etage1_cellule11" />
         </div>
       </div>

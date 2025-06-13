@@ -1,6 +1,3 @@
-import PcIcons from "/src/components/Icons/PDG/PcIcons";
-import ImpSupIcons from "../Icons/PDG/ImpSupIcons";
-import ImpCopIcons from "../Icons/PDG/ImpCopIcons";
 import BackButton from "../BackButton";
 import DeviceManagerWrapper from "../DeviceManagerWrapper";
 
@@ -23,9 +20,6 @@ function Pdg() {
             src="/src/assets/images/PDG.png"
             alt="PDG"
           />
-          <PcIcons />
-          <ImpSupIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="pdg" />
         </div>
       </div>

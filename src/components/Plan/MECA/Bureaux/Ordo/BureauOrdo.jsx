@@ -1,8 +1,5 @@
 import styles from "./BureauOrdo.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "/src/components/Icons/MECA/Bureaux/Ordo/PcIcons";
-import ImpSupIcons from "/src/components/Icons/MECA/Bureaux/Ordo/ImpSupIcons";
-import ImpCopIcons from "/src/components/Icons/MECA/Bureaux/Ordo/ImpCopIcons.jsx";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauOrdo() {
@@ -24,9 +21,6 @@ function BureauOrdo() {
             src="/src/assets/images/BureauOrdo.png"
             alt="Bureau Ordo"
           />
-          <PcIcons />
-          <ImpCopIcons />
-          <ImpSupIcons />
           <DeviceManagerWrapper planId="ordo_meca" />
         </div>
       </div>

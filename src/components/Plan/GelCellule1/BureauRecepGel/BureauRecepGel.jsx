@@ -1,7 +1,5 @@
 import styles from "./BureauRecepGel.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "/src/components/Icons/GelCellule1/BureauRecepGel/PcIcons";
-import ImpCopIcons from "/src/components/Icons/GelCellule1/BureauRecepGel/ImpCopIcons";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauRecepGel() {
@@ -23,8 +21,6 @@ function BureauRecepGel() {
             src="/src/assets/images/BureauRecepGel.png"
             alt="Bureau Prep Gel"
           />
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="recepgel_gelcellule1" />
         </div>
       </div>

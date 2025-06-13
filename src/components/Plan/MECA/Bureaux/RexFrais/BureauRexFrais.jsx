@@ -1,7 +1,5 @@
 import styles from "./BureauRexFrais.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "/src/components/Icons/MECA/Bureaux/RexFrais/PcIcons";
-import ImpCopIcons from "/src/components/Icons/MECA/Bureaux/RexFrais/ImpCopIcons";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauRexFrais() {
@@ -23,8 +21,6 @@ function BureauRexFrais() {
             src="/src/assets/images/BureauRexFrais.png"
             alt="Bureau RexFrais"
           />
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="rexfrais_meca" />
         </div>
       </div>

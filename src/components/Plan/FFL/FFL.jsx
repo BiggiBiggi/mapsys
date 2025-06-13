@@ -1,6 +1,4 @@
-import PcIcons from "/src/components/Icons/FFL/PcIcons";
 import styles from "./FFL.module.scss";
-import ImpSupIcons from "../../Icons/FFL/ImpSupIcons";
 import BackButton from "../../BackButton";
 import ClickableZone from "./ClickableZone";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
@@ -24,8 +22,6 @@ function Ffl() {
             src="/src/assets/images/ffl.png"
             alt="FFL"
           />
-          <PcIcons />
-          <ImpSupIcons />
           <ClickableZone />
           <DeviceManagerWrapper planId="ffl" />
         </div>

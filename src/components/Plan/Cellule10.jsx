@@ -1,5 +1,3 @@
-import PcIcons from "/src/components/Icons/Cellule10/PcIcons";
-import ImpSupIcons from "../Icons/Cellule10/ImpSupIcons";
 import BackButton from "../BackButton";
 import DeviceManagerWrapper from "../DeviceManagerWrapper";
 
@@ -22,8 +20,6 @@ function Cellule10() {
             src="/src/assets/images/cellule10.png"
             alt="Cellule 10"
           />
-          <PcIcons />
-          <ImpSupIcons />
           <DeviceManagerWrapper planId="cellule10" />
         </div>
       </div>

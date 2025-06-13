@@ -5,7 +5,7 @@ import logo from "/src/assets/images/logo_inter.png";
 import Base from "/src/assets/images/photoBase.png";
 import ITMLAI from "/src/assets/images/ITMLAI.png";
 import OfflineIPs from "./PingIp";
-import Liens from "./LienExternes";
+import Liens from "./Liens";
 
 function PlanMasse() {
   return (

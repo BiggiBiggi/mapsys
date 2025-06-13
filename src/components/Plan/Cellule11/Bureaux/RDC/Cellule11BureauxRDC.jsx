@@ -1,7 +1,4 @@
-import PcIcons from "/src/components/Icons/Cellule11/RDC/PcIcons.jsx";
 import styles from "./Cellule11BureauxRDC.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule11/RDC/ImpCopIcons";
-import ImpSupIcons from "../../../../Icons/Cellule11/RDC/ImpSupIcons";
 import BackButton from "../../../../BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
@@ -28,9 +25,6 @@ function Cellule9BureauxRDC() {
           />
           <h3 className={`${styles.name1}`}>Chef de quai</h3>
           <h3 className={`${styles.name2}`}>Prépa Sec</h3>
-          <PcIcons />
-          <ImpCopIcons />
-          <ImpSupIcons />
           <DeviceManagerWrapper planId="RDC_cellule11" />
         </div>
       </div>

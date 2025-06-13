@@ -1,6 +1,4 @@
-import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons";
 import styles from "./RDCAdmin.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
@@ -25,8 +23,6 @@ function RDCAdmin() {
             src="/src/assets/images/rdc_admin.png"
             alt="RDC Zone Administrative"
           />
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="RDC_admin" />
         </div>
       </div>

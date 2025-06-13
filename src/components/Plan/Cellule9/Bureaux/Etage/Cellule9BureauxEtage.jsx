@@ -1,6 +1,4 @@
-import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/Etage/PcIcons";
 import styles from "./Cellule9BureauxEtage.module.scss";
-import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/Etage/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
 
@@ -25,8 +23,6 @@ function Cellule9BureauxEtage() {
           />
           <h3 className={`${styles.name1}`}>CIBE</h3>
           <h3 className={`${styles.name2}`}>Quais Flottants</h3>
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="Etage1_cellule9" />
         </div>
       </div>

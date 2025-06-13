@@ -1,6 +1,4 @@
-import PcIcons from "/src/components/Icons/ZoneContenants/PcIcons";
 import styles from "./ZoneContenants.module.scss";
-import ImpCopIcons from "/src/components/Icons/ZoneContenants/ImpCopIcons";
 import ClickableZone from "./ClickableZone";
 import BackButton from "../../BackButton";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
@@ -24,8 +22,6 @@ function ZoneContenants() {
             src="/src/assets/images/ZoneContenants.png"
             alt="Zone Contenants"
           />
-          <PcIcons />
-          <ImpCopIcons />
           <ClickableZone />
           <DeviceManagerWrapper planId="contenants" />
         </div>

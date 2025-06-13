@@ -1,7 +1,5 @@
 import styles from "./BureauCeFrais.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "/src/components/Icons/MECA/Bureaux/CeFrais/PcIcons";
-import ImpCopIcons from "/src/components/Icons/MECA/Bureaux/CeFrais/ImpCopIcons.jsx";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauCeFrais() {
@@ -25,8 +23,6 @@ function BureauCeFrais() {
             src="/src/assets/images/BureauCeFrais.png"
             alt="Bureau CeFrais"
           />
-          <PcIcons />
-          <ImpCopIcons />
           <DeviceManagerWrapper planId="cefrais_meca" />
         </div>
       </div>

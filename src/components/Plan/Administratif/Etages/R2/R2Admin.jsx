@@ -1,6 +1,4 @@
-// import PcIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/PcIcons";
 import styles from "./R2Admin.module.scss";
-// import ImpCopIcons from "/src/components/Icons/Cellule9/Cellule9Bureaux/RDC/ImpCopIcons";
 import BackButton from "/src/components/BackButton";
 import DeviceManagerWrapper from "../../../../DeviceManagerWrapper";
 
@@ -27,8 +25,6 @@ function R2Admin() {
           />
           <h3 className={`${styles.name1}`}>Réception SEC</h3>
           <h3 className={`${styles.name2}`}>Stocks</h3>
-          {/* <PcIcons />
-          <ImpCopIcons /> */}
           <DeviceManagerWrapper planId="Etage2_admin" />
         </div>
       </div>

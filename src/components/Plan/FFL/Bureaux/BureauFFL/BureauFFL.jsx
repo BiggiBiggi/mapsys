@@ -1,8 +1,5 @@
 import styles from "./BureauFFL.module.scss";
 import BackButton from "/src/components/BackButton.jsx";
-import PcIcons from "../../../../Icons/FFL/BureauFFL/PcIcons";
-import ImpSupIcons from "../../../../Icons/FFL/BureauFFL/ImpSupIcons";
-import ImpCopIcons from "../../../../Icons/FFL/BureauFFL/ImpCopIcons";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper.jsx";
 
 function BureauFFL() {
@@ -24,9 +21,6 @@ function BureauFFL() {
             src="/src/assets/images/BureauFFL.png"
             alt="Bureau Contenants"
           />
-          <PcIcons />
-          <ImpCopIcons />
-          <ImpSupIcons />
           <DeviceManagerWrapper planId="bureau_ffl" />
         </div>
       </div>

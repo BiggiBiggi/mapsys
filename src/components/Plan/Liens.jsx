@@ -1,10 +1,8 @@
 import glpi from "/src/assets/images/glpi.png";
 import ocs from "/src/assets/images/ocs.png";
 import oasis from "/src/assets/images/oasis.png";
-import copieur from "/src/assets/images/impCopieur.png";
-import support from "/src/assets/images/ImpSupport.png";
-import ordi from "/src/assets/images/pcPortable.png";
-import styles from "./LienExternes.module.scss";
+import admin from "/src/assets/images/admin.png";
+import styles from "./Liens.module.scss";
 import { Link } from "react-router-dom";
 
 function Liens() {
@@ -16,14 +14,8 @@ function Liens() {
             <h2>Liens Internes :</h2>
           </div>
           <div>
-            <Link to={"/admin/imp_copieurs"}>
-              <img src={copieur} alt="Logo Imprimantes Copieur" />
-            </Link>
-            <Link to={"/admin/imp_support"}>
-              <img src={support} alt="Logo Imprimantes Support" />
-            </Link>
-            <Link to={"/admin/pc_glpi"}>
-              <img src={ordi} alt="Logo Imprimantes Support" />
+            <Link to={"/admin/"}>
+              <img src={admin} alt="Interface Administrateur" />
             </Link>
           </div>
         </div>

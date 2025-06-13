@@ -1,4 +1,3 @@
-import ImpSupIcons from "/src/components/Icons/GelCellule1/ImpSupIcons";
 import BackButton from "/src/components/BackButton";
 import ClickableZone from "./ClickableZone";
 import DeviceManagerWrapper from "/src/components/DeviceManagerWrapper";
@@ -22,7 +21,6 @@ function GelCellule1() {
             src="/src/assets/images/GelCellule1.png"
             alt="Gel Cellule 1"
           />
-          <ImpSupIcons />
           <ClickableZone />
           <DeviceManagerWrapper planId="gelcellule1" />
         </div>
